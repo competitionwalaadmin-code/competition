@@ -345,10 +345,10 @@ function printDueLetter() {
     </html>`);
 
   w.document.close();
-  w.onload = () => {
-    w.focus();
-    w.print();
-  };
+setTimeout(() => {
+  w.focus();
+  w.print();
+}, 700);
 }
   
 function renderAll(){let total=db.students.reduce((a,s)=>a+s.net,0),tp=db.payments.reduce((a,p)=>a+p.amount,0),todayPay=db.payments.filter(p=>p.date===today()).reduce((a,p)=>a+p.amount,0),due=db.students.filter(s=>balance(s)>0);cStudents.textContent=db.students.length;cToday.textContent=money(todayPay);cDue.textContent=money(total-tp);cDueStudents.textContent=due.length;rTotal.textContent=money(total);rPaid.textContent=money(tp);rBalance.textContent=money(total-tp);rPayments.textContent=db.payments.length;recentStudents.innerHTML=`<table><tr><th>Student</th><th>Course</th><th>Fee Status</th></tr>${db.students.slice(-6).reverse().map(s=>`<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(balance(s))} due</td></tr>`).join('')}</table>`;renderStudents();renderBatchwise();renderDue();renderReceipts();renderCallSelect(); if(document.getElementById('attendance')?.classList.contains('active') && window.renderAttendanceStudents) window.renderAttendanceStudents();}

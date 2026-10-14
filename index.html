@@ -24,7 +24,66 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px;bord
 
 @media(max-width:1000px){.call-wrap{grid-template-columns:1fr}.preview-body{max-height:none}.call-preview-panel{order:2}}@media print{.call-panel,.preview-head{display:none!important}.preview-body{padding:0;background:#fff;max-height:none}.letter-a4{max-width:none;width:210mm;min-height:297mm;margin:0;border:0}.side,.top{display:none!important}.main{margin:0!important;width:100%!important}@page{size:A4;margin:0}}
 </style></head><body><div class="login" id="login"><div class="loginbox"><div style="text-align:center;margin-bottom:16px"><img src="competition-wala-logo.webp" alt="Competition Wala Computer Classes Logo"
-style="width:135px;height:135px;object-fit:contain;border-radius:50%;box-shadow:0 6px 20px #0002"></div><h2 style="text-align:center;margin-bottom:6px">COMPETITION WALA</h2><p style="text-align:center;margin-top:0;color:#667085">COMPUTER CLASSES • ERP LOGIN</p><input id="loginUser" placeholder="Username" value="admin"><input id="loginPass" type="password" placeholder="Password" value="1234"><button class="btn" style="width:100%;margin-top:10px" onclick="doLogin()">Login to ERP</button><small>Demo login: admin / 1234</small></div></div><div class="app"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('batchwise',this)">🕘 Batch Wise</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel"><div class="toolbar"><input id="search" placeholder="Search name, mobile or admission no..." oninput="renderStudents()"><button class="btn" onclick="openAdmission()">+ New Student</button></div><div id="studentTable"></div></div></section><section id="batchwise" class="page"><div class="panel"><div class="toolbar"><select id="batchFilter" onchange="renderBatchwise()"><option value="">All Batches</option><option>7 AM</option><option>8 AM</option><option>9 AM</option><option>10 AM</option><option>11 AM</option><option>3 PM</option><option>4 PM</option><option>5 PM</option><option>6 PM</option><option>7 PM</option></select><select id="batchCourseFilter" onchange="renderBatchwise()"><option value="">All Courses</option><option>DCA</option><option>ADCA</option><option>DCTT</option><option>AI TOOLS</option></select><input id="batchSearch" placeholder="Search student / mobile / admission no..." oninput="renderBatchwise()"><button class="btn secondary" onclick="document.getElementById('batchFilter').value='';document.getElementById('batchCourseFilter').value='';document.getElementById('batchSearch').value='';renderBatchwise()">Reset</button></div><div id="batchSummary" style="margin:12px 0"></div><div id="batchTable"></div></div></section><section id="dues" class="page"><div class="panel"><h3>Pending / Outstanding Fee</h3><div id="dueTable"></div></div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
+style="width:135px;height:135px;object-fit:contain;border-radius:50%;box-shadow:0 6px 20px #0002"></div><h2 style="text-align:center;margin-bottom:6px">COMPETITION WALA</h2><p style="text-align:center;margin-top:0;color:#667085">COMPUTER CLASSES • ERP LOGIN</p><input id="loginUser" placeholder="Username" value="admin"><input id="loginPass" type="password" placeholder="Password" value="1234"><button class="btn" style="width:100%;margin-top:10px" onclick="doLogin()">Login to ERP</button><small>Demo login: admin / 1234</small></div></div><div class="app"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('batchwise',this)">🕘 Batch Wise</button><button onclick="show('dues',this)">⚠️ EMI Due</button>
+<button onclick="show('dueMoney',this)">💸 Due Money Letter</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel"><div class="toolbar"><input id="search" placeholder="Search name, mobile or admission no..." oninput="renderStudents()"><button class="btn" onclick="openAdmission()">+ New Student</button></div><div id="studentTable"></div></div></section><section id="batchwise" class="page"><div class="panel"><div class="toolbar"><select id="batchFilter" onchange="renderBatchwise()"><option value="">All Batches</option><option>7 AM</option><option>8 AM</option><option>9 AM</option><option>10 AM</option><option>11 AM</option><option>3 PM</option><option>4 PM</option><option>5 PM</option><option>6 PM</option><option>7 PM</option></select><select id="batchCourseFilter" onchange="renderBatchwise()"><option value="">All Courses</option><option>DCA</option><option>ADCA</option><option>DCTT</option><option>AI TOOLS</option></select><input id="batchSearch" placeholder="Search student / mobile / admission no..." oninput="renderBatchwise()"><button class="btn secondary" onclick="document.getElementById('batchFilter').value='';document.getElementById('batchCourseFilter').value='';document.getElementById('batchSearch').value='';renderBatchwise()">Reset</button></div><div id="batchSummary" style="margin:12px 0"></div><div id="batchTable"></div></div></section><section id="dues" class="page"><div class="panel"><h3>Pending / Outstanding Fee</h3><div id="dueTable"></div></div></section>
+<section id="dueMoney" class="page">
+  <div class="call-wrap">
+
+    <div class="call-panel">
+      <div class="call-head">💸 Generate Fee Due Letter</div>
+      <div class="call-form">
+
+        <div class="call-field">
+          <label>Student Admission ID</label>
+          <input id="dmAdmission"
+                 placeholder="Example: CWCC-10001">
+          <button class="btn" style="margin-top:8px"
+                  onclick="findDueStudent()">Find Student</button>
+        </div>
+
+        <div id="dmStudentInfo"></div>
+
+        <div class="call-field">
+          <label>Due Amount (₹)</label>
+          <input id="dmAmount" type="number" min="1"
+                 placeholder="Enter due amount">
+        </div>
+
+        <div class="call-field">
+          <label>Payment Due Date</label>
+          <input id="dmDate" type="date">
+        </div>
+
+        <div class="call-field">
+          <label>Additional Message</label>
+          <textarea id="dmMessage">Kindly clear your outstanding course fee by the due date.</textarea>
+        </div>
+
+        <button class="btn green" onclick="generateDueLetter()">
+          Generate Letter
+        </button>
+
+        <button class="btn" onclick="printDueLetter()">
+          🖨 Print Letter / Save PDF
+        </button>
+
+      </div>
+    </div>
+
+    <div class="call-preview-panel">
+      <div class="preview-head">📄 Due Letter Preview</div>
+      <div class="preview-body">
+        <div id="dmLetter">
+          <p style="text-align:center;padding:40px">
+            Enter Student ID to begin.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
 Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purpose</label><input id="callPurpose" value="Module Examination" oninput="updateCallPreview()"></div><div class="call-actions"><button class="btn green" onclick="generateCallLetter()">🖨 Generate Call Letter</button><button class="btn" onclick="printCall()">👁 View / Print</button><button class="btn red" onclick="downloadCallPDF()">📄 Download PDF</button></div></div></div><div class="call-preview-panel"><div class="preview-head">👁️ Call Letter Preview</div><div class="preview-body"><div id="callPreview"></div></div></div></div></section><section id="reports" class="page"><div class="cards"><div class="card blue"><div class="label">TOTAL COURSE FEE</div><div class="num" id="rTotal">₹0</div></div><div class="card green"><div class="label">TOTAL PAID</div><div class="num" id="rPaid">₹0</div></div><div class="card red"><div class="label">TOTAL BALANCE</div><div class="num" id="rBalance">₹0</div></div><div class="card orange"><div class="label">TOTAL PAYMENTS</div><div class="num" id="rPayments">0</div></div></div></section><section id="attendance" class="page"><div class="panel"><div class="toolbar"><input id="attendanceSearch" placeholder="Search name / admission no..." oninput="renderAttendanceStudents()"><button class="btn green" onclick="syncAllStudentsToFirebase()">☁️ Sync Students</button><button class="btn" onclick="loadTodayAttendance()">🔄 Refresh</button></div><div id="attendanceStats" class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:15px"></div><div id="attendanceStudentTable"></div></div></section><div class="modal" id="qrModal"><div class="modalbox"><div class="modalhead"><h2>Student QR Code</h2><button class="close" onclick="closeModal('qrModal')">✕</button></div><div id="qrStudentInfo" style="text-align:center"></div><div id="qrcode" style="display:flex;justify-content:center;margin:20px"></div><div style="text-align:center"><button class="btn" onclick="downloadStudentQR()">⬇️ Download QR</button><button class="btn green" onclick="printStudentQR()">🖨 Print QR</button></div></div></div></main></div><div class="modal" id="admissionModal"><div class="modalbox"><div class="modalhead"><h2>New Student Admission</h2><button class="close" onclick="closeModal('admissionModal')">✕</button></div><div class="form formgrid"><div><label>Student Name *</label><input id="sName"></div><div><label>Father / Guardian</label><input id="sFather"></div><div><label>Mobile *</label><input id="sMobile"></div><div><label>Date of Birth</label><input id="sDob" type="date"></div><div><label>Course *</label><select id="sCourse"><option>DCA</option><option>ADCA</option><option>DCTT<option>PGDCA</option><option>AI TOOLS</option></select></div><div><label>Batch / Timing *</label><select id="sBatch"><option value="">Select Batch</option><option>7 AM</option><option>8 AM</option><option>9 AM</option><option>10 AM</option><option>11 AM</option><option>3 PM</option><option>4 PM</option><option>5 PM</option><option>6 PM</option><option>7 PM</option></select></div><div><label>Total Fee *</label><input id="sFee" type="number"></div><div><label>Discount</label><input id="sDiscount" type="number" value="0"></div><div><label>Admission Date</label><input id="sDate" type="date"></div><div><label>Student Photo</label><input id="sPhoto" type="file" accept="image/*"></div><div><label>EMI Amount</label><input id="sEmi" type="number" placeholder="Optional"></div><div><label>First EMI Due Date</label><input id="sDue" type="date"></div><div class="full"><label>Address</label><textarea id="sAddress" rows="2"></textarea></div></div><button class="btn" style="margin-top:18px" onclick="saveStudent()">Save Admission</button></div></div><div class="modal" id="paymentModal"><div class="modalbox"><div class="modalhead"><h2>Receive Fee Payment</h2><button class="close" onclick="closeModal('paymentModal')">✕</button></div><div class="form formgrid"><div class="full"><label>Student</label><select id="pStudent" onchange="paymentInfo()"></select></div><div><label>Amount *</label><input id="pAmount" type="number"></div><div><label>Payment Mode</label><select id="pMode"><option>Cash</option><option>UPI</option><option>Bank Transfer</option><option>Card</option></select></div><div><label>Payment Date</label><input id="pDate" type="date"></div><div class="full" id="pInfo"></div></div><button class="btn green" style="margin-top:18px" onclick="savePayment()">Save Payment & Generate Receipt</button></div></div><div class="modal" id="receiptModal"><div class="modalbox"><div class="modalhead"><h2>Payment Receipt</h2><button class="close" onclick="closeModal('receiptModal')">✕</button></div><div id="receiptContent"></div><button class="btn" style="margin-top:12px" onclick="printReceipt()">🖨 Print Receipt</button></div></div><script>
 const KEY='cwcc_erp_v1';
 let db=JSON.parse(localStorage.getItem(KEY)||'{"students":[],"payments":[]}'); window.cwccDB=db;
@@ -34,7 +93,7 @@ document.getElementById('sDate').value=today(); document.getElementById('pDate')
 function persist(){localStorage.setItem(KEY,JSON.stringify(db));}
 function doLogin(){if(document.getElementById('loginUser').value==='admin'&&document.getElementById('loginPass').value==='1234')document.getElementById('login').style.display='none';else alert('Invalid login');}
 function logout(){location.reload()}
-function show(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.getElementById('title').textContent={dashboard:'Dashboard',students:'Students',batchwise:'Batch Wise Students',dues:'EMI Due / Outstanding',receipts:'Payment Receipts',calls:'Call Letters',reports:'Reports',attendance:'QR Attendance'}[id]||'Dashboard'; if(btn){document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')} renderAll();}
+function show(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.getElementById('title').textContent={dashboard:'Dashboard',students:'Students',batchwise:'Batch Wise Students',dues:'EMI Due / Outstanding',dueMoney: 'Due Money Letter',receipts:'Payment Receipts',calls:'Call Letters',reports:'Reports',attendance:'QR Attendance'}[id]||'Dashboard'; if(btn){document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')} renderAll();}
 function openAdmission(){document.getElementById('admissionModal').classList.add('show');}
 function openPayment(){fillStudentSelect('pStudent');document.getElementById('paymentModal').classList.add('show');paymentInfo();}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
@@ -114,6 +173,184 @@ function generateCallLetter(){updateCallPreview();alert('✅ Professional Exam C
 function printCall(){updateCallPreview();let box=document.getElementById('callPreview');if(!box||!box.innerHTML)return;let w=window.open('','_blank');w.document.write(`<!doctype html><html><head><title>Exam Call Letter</title><style>body{margin:0;background:#fff} ${document.querySelector('style')?.textContent||''}</style></head><body>${box.innerHTML}</body></html>`);w.document.close();setTimeout(()=>w.print(),500);}
 function downloadCallPDF(){updateCallPreview();printCall();}
 function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='CWCC-ERP-Backup-'+today()+'.json';a.click()}
+
+let dmCurrentStudent = null;
+
+function findDueStudent() {
+  const id = document.getElementById('dmAdmission')
+    .value.trim().toLowerCase();
+
+  dmCurrentStudent = db.students.find(s =>
+    String(s.admissionNo).toLowerCase() === id ||
+    String(s.id).toLowerCase() === id
+  );
+
+  const box = document.getElementById('dmStudentInfo');
+
+  if (!dmCurrentStudent) {
+    box.innerHTML =
+      '<p style="color:#dc2626">Student not found. Check the ID.</p>';
+    document.getElementById('dmLetter').innerHTML = '';
+    return;
+  }
+
+  const s = dmCurrentStudent;
+
+  box.innerHTML = `
+    <div class="panel" style="margin-bottom:15px">
+      <b>${escapeDue(s.name)}</b><br>
+      Admission: ${escapeDue(s.admissionNo)}<br>
+      Father's Name: ${escapeDue(s.father || '-')}<br>
+      Course: ${escapeDue(s.course)}<br>
+      Mobile: ${escapeDue(s.mobile)}<br>
+      Total Fee: ${money(s.net)}<br>
+      Paid: ${money(paid(s))}<br>
+      Current Balance: ${money(balance(s))}
+    </div>`;
+}
+
+function escapeDue(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+    '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function generateDueLetter() {
+  if (!dmCurrentStudent) {
+    alert('First find a student using their Admission ID.');
+    return;
+  }
+
+  const s = dmCurrentStudent;
+  const amount = Number(document.getElementById('dmAmount').value);
+  const date = document.getElementById('dmDate').value;
+  const message = document.getElementById('dmMessage').value.trim();
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    alert('Enter a valid due amount.');
+    return;
+  }
+
+  if (amount > balance(s)) {
+    if (!confirm('The entered amount exceeds the current fee balance. Generate anyway?'))
+      return;
+  }
+
+  const fmt = value => value
+    ? new Date(value + 'T00:00:00').toLocaleDateString('en-IN', {
+        day: '2-digit', month: 'long', year: 'numeric'
+      })
+    : 'Not specified';
+
+  document.getElementById('dmLetter').innerHTML = `
+    <div class="letter-a4" style="min-height:0">
+      <div class="letter-inner">
+
+        <div class="professional-header">
+          <div class="letter-brand">
+            <div class="brand-topline">STUDENT FEE NOTICE</div>
+            <h1 style="color:#123c7a">COMPETITION WALA</h1>
+            <h2>COMPUTER CLASSES</h2>
+            <div class="recognition">
+              Indira Nagar, Patna - 800001
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin:20px 0">
+          <h2 style="color:#d71920">FEE DUE NOTICE</h2>
+        </div>
+
+        <p><b>Date:</b> ${fmt(today())}</p>
+        <p>To,<br><b>${escapeDue(s.name)}</b></p>
+
+        <table>
+          <tr><th>Student Detail</th><th>Information</th></tr>
+          <tr><td>Admission No.</td><td>${escapeDue(s.admissionNo)}</td></tr>
+          <tr><td>Father's Name</td><td>${escapeDue(s.father || '-')}</td></tr>
+          <tr><td>Course</td><td>${escapeDue(s.course)}</td></tr>
+          <tr><td>Mobile</td><td>${escapeDue(s.mobile)}</td></tr>
+          <tr><td>Total Course Fee</td><td>${money(s.net)}</td></tr>
+          <tr><td>Total Paid</td><td>${money(paid(s))}</td></tr>
+          <tr><td>Current Balance</td><td>${money(balance(s))}</td></tr>
+        </table>
+
+        <h3 style="margin-top:25px">Subject: Outstanding Course Fee</h3>
+        <p>Dear Student/Parent,</p>
+        <p>This is to inform you that your course fee is pending.
+        Kindly clear the outstanding amount within the specified time.</p>
+
+        <div style="border:2px solid #123c7a;padding:18px;
+                    margin:20px 0;background:#eff6ff">
+          <p><b>Amount Mentioned in This Notice</b></p>
+          <h1 style="color:#d71920">${money(amount)}</h1>
+          <p><b>Payment Due Date:</b> ${fmt(date)}</p>
+        </div>
+
+        <p>${escapeDue(message)}</p>
+        <p>Please contact the institute office for payment-related queries.</p>
+
+        <div style="margin-top:55px;text-align:right">
+          <b>Authorized Signatory</b><br>
+          Competition Wala Computer Classes
+        </div>
+
+        <div class="letter-footer">
+          Computer-generated fee notice.
+          Please verify the details before issuing.
+        </div>
+      </div>
+    </div>`;
+}
+
+function printDueLetter() {
+  if (!dmCurrentStudent ||
+      !document.getElementById('dmLetter').querySelector('.letter-a4')) {
+    alert('Find a student and generate the letter first.');
+    return;
+  }
+
+  const content = document.getElementById('dmLetter').innerHTML;
+  const w = window.open('', '_blank');
+
+  if (!w) {
+    alert('Allow pop-ups in your browser to print the letter.');
+    return;
+  }
+
+  w.document.write(`
+    <!doctype html>
+    <html>
+    <head>
+      <title>Fee Due Letter</title>
+      <meta charset="UTF-8">
+      <style>
+        @page { size: A4; margin: 10mm; }
+        body { font-family: Arial, sans-serif; color: #111827; }
+        .letter-a4 { width:100%; max-width:190mm; margin:auto; }
+        .letter-inner { padding:8px; }
+        .professional-header { border:2px solid #123c7a;padding:15px; }
+        .letter-brand { text-align:center; }
+        .brand-topline { font-size:11px;letter-spacing:2px; }
+        table { width:100%;border-collapse:collapse; }
+        th,td { border:1px solid #cbd5e1;padding:9px;text-align:left; }
+        th { background:#eff6ff; }
+        .letter-footer { text-align:center;margin-top:25px;
+          border-top:1px solid #ddd;padding-top:8px;font-size:10px; }
+        @media print { body { margin:0; } }
+      </style>
+    </head>
+    <body>${content}</body>
+    </html>`);
+
+  w.document.close();
+  w.onload = () => {
+    w.focus();
+    w.print();
+  };
+}
+  
 function renderAll(){let total=db.students.reduce((a,s)=>a+s.net,0),tp=db.payments.reduce((a,p)=>a+p.amount,0),todayPay=db.payments.filter(p=>p.date===today()).reduce((a,p)=>a+p.amount,0),due=db.students.filter(s=>balance(s)>0);cStudents.textContent=db.students.length;cToday.textContent=money(todayPay);cDue.textContent=money(total-tp);cDueStudents.textContent=due.length;rTotal.textContent=money(total);rPaid.textContent=money(tp);rBalance.textContent=money(total-tp);rPayments.textContent=db.payments.length;recentStudents.innerHTML=`<table><tr><th>Student</th><th>Course</th><th>Fee Status</th></tr>${db.students.slice(-6).reverse().map(s=>`<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(balance(s))} due</td></tr>`).join('')}</table>`;renderStudents();renderBatchwise();renderDue();renderReceipts();renderCallSelect(); if(document.getElementById('attendance')?.classList.contains('active') && window.renderAttendanceStudents) window.renderAttendanceStudents();}
 renderAll();
 </script><div id="publicAttendance" style="display:none;min-height:100vh;background:linear-gradient(135deg,#07111f,#102a43);padding:20px;font-family:Arial,sans-serif;color:#111"><div style="max-width:480px;margin:40px auto;background:#fff;border-radius:22px;padding:25px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center"><div style="font-size:48px">📷</div><h1 style="margin:8px 0">COMPETITION WALA</h1><p style="color:#666">QR Attendance</p><div id="publicStudent" style="margin:22px 0"></div><div id="publicStatus" style="padding:15px;border-radius:12px;background:#f1f5f9;font-weight:700">Checking attendance...</div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><script type="module">

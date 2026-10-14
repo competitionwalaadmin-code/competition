@@ -31,15 +31,65 @@ style="width:135px;height:135px;object-fit:contain;border-radius:50%;box-shadow:
 
     <div class="call-panel">
       <div class="call-head">💸 Generate Fee Due Letter</div>
-      <div class="call-form">
+     
+<div class="call-form">
 
-        <div class="call-field">
-          <label>Student Admission ID</label>
-          <input id="dmAdmission"
-                 placeholder="Example: CWCC-10001">
-          <button class="btn" style="margin-top:8px"
-                  onclick="findDueStudent()">Find Student</button>
-        </div>
+  <h3>Student 1 Details</h3>
+  <div class="call-field">
+    <label>Select Student 1 *</label>
+    <select id="dmStudent1" onchange="updateDueStudentInfo()">
+      <option value="">Select Student</option>
+    </select>
+  </div>
+  <div id="dmInfo1"></div>
+
+  <div class="call-field">
+    <label>Due Amount (₹) *</label>
+    <input id="dmAmount1" type="number" min="1"
+           placeholder="Enter due amount">
+  </div>
+  <div class="call-field">
+    <label>Due Date</label>
+    <input id="dmDate1" type="date">
+  </div>
+
+  <hr>
+
+  <h3>Student 2 Details</h3>
+  <div class="call-field">
+    <label>Select Student 2 *</label>
+    <select id="dmStudent2" onchange="updateDueStudentInfo()">
+      <option value="">Select Student</option>
+    </select>
+  </div>
+  <div id="dmInfo2"></div>
+
+  <div class="call-field">
+    <label>Due Amount (₹) *</label>
+    <input id="dmAmount2" type="number" min="1"
+           placeholder="Enter due amount">
+  </div>
+  <div class="call-field">
+    <label>Due Date</label>
+    <input id="dmDate2" type="date">
+  </div>
+
+  <div class="call-field">
+    <label>Common Message</label>
+    <textarea id="dmMessage">Kindly clear your outstanding course fee by the due date.</textarea>
+  </div>
+
+  <div class="call-actions">
+    <button class="btn green" onclick="generateDueLetter()">
+      Generate Both Letters
+    </button>
+    <button class="btn" onclick="printDueLetter()">
+      🖨 Print Both / Save PDF
+    </button>
+  </div>
+
+</div>
+
 
         <div id="dmStudentInfo"></div>
 
@@ -175,25 +225,6 @@ function downloadCallPDF(){updateCallPreview();printCall();}
 function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='CWCC-ERP-Backup-'+today()+'.json';a.click()}
 
 let dmCurrentStudent = null;
-
-function findDueStudent() {
-  const id = document.getElementById('dmAdmission')
-    .value.trim().toLowerCase();
-
-  dmCurrentStudent = db.students.find(s =>
-    String(s.admissionNo).toLowerCase() === id ||
-    String(s.id).toLowerCase() === id
-  );
-
-  const box = document.getElementById('dmStudentInfo');
-
-  if (!dmCurrentStudent) {
-    box.innerHTML =
-      '<p style="color:#dc2626">Student not found. Check the ID.</p>';
-    document.getElementById('dmLetter').innerHTML = '';
-    return;
-  }
-
   const s = dmCurrentStudent;
 
   box.innerHTML = `
@@ -215,13 +246,6 @@ function escapeDue(value) {
     '"': '&quot;', "'": '&#39;'
   }[c]));
 }
-
-function generateDueLetter() {
-  if (!dmCurrentStudent) {
-    alert('First find a student using their Admission ID.');
-    return;
-  }
-
   const s = dmCurrentStudent;
   const amount = Number(document.getElementById('dmAmount').value);
   const date = document.getElementById('dmDate').value;
@@ -303,14 +327,6 @@ function generateDueLetter() {
       </div>
     </div>`;
 }
-
-function printDueLetter() {
-  if (!dmCurrentStudent ||
-      !document.getElementById('dmLetter').querySelector('.letter-a4')) {
-    alert('Find a student and generate the letter first.');
-    return;
-  }
-
   const content = document.getElementById('dmLetter').innerHTML;
   const w = window.open('', '_blank');
 
@@ -350,8 +366,365 @@ setTimeout(() => {
   w.print();
 }, 700);
 }
+
+function escapeDue(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[c]));
+}
+
+function renderDueLetterStudents() {
+  ['dmStudent1', 'dmStudent2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const previous = el.value;
+
+    el.innerHTML =
+      '<option value="">Select Student</option>' +
+      db.students.map(s =>
+        `<option value="${escapeDue(s.id)}">${escapeDue(s.admissionNo)} - ${escapeDue(s.name)} (${escapeDue(s.course)})</option>`
+      ).join('');
+
+    if (db.students.some(s => s.id === previous)) {
+      el.value = previous;
+    }
+  });
+
+  updateDueStudentInfo();
+}
+
+function updateDueStudentInfo() {
+  [1, 2].forEach(n => {
+    const id = document.getElementById('dmStudent' + n)?.value;
+    const s = db.students.find(x => x.id === id);
+    const box = document.getElementById('dmInfo' + n);
+
+    if (!box) return;
+
+    box.innerHTML = s ? `
+      <div style="background:#eff6ff;padding:12px;
+                  border-radius:9px;margin-bottom:12px">
+        <b>${escapeDue(s.name)}</b><br>
+        Admission: ${escapeDue(s.admissionNo)}<br>
+        Father's Name: ${escapeDue(s.father || '-')}<br>
+        Course: ${escapeDue(s.course)}<br>
+        Mobile: ${escapeDue(s.mobile)}<br>
+        Current Balance: <b>${money(balance(s))}</b>
+      </div>` : '';
+  });
+}
+
+function generateDueLetter() {
+  const selected = [1, 2].map(n => ({
+    s: db.students.find(s =>
+      s.id === document.getElementById('dmStudent' + n).value
+    ),
+    amount: Number(document.getElementById('dmAmount' + n).value),
+    date: document.getElementById('dmDate' + n).value
+  }));
+
+  if (!selected[0].s || !selected[1].s) {
+    alert('Please select both students.');
+    return;
+  }
+
+  if (selected[0].s.id === selected[1].s.id) {
+    alert('Select two different students.');
+    return;
+  }
+
+  if (selected.some(x =>
+    !Number.isFinite(x.amount) || x.amount <= 0
+  )) {
+    alert('Enter a valid due amount for both students.');
+    return;
+  }
+
+  for (const x of selected) {
+    if (x.amount > balance(x.s) &&
+        !confirm(`${x.s.name}: amount exceeds current balance. Continue?`)) {
+      return;
+    }
+  }
+
+  const todayText = new Date().toLocaleDateString('en-IN', {
+    day: '2-digit', month: 'short', year: 'numeric'
+  });
+
+  const formatDate = v => v
+    ? new Date(v + 'T00:00:00').toLocaleDateString('en-IN', {
+        day: '2-digit', month: 'short', year: 'numeric'
+      })
+    : 'Not specified';
+
+  const message = escapeDue(
+    document.getElementById('dmMessage').value.trim()
+  );
+
+  const makeLetter = (x, index) => {
+    const s = x.s;
+
+    return `
+      <article class="due-print-letter">
+        <header class="due-print-header">
+          <div class="due-print-brand">
+            <div class="due-print-name">COMPETITION WALA</div>
+            <div class="due-print-sub">COMPUTER CLASSES</div>
+            <div class="due-print-address">
+              Indira Nagar, Patna - 800001
+            </div>
+          </div>
+          <div class="due-print-number">FEE NOTICE<br>No. ${index}</div>
+        </header>
+
+        <h2 class="due-print-title">FEE DUE NOTICE</h2>
+
+        <div class="due-print-meta">
+          <span><b>Date:</b> ${todayText}</span>
+          <span><b>Admission:</b> ${escapeDue(s.admissionNo)}</span>
+        </div>
+
+        <table class="due-print-table">
+          <tr>
+            <td>Student Name</td>
+            <td><b>${escapeDue(s.name)}</b></td>
+            <td>Course</td>
+            <td>${escapeDue(s.course)}</td>
+          </tr>
+          <tr>
+            <td>Father's Name</td>
+            <td>${escapeDue(s.father || '-')}</td>
+            <td>Mobile</td>
+            <td>${escapeDue(s.mobile)}</td>
+          </tr>
+        </table>
+
+        <p class="due-print-subject">
+          <b>Subject: Outstanding Course Fee</b>
+        </p>
+
+        <p class="due-print-message">
+          Dear Student/Parent, ${message}
+        </p>
+
+        <div class="due-print-amount">
+          <span>AMOUNT DUE</span>
+          <strong>${money(x.amount)}</strong>
+          <span>Pay by: <b>${formatDate(x.date)}</b></span>
+        </div>
+
+        <div class="due-print-footer">
+          <span>Please contact the institute office for payment queries.</span>
+          <span class="due-print-sign">
+            Authorized Signatory<br>
+            Competition Wala Computer Classes
+          </span>
+        </div>
+      </article>`;
+  };
+
+  document.getElementById('dmLetter').innerHTML = `
+    <div class="due-print-sheet">
+      ${makeLetter(selected[0], 1)}
+      <div class="due-cut-line">
+        ✂ - - - - - - - - - CUT HERE - - - - - - - - -
+      </div>
+      ${makeLetter(selected[1], 2)}
+    </div>`;
+}
+
+function printDueLetter() {
+  const sheet = document.querySelector(
+    '#dmLetter .due-print-sheet'
+  );
+
+  if (!sheet) {
+    alert('Generate both letters before printing.');
+    return;
+  }
+
+  const w = window.open('', '_blank');
+
+  if (!w) {
+    alert('Allow pop-ups in your browser to print.');
+    return;
+  }
+
+  w.document.write(`
+    <!doctype html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Two Student Fee Due Letters</title>
+      <style>
+        @page {
+          size: A4 portrait;
+          margin: 7mm;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          color: #172033;
+        }
+
+        .due-print-sheet { width: 100%; }
+
+        .due-print-letter {
+          height: 139mm;
+          overflow: hidden;
+          padding: 4mm 3mm;
+          display: flex;
+          flex-direction: column;
+          break-inside: avoid;
+        }
+
+        .due-print-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 2px solid #123c7a;
+          padding-bottom: 3mm;
+        }
+
+        .due-print-brand {
+          text-align: center;
+          flex: 1;
+        }
+
+        .due-print-name {
+          font-size: 20px;
+          font-weight: 900;
+          color: #123c7a;
+        }
+
+        .due-print-sub {
+          font-size: 15px;
+          font-weight: 800;
+        }
+
+        .due-print-address {
+          font-size: 10px;
+          margin-top: 2px;
+        }
+
+        .due-print-number {
+          font-size: 9px;
+          text-align: right;
+        }
+
+        .due-print-title {
+          text-align: center;
+          color: #b91c1c;
+          font-size: 16px;
+          text-decoration: underline;
+          margin: 3mm 0;
+        }
+
+        .due-print-meta {
+          display: flex;
+          justify-content: space-between;
+          font-size: 10px;
+          margin-bottom: 2mm;
+        }
+
+        .due-print-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 10px;
+        }
+
+        .due-print-table td {
+          border: 1px solid #cbd5e1;
+          padding: 2mm;
+        }
+
+        .due-print-table td:nth-child(odd) {
+          background: #f1f5f9;
+          font-weight: bold;
+          width: 17%;
+        }
+
+        .due-print-subject {
+          font-size: 11px;
+          margin: 3mm 0 1mm;
+        }
+
+        .due-print-message {
+          font-size: 10px;
+          line-height: 1.45;
+          margin: 1mm 0;
+        }
+
+        .due-print-amount {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border: 1px solid #123c7a;
+          padding: 3mm;
+          margin-top: 3mm;
+          background: #eff6ff;
+          font-size: 10px;
+        }
+
+        .due-print-amount strong {
+          font-size: 19px;
+          color: #b91c1c;
+        }
+
+        .due-print-footer {
+          margin-top: auto;
+          padding-top: 3mm;
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 4mm;
+          font-size: 9px;
+        }
+
+        .due-print-sign {
+          text-align: center;
+          font-weight: bold;
+          white-space: nowrap;
+        }
+
+        .due-cut-line {
+          height: 5mm;
+          border-top: 1px dashed #64748b;
+          text-align: center;
+          font-size: 8px;
+          color: #475569;
+          break-inside: avoid;
+        }
+
+        @media print {
+          body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+        }
+      </style>
+    </head>
+    <body>${sheet.outerHTML}</body>
+    </html>
+  `);
+
+  w.document.close();
+
+  setTimeout(() => {
+    w.focus();
+    w.print();
+  }, 700);
+}
   
-function renderAll(){let total=db.students.reduce((a,s)=>a+s.net,0),tp=db.payments.reduce((a,p)=>a+p.amount,0),todayPay=db.payments.filter(p=>p.date===today()).reduce((a,p)=>a+p.amount,0),due=db.students.filter(s=>balance(s)>0);cStudents.textContent=db.students.length;cToday.textContent=money(todayPay);cDue.textContent=money(total-tp);cDueStudents.textContent=due.length;rTotal.textContent=money(total);rPaid.textContent=money(tp);rBalance.textContent=money(total-tp);rPayments.textContent=db.payments.length;recentStudents.innerHTML=`<table><tr><th>Student</th><th>Course</th><th>Fee Status</th></tr>${db.students.slice(-6).reverse().map(s=>`<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(balance(s))} due</td></tr>`).join('')}</table>`;renderStudents();renderBatchwise();renderDue();renderReceipts();renderCallSelect(); if(document.getElementById('attendance')?.classList.contains('active') && window.renderAttendanceStudents) window.renderAttendanceStudents();}
+ function renderAll() {   let total = db.students.reduce((a, s) => a + s.net, 0);   let tp = db.payments.reduce((a, p) => a + p.amount, 0);    let todayPay = db.payments     .filter(p => p.date === today())     .reduce((a, p) => a + p.amount, 0);    let due = db.students.filter(s => balance(s) > 0);    cStudents.textContent = db.students.length;   cToday.textContent = money(todayPay);   cDue.textContent = money(total - tp);   cDueStudents.textContent = due.length;    rTotal.textContent = money(total);   rPaid.textContent = money(tp);   rBalance.textContent = money(total - tp);   rPayments.textContent = db.payments.length;    recentStudents.innerHTML =     `<table>       <tr>         <th>Student</th>         <th>Course</th>         <th>Fee Status</th>       </tr>       ${db.students.slice(-6).reverse().map(s =>         `<tr>           <td>${s.name}<br><small>${s.admissionNo}</small></td>           <td>${s.course}</td>           <td>${money(balance(s))} due</td>         </tr>`       ).join('')}     </table>`;    renderStudents();   renderBatchwise();   renderDue();   renderReceipts();   renderCallSelect();    // Populate the two Due Money student dropdowns   renderDueLetterStudents();    if (     document.getElementById('attendance')?.classList.contains('active')     && window.renderAttendanceStudents   ) {     window.renderAttendanceStudents();   } }
 renderAll();
 </script><div id="publicAttendance" style="display:none;min-height:100vh;background:linear-gradient(135deg,#07111f,#102a43);padding:20px;font-family:Arial,sans-serif;color:#111"><div style="max-width:480px;margin:40px auto;background:#fff;border-radius:22px;padding:25px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center"><div style="font-size:48px">📷</div><h1 style="margin:8px 0">COMPETITION WALA</h1><p style="color:#666">QR Attendance</p><div id="publicStudent" style="margin:22px 0"></div><div id="publicStatus" style="padding:15px;border-radius:12px;background:#f1f5f9;font-weight:700">Checking attendance...</div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';

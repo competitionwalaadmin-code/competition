@@ -26,10 +26,11 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px;bord
 
 .student-action-buttons{display:flex;gap:5px;flex-wrap:wrap;align-items:center;min-width:245px}
 .student-action-buttons .btn{padding:7px 9px;font-size:12px}
-.demand-preview-shell{background:#eef2f7;padding:12px;border-radius:12px;overflow:auto}
-.demand-preview-paper{background:#fff;width:100%;max-width:520px;margin:0 auto;border:1px solid #cbd5e1;box-shadow:0 4px 18px #0f172a12;font-family:Arial,sans-serif;color:#172033;padding:18px}
-.demand-print-header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:3px solid #123c7a;padding-bottom:10px}
-.demand-print-logo{width:58px;height:58px;border:2px solid #123c7a;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:9px;font-weight:900;color:#123c7a;flex:none}
+.demand-preview-shell{background:#eef2f7;padding:12px;border-radius:12px;overflow:auto;display:flex;justify-content:center;align-items:flex-start}
+/* Screen preview is shown as a scaled A5 portrait sheet (148:210 ratio). */
+.demand-print-paper{background:#fff;width:420px;max-width:100%;height:595px;min-height:595px;box-sizing:border-box;margin:0 auto;border:1px solid #cbd5e1;box-shadow:0 4px 18px #0f172a12;font-family:Arial,sans-serif;color:#172033;padding:16px;display:flex;flex-direction:column;overflow:hidden}
+.demand-print-header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:3px solid #123c7a;padding-bottom:8px;flex:none}
+.demand-print-logo{width:58px;height:58px;object-fit:contain;display:block;border:0;border-radius:0;background:transparent;padding:0;flex:none}
 .demand-print-brand{text-align:center;flex:1}
 .demand-print-brand h1{font-size:20px;line-height:1.05;margin:0;color:#123c7a}
 .demand-print-brand h2{font-size:13px;margin:4px 0 2px;color:#172033}
@@ -47,6 +48,19 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px;bord
 .demand-signatures{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-top:24px;font-size:9px}
 .demand-sign{text-align:center;min-width:130px;border-top:1px solid #334155;padding-top:5px;font-weight:700}
 .demand-footnote{border-top:1px solid #dbe2ea;margin-top:12px;padding-top:6px;text-align:center;font-size:8px;color:#64748b}
+.demand-print-paper .demand-bill-title{font-size:15px;margin:9px 0 6px}
+.demand-print-paper .demand-bill-meta{font-size:8px;margin-bottom:5px}
+.demand-print-paper .demand-student-table{font-size:8px;margin:4px 0 6px}
+.demand-print-paper .demand-student-table th,.demand-print-paper .demand-student-table td{padding:4px}
+.demand-print-paper .demand-balance-line{font-size:8px;padding:4px 1px}
+.demand-print-paper .demand-amount-panel{padding:7px;margin:7px 0}
+.demand-print-paper .demand-amount-panel small{font-size:8px}
+.demand-print-paper .demand-amount-panel strong{font-size:22px;margin:3px 0}
+.demand-print-paper .demand-amount-panel span{font-size:8px}
+.demand-print-paper .demand-message{font-size:8px;line-height:1.35;margin:6px 0}
+.demand-print-paper .demand-signatures{margin-top:auto;font-size:7.5px;padding-top:10px}
+.demand-print-paper .demand-sign{min-width:105px;font-size:7.5px}
+.demand-print-paper .demand-footnote{font-size:6.5px;margin-top:8px;padding-top:4px}
 @media(max-width:900px){.student-action-buttons{min-width:0}.student-action-buttons .btn{font-size:11px;padding:7px}}
 
 </style></head><body><div class="login" id="login"><div class="loginbox"><div style="text-align:center;margin-bottom:16px"><img src="competition-wala-logo.webp" alt="Competition Wala Computer Classes Logo"
@@ -359,12 +373,14 @@ function openDemandBill(studentId) {
 }
 function demandBillHTML(data) {
   const s = data.student;
+  // Reuse the same logo file shown on the ERP login/admin screen.
+  const logoSrc = document.querySelector('.loginbox img')?.src || 'competition-wala-logo.webp';
   const fmt = value => value ? new Date(value + 'T00:00:00').toLocaleDateString('en-IN', {
     day: '2-digit', month: 'short', year: 'numeric'
   }) : 'Not specified';
   return `<article class="demand-print-paper">
     <header class="demand-print-header">
-      <div class="demand-print-logo">CW<br>COMPUTER<br>CLASSES</div>
+      <img class="demand-print-logo" src="${escapeHTML(logoSrc)}" alt="Competition Wala Computer Classes Logo">
       <div class="demand-print-brand">
         <h1>COMPETITION WALA</h1>
         <h2>COMPUTER CLASSES</h2>
@@ -432,7 +448,7 @@ function printDemandBill() {
     body { margin: 0; font-family: Arial, sans-serif; color: #172033; }
     .demand-print-paper { width: 100%; height: 196mm; max-height: 196mm; overflow: hidden; padding: 2mm; display: flex; flex-direction: column; }
     .demand-print-header { display:flex; align-items:center; justify-content:space-between; gap:3mm; border-bottom:2px solid #123c7a; padding-bottom:3mm; }
-    .demand-print-logo { width:18mm; height:18mm; border:1.5px solid #123c7a; border-radius:50%; display:flex; align-items:center; justify-content:center; text-align:center; font-size:6pt; font-weight:900; color:#123c7a; flex:none; }
+    .demand-print-logo { width:18mm; height:18mm; object-fit:contain; display:block; border:0; border-radius:0; padding:0; background:transparent; flex:none; }
     .demand-print-brand { text-align:center; flex:1; }
     .demand-print-brand h1 { font-size:15pt; line-height:1.05; margin:0; color:#123c7a; }
     .demand-print-brand h2 { font-size:10pt; margin:1.5mm 0 1mm; color:#172033; }
@@ -454,7 +470,17 @@ function printDemandBill() {
     @media print { body { -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
   </style></head><body>${demandBillHTML(activeDemandBillData)}</body></html>`);
   w.document.close();
-  setTimeout(() => { w.focus(); w.print(); }, 500);
+  // Wait for the institute logo to load before opening the print dialog.
+  setTimeout(() => {
+    const images = Array.from(w.document.images);
+    Promise.all(images.map(img => img.complete ? Promise.resolve() : new Promise(resolve => {
+      img.onload = resolve;
+      img.onerror = resolve;
+    }))).then(() => {
+      w.focus();
+      w.print();
+    });
+  }, 150);
 }
 
 function renderAll(){let total=db.students.reduce((a,s)=>a+s.net,0),tp=db.payments.reduce((a,p)=>a+p.amount,0),todayPay=db.payments.filter(p=>p.date===today()).reduce((a,p)=>a+p.amount,0),due=db.students.filter(s=>balance(s)>0);cStudents.textContent=db.students.length;cToday.textContent=money(todayPay);cDue.textContent=money(total-tp);cDueStudents.textContent=due.length;rTotal.textContent=money(total);rPaid.textContent=money(tp);rBalance.textContent=money(total-tp);rPayments.textContent=db.payments.length;recentStudents.innerHTML=`<table><tr><th>Student</th><th>Course</th><th>Fee Status</th></tr>${db.students.slice(-6).reverse().map(s=>`<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(balance(s))} due</td></tr>`).join('')}</table>`;renderStudents();renderBatchwise();renderDue();renderReceipts();renderCallSelect(); if(document.getElementById('attendance')?.classList.contains('active') && window.renderAttendanceStudents) window.renderAttendanceStudents();}

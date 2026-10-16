@@ -155,7 +155,42 @@ function openAdmission(studentId = null) {
   document.getElementById('admissionModal').classList.add('show');
 }
 
-function openPayment(){fillStudentSelect('pStudent');document.getElementById('paymentModal').classList.add('show');paymentInfo();}
+let editingPaymentId = null;
+function openPayment(){
+  editingPaymentId = null;
+  fillStudentSelect('pStudent');
+  document.querySelector('#paymentModal .modalhead h2').textContent = 'Receive Fee Payment';
+  document.querySelector('#paymentModal .modalbox > .btn').textContent = 'Save Payment & Generate Receipt';
+  document.getElementById('pAmount').value = '';
+  document.getElementById('pMode').value = 'Cash';
+  document.getElementById('pDate').value = today();
+  document.getElementById('paymentModal').classList.add('show');
+  paymentInfo();
+}
+function editPayment(id){
+  const p = db.payments.find(x => x.id === id);
+  if(!p){ alert('Payment entry not found.'); return; }
+  editingPaymentId = id;
+  fillStudentSelect('pStudent');
+  document.getElementById('pStudent').value = p.studentId;
+  document.getElementById('pAmount').value = p.amount;
+  document.getElementById('pMode').value = p.mode;
+  document.getElementById('pDate').value = p.date || today();
+  document.querySelector('#paymentModal .modalhead h2').textContent = 'Edit Payment Entry';
+  document.querySelector('#paymentModal .modalbox > .btn').textContent = 'Update Payment Entry';
+  document.getElementById('paymentModal').classList.add('show');
+  paymentInfo();
+}
+function deletePayment(id){
+  const p = db.payments.find(x => x.id === id);
+  if(!p) return alert('Payment entry not found.');
+  const s = db.students.find(x => x.id === p.studentId);
+  if(!confirm(`Delete this payment entry permanently?\n\nReceipt: ${p.receipt}\nStudent: ${s?.name || 'Unknown'}\nAmount: ${money(p.amount)}\n\nThis will update the student's paid total and balance.`)) return;
+  db.payments = db.payments.filter(x => x.id !== id);
+  persist();
+  renderAll();
+  alert('Payment entry deleted successfully.');
+}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
 function nextAdmission(){return 'CWCC-'+(10001+db.students.length)}
 async function saveStudent() {
@@ -258,12 +293,41 @@ function balance(st){return Math.max(0,st.net-paid(st))}
 function fillStudentSelect(id){let el=document.getElementById(id);el.innerHTML='<option value="">Select Student</option>'+db.students.map(s=>`<option value="${s.id}">${s.admissionNo} - ${s.name} (${s.course})</option>`).join('')}
 function paymentInfo(){let st=db.students.find(s=>s.id===pStudent.value);pInfo.innerHTML=st?`<b>${st.name}</b> • Net Fee: ${money(st.net)} • Paid: ${money(paid(st))} • Balance: <b>${money(balance(st))}</b>`:''}
 function savePayment(){
-let st=db.students.find(s=>s.id===pStudent.value), amount=+pAmount.value||0;
-if(!st||amount<=0)return alert('Select student and enter valid amount.');
-if(amount>balance(st))if(!confirm('Payment is greater than current balance. Continue?'))return;
-let rec='REC-'+new Date().getFullYear()+'-'+String(db.payments.length+1).padStart(5,'0');
-let p={id:crypto.randomUUID(),receipt:rec,studentId:st.id,amount,mode:pMode.value,date:pDate.value||today()};
-db.payments.push(p);persist();closeModal('paymentModal');showReceipt(p.id);renderAll();
+  const st = db.students.find(s => s.id === document.getElementById('pStudent').value);
+  const amount = Number(document.getElementById('pAmount').value) || 0;
+  if(!st || amount <= 0) return alert('Select student and enter a valid amount.');
+
+  if(editingPaymentId){
+    const index = db.payments.findIndex(x => x.id === editingPaymentId);
+    if(index < 0){ editingPaymentId = null; return alert('Payment entry not found. Please refresh the Receipts menu.'); }
+    const oldPayment = db.payments[index];
+    db.payments[index] = {
+      ...oldPayment,
+      studentId: st.id,
+      amount,
+      mode: document.getElementById('pMode').value,
+      date: document.getElementById('pDate').value || today()
+    };
+    const updatedId = db.payments[index].id;
+    editingPaymentId = null;
+    persist();
+    closeModal('paymentModal');
+    document.querySelector('#paymentModal .modalhead h2').textContent = 'Receive Fee Payment';
+    document.querySelector('#paymentModal .modalbox > .btn').textContent = 'Save Payment & Generate Receipt';
+    renderAll();
+    showReceipt(updatedId);
+    alert('Payment entry updated successfully.');
+    return;
+  }
+
+  if(amount > balance(st) && !confirm('Payment is greater than current balance. Continue?')) return;
+  const rec = 'REC-' + new Date().getFullYear() + '-' + String(db.payments.length + 1).padStart(5,'0');
+  const p = {id:(crypto.randomUUID ? crypto.randomUUID() : 'payment-' + Date.now()),receipt:rec,studentId:st.id,amount,mode:document.getElementById('pMode').value,date:document.getElementById('pDate').value||today()};
+  db.payments.push(p);
+  persist();
+  closeModal('paymentModal');
+  showReceipt(p.id);
+  renderAll();
 }
 function showReceipt(pid){let p=db.payments.find(x=>x.id===pid),s=db.students.find(x=>x.id===p.studentId),ps=paid(s);document.getElementById('receiptContent').innerHTML=receiptHTML(p,s,ps);document.getElementById('receiptModal').classList.add('show')}
 function receiptHTML(p,s,ps){let logo='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABOYAAATmCAYAAACF/K4q';let m=(document.querySelector('.loginbox img')?.src||'');if(m)logo=m;return `<div class="receipt"><div class="receipt-head"><img class="receipt-logo" src="${logo}" alt="Competition Wala Logo"><div class="receipt-brand"><h2>COMPETITION WALA COMPUTER CLASSES</h2><small>Student & Fee Management System</small><div class="receipt-title">OFFICIAL PAYMENT RECEIPT</div></div><div class="receipt-no"><b>Receipt No.</b><br>${p.receipt}<br><b>Date</b><br>${p.date}</div></div><div class="receipt-section"><table><tr><td><b>Student Name</b><br>${s.name}</td><td><b>Admission No.</b><br>${s.admissionNo}</td></tr><tr><td><b>Course</b><br>${s.course}</td><td><b>Mobile</b><br>${s.mobile}</td></tr></table></div><div class="receipt-section"><table><tr><th>Particular</th><th style="text-align:right">Amount</th></tr><tr><td>This Payment <small>(${p.mode})</small></td><td class="amount">${money(p.amount)}</td></tr><tr><td>Net Course Fee</td><td class="amount">${money(s.net)}</td></tr><tr><td>Paid Till Date</td><td class="amount">${money(ps)}</td></tr><tr class="total"><td>Total Paid</td><td class="amount">${money(ps)}</td></tr><tr class="balance"><td>Remaining Balance</td><td class="amount">${money(balance(s))}</td></tr></table></div><div class="receipt-bottom"><div class="thankyou">Thank you for your payment.<br><b>Keep this receipt for future reference.</b></div><div class="signature"><div class="signature-line"></div>Authorized Signature</div></div><div class="receipt-footer">COMPETITION WALA COMPUTER CLASSES • Computer-generated receipt • Please verify all details before leaving the counter.</div></div>`}
@@ -324,7 +388,25 @@ arr.map(s=>`<tr><td>${s.admissionNo}</td><td><b>${s.name}</b><br><small>${s.mobi
 }
 function renderDue(){let arr=db.students.filter(s=>balance(s)>0);dueTable.innerHTML=`<table><tr><th>Student</th><th>Course</th><th>Net Fee</th><th>Paid</th><th>Outstanding</th><th>Next Due</th><th>Action</th></tr>${arr.map(s=>`<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(s.net)}</td><td>${money(paid(s))}</td><td><b>${money(balance(s))}</b></td><td>${s.due||'-'}</td><td><button class="btn green" onclick="openPaymentFor('${s.id}')">Receive</button></td></tr>`).join('')}</table>`}
 function openPaymentFor(id){openPayment();pStudent.value=id;paymentInfo()}
-function renderReceipts(){receiptTable.innerHTML=`<table><tr><th>Receipt</th><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th>Action</th></tr>${db.payments.slice().reverse().map(p=>{let s=db.students.find(x=>x.id===p.studentId);return `<tr><td>${p.receipt}</td><td>${p.date}</td><td>${s?.name||''}</td><td><b>${money(p.amount)}</b></td><td>${p.mode}</td><td><button class="btn secondary" onclick="showReceipt('${p.id}')">View</button></td></tr>`}).join('')}</table>`}
+function renderReceipts(){
+  const rows = db.payments.slice().reverse().map(p => {
+    const s = db.students.find(x => x.id === p.studentId);
+    const id = escapeHTML(p.id);
+    return `<tr>
+      <td>${escapeHTML(p.receipt || '')}</td>
+      <td>${escapeHTML(p.date || '')}</td>
+      <td>${escapeHTML(s?.name || 'Student not found')}</td>
+      <td><b>${money(p.amount)}</b></td>
+      <td>${escapeHTML(p.mode || '')}</td>
+      <td><div class="student-action-buttons">
+        <button class="btn secondary" onclick="showReceipt('${id}')">👁 View</button>
+        <button class="btn" onclick="editPayment('${id}')">✏️ Edit</button>
+        <button class="btn red" onclick="deletePayment('${id}')">🗑 Delete</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  receiptTable.innerHTML = `<div style="overflow-x:auto"><table><tr><th>Receipt</th><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th>Action</th></tr>${rows || '<tr><td colspan="6" style="text-align:center;padding:25px">No payment receipts found.</td></tr>'}</table></div>`;
+}
 function renderCallSelect(){fillStudentSelect('callStudent');let d=document.getElementById('callDate');if(d&&!d.value)d.value=today();updateCallPreview();}
 function fmtCallDate(v){if(!v)return '15 Oct 2026';let x=v.split('-');return new Date(Number(x[0]),Number(x[1])-1,Number(x[2])).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
 function fmtCallTime(v){if(!v)return '09:00 AM';let a=v.split(':').map(Number),h=a[0],m=a[1],ap=h>=12?'PM':'AM',hh=h%12||12;return String(hh).padStart(2,'0')+':'+String(m).padStart(2,'0')+' '+ap;}

@@ -863,7 +863,7 @@ renderAll();
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getDatabase,ref,get,set,update,remove} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
 import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
-const firebaseConfig={apiKey:'AIzaSyAz3NvFEDd-AyqXJoU2HLhTLerf3Xd1YF8',authDomain:'competition-wala-attendance.firebaseapp.com',databaseURL:'https://competition-wala-attendance-default-rtdb.asia-southeast1.firebasedatabase.app',projectId:'competition-wala-attendance',storageBucket:'competition-wala-attendance.firebasestorage.app',messagingSenderId:'178104848004',appId:'1:178104848004:web:ee1e4c9d395c4d7773bcd1'};
+const firebaseConfig={apiKey:'AIzaSyAz3NvFEDd-AyqXJoU2HLhTLerf3XdY1F8',authDomain:'competition-wala-attendance.firebaseapp.com',databaseURL:'https://competition-wala-attendance-default-rtdb.asia-southeast1.firebasedatabase.app',projectId:'competition-wala-attendance',storageBucket:'competition-wala-attendance.firebasestorage.app',messagingSenderId:'178104848004',appId:'1:178104848004:web:ee1e4c9d395c4d7773bcd1'};
 const app=initializeApp(firebaseConfig), fdb=getDatabase(app), auth=getAuth(app);
 let teacherUser=null, teacherScanner=null;
 onAuthStateChanged(auth,user=>{teacherUser=user;const el=document.getElementById('teacherAuthStatus');if(el)el.textContent=user?'✅ Teacher authenticated: '+user.email:'🔒 Teacher login required';});

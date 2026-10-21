@@ -179,23 +179,23 @@ table td{color:#35425e}
 .id-card-stage{padding:24px;background:radial-gradient(circle at 15% 10%,#dce8ff,transparent 42%),#eef3fb;border-radius:16px;display:flex;justify-content:center;align-items:center;overflow:auto}
 .student-id-card{width:207px;height:333px;flex:none;position:relative;overflow:hidden;border-radius:13px;background:linear-gradient(155deg,#07152e 0%,#153d7d 58%,#2876c7 100%);color:#fff;box-shadow:0 16px 35px #0c214733;font-family:Arial,sans-serif}
 .student-id-card:before{content:"";position:absolute;width:180px;height:180px;right:-95px;top:210px;border:22px solid #ffffff12;border-radius:50%;pointer-events:none}
-.student-id-top{height:55px;display:flex;align-items:center;gap:7px;padding:6px 9px;background:#ffffff0c;border-bottom:1px solid #ffffff28;position:relative;z-index:1}
-.student-id-logo{width:32px;height:32px;object-fit:contain;background:#fff;border-radius:7px;padding:2px;flex:none}
-.student-id-institute{font-size:9px;font-weight:900;letter-spacing:.1px;line-height:1.2;flex:1}
-.student-id-tag{display:inline-block;font-size:7px;font-weight:900;letter-spacing:.5px;background:#f8d45a;color:#14233d;padding:3px 7px;border-radius:5px;line-height:1.2}
-.student-id-content{display:flex;flex-direction:column;align-items:center;gap:4px;padding:5px 10px 27px;position:relative;z-index:1}
-.student-id-photo{width:70px;height:72px;object-fit:cover;border:2px solid #ffffffd9;border-radius:7px;background:#e8eef8;flex:none;color:#1b3765}
+.student-id-top{height:59px;display:flex;align-items:center;gap:8px;padding:7px 10px;background:#ffffff0c;border-bottom:1px solid #ffffff28;position:relative;z-index:1}
+.student-id-logo{width:39px;height:39px;object-fit:contain;background:#fff;border-radius:7px;padding:2px;flex:none}
+.student-id-institute{font-size:10px;font-weight:900;letter-spacing:.12px;line-height:1.16;flex:1}
+.student-id-tag{display:inline-block;font-size:7.5px;font-weight:900;letter-spacing:.6px;background:#f8d45a;color:#14233d;padding:3px 7px;border-radius:5px;line-height:1.2}
+.student-id-content{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 10px 27px;position:relative;z-index:1}
+.student-id-photo{width:79px;height:82px;object-fit:cover;border:2px solid #ffffffd9;border-radius:7px;background:#e8eef8;flex:none;color:#1b3765}
 .student-id-details{width:100%;min-width:0}
-.student-id-name{font-size:13px;line-height:1.15;font-weight:900;text-transform:uppercase;text-align:center;margin:1px 0 5px;overflow-wrap:anywhere}
+.student-id-name{font-size:14px;line-height:1.12;font-weight:900;text-transform:uppercase;text-align:center;margin:1px 0 5px;overflow-wrap:anywhere}
 .student-id-info{width:100%;padding-right:53px;min-width:0}
-.student-id-row{font-size:7.5px;line-height:1.48;color:#e5efff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.student-id-row{font-size:8.1px;line-height:1.43;color:#e5efff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .student-id-row b{color:#fff}
 .student-id-row.parent-row{white-space:normal;overflow-wrap:anywhere;line-height:1.25}
 .student-id-bottom{position:absolute;bottom:0;left:0;right:0;height:24px;background:#ffffff0c;border-top:1px solid #ffffff22;display:flex;align-items:center;justify-content:space-between;padding:4px 8px;z-index:1}
-.student-id-number{font-size:8px;font-weight:900;letter-spacing:.3px}
-.student-id-sign{font-size:6px;text-align:right;color:#e0eaff}
-.student-id-qr{position:absolute;right:8px;bottom:29px;width:49px;height:49px;background:#fff;border-radius:4px;padding:3px;z-index:2;display:flex;align-items:center;justify-content:center}
-.student-id-qr img,.student-id-qr canvas{width:43px!important;height:43px!important;display:block}
+.student-id-number{font-size:8.7px;font-weight:900;letter-spacing:.3px}
+.student-id-sign{font-size:6.5px;text-align:right;color:#e0eaff}
+.student-id-qr{position:absolute;right:8px;bottom:29px;width:51px;height:51px;background:#fff;border-radius:4px;padding:3px;z-index:2;display:flex;align-items:center;justify-content:center}
+.student-id-qr img,.student-id-qr canvas{width:45px!important;height:45px!important;display:block}
 .id-card-note{font-size:12px;color:#61708a;text-align:center;margin:12px 0 0;line-height:1.5}
 @media print{.id-card-modal{display:none!important}}
 </style></head><body><div class="login" id="login"><div class="loginbox"><div style="text-align:center;margin-bottom:16px"><img src="competition-wala-logo.webp" alt="Competition Wala Computer Classes Logo"
@@ -468,7 +468,7 @@ function showStudentIDCard(id){
         <div class="student-id-details">
           <div class="student-id-name">${escapeHTML(st.name||'Student Name')}</div>
           <div class="student-id-info">
-            <div class="student-id-row parent-row"><b>Parent:</b> ${escapeHTML(st.father||'-')}</div>
+            <div class="student-id-row parent-row"><b>Father's Name:</b> ${escapeHTML(st.father||'-')}</div>
             <div class="student-id-row"><b>Admission:</b> ${escapeHTML(st.admissionNo||'-')}</div>
             <div class="student-id-row"><b>Course:</b> ${escapeHTML(st.course||'-')}</div>
             <div class="student-id-row"><b>Batch:</b> ${escapeHTML(st.batch||'-')}</div>
@@ -507,24 +507,24 @@ function printStudentIDCard(){
     html,body{width:52.1mm;height:83.9mm;margin:0;padding:0;font-family:Arial,sans-serif}
     .card{width:52.1mm;height:83.9mm;position:relative;overflow:hidden;border-radius:3mm;background:linear-gradient(155deg,#07152e 0%,#153d7d 58%,#2876c7 100%);color:white}
     .card:before{content:"";position:absolute;width:46mm;height:46mm;right:-23mm;bottom:18mm;border:5mm solid #ffffff12;border-radius:50%;pointer-events:none}
-    .top{height:14mm;display:flex;align-items:center;gap:1.5mm;padding:1.5mm 2mm;background:#ffffff0c;border-bottom:.25mm solid #ffffff28;position:relative;z-index:1}
-    .logo{width:8mm;height:8mm;object-fit:contain;background:#fff;border-radius:1mm;padding:.3mm;flex:none}
-    .brand{font-size:2.35mm;font-weight:900;line-height:1.2;flex:1;letter-spacing:.05mm}
-    .content{display:flex;flex-direction:column;align-items:center;gap:1mm;padding:1.2mm 2.5mm 7mm;position:relative;z-index:1}
-    .tag{display:inline-block;font-size:1.6mm;font-weight:900;letter-spacing:.1mm;background:#f8d45a;color:#14233d;padding:.7mm 1.7mm;border-radius:.7mm;line-height:1.2}
-    .photo{width:17.8mm;height:18.2mm;object-fit:cover;border:.4mm solid #ffffffd9;border-radius:1mm;background:#e8eef8;flex:none}
-    .placeholder{display:flex;align-items:center;justify-content:center;color:#1b3765;font-size:8mm;font-weight:900}
-    .details{width:100%;min-width:0}.name{font-size:2.8mm;line-height:1.1;font-weight:900;text-transform:uppercase;text-align:center;margin:.2mm 0 1mm;overflow-wrap:anywhere}
+    .top{height:15mm;display:flex;align-items:center;gap:1.6mm;padding:1.6mm 2.2mm;background:#ffffff0c;border-bottom:.25mm solid #ffffff28;position:relative;z-index:1}
+    .logo{width:9.5mm;height:9.5mm;object-fit:contain;background:#fff;border-radius:1mm;padding:.3mm;flex:none}
+    .brand{font-size:2.55mm;font-weight:900;line-height:1.16;flex:1;letter-spacing:.05mm}
+    .content{display:flex;flex-direction:column;align-items:center;gap:1.2mm;padding:1.4mm 2.5mm 7mm;position:relative;z-index:1}
+    .tag{display:inline-block;font-size:1.75mm;font-weight:900;letter-spacing:.12mm;background:#f8d45a;color:#14233d;padding:.8mm 1.8mm;border-radius:.7mm;line-height:1.2}
+    .photo{width:20mm;height:20.5mm;object-fit:cover;border:.4mm solid #ffffffd9;border-radius:1mm;background:#e8eef8;flex:none}
+    .placeholder{display:flex;align-items:center;justify-content:center;color:#1b3765;font-size:9mm;font-weight:900}
+    .details{width:100%;min-width:0}.name{font-size:3.1mm;line-height:1.08;font-weight:900;text-transform:uppercase;text-align:center;margin:.2mm 0 1mm;overflow-wrap:anywhere}
     .info{width:100%;padding-right:13.4mm;min-width:0}
-    .row{font-size:1.85mm;line-height:1.45;color:#e5efff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row b{color:white}.row.parent-row{white-space:normal;overflow-wrap:anywhere;line-height:1.25}
-    .qr{position:absolute;right:2mm;bottom:7.5mm;width:12.1mm;height:12.1mm;background:white;border-radius:.8mm;padding:.5mm;z-index:2;display:flex;align-items:center;justify-content:center}.qr img{width:100%;height:100%;display:block}
+    .row{font-size:2mm;line-height:1.4;color:#e5efff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row b{color:white}.row.parent-row{white-space:normal;overflow-wrap:anywhere;line-height:1.25}
+    .qr{position:absolute;right:2mm;bottom:7.5mm;width:12.5mm;height:12.5mm;background:white;border-radius:.8mm;padding:.5mm;z-index:2;display:flex;align-items:center;justify-content:center}.qr img{width:100%;height:100%;display:block}
     .bottom{position:absolute;bottom:0;left:0;right:0;height:7mm;background:#ffffff0c;border-top:.25mm solid #ffffff22;display:flex;align-items:center;justify-content:space-between;padding:1mm 2mm;z-index:1}
-    .num{font-size:1.9mm;font-weight:900;letter-spacing:.05mm}.sign{font-size:1.45mm;text-align:right;color:#e0eaff}
+    .num{font-size:2mm;font-weight:900;letter-spacing:.05mm}.sign{font-size:1.55mm;text-align:right;color:#e0eaff}
     @media screen{body{display:flex;align-items:center;justify-content:center;background:#e5e7eb}.card{box-shadow:0 2mm 8mm #0003}}
   </style></head><body><div class="card">
     <div class="top">${logo?`<img class="logo" src="${logo}" alt="Institute logo">`:''}<div class="brand">COMPETITION WALA<br>COMPUTER CLASSES</div></div>
     <div class="content"><span class="tag">STUDENT</span>${photo}<div class="details"><div class="name">${esc(st.name||'Student Name')}</div><div class="info">
-      <div class="row parent-row"><b>Parent:</b> ${esc(st.father||'-')}</div>
+      <div class="row parent-row"><b>Father's Name:</b> ${esc(st.father||'-')}</div>
       <div class="row"><b>Admission:</b> ${esc(st.admissionNo||'-')}</div>
       <div class="row"><b>Course:</b> ${esc(st.course||'-')}</div>
       <div class="row"><b>Batch:</b> ${esc(st.batch||'-')}</div>

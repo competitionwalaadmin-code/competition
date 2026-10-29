@@ -332,9 +332,103 @@ Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purp
 </div>
 
 <script>
-const KEY='cwcc_erp_v1';
-let db=JSON.parse(localStorage.getItem(KEY)||'{"students":[],"payments":[]}'); window.cwccDB=db;
-const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
+const DB_NAME = 'CWCC_ERP_DATABASE';
+const DB_VERSION = 1;
+const STORE_NAME = 'institute_store';
+
+let db = { students: [], payments: [] };
+window.cwccDB = db;
+
+function initDatabase() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    request.onupgradeneeded = (e) => {
+      const idb = e.target.result;
+      if (!idb.objectStoreNames.contains(STORE_NAME)) {
+        idb.createObjectStore(STORE_NAME);
+      }
+    };
+    request.onsuccess = (e) => resolve(e.target.result);
+    request.onerror = (e) => reject(e.target.error);
+  });
+}
+async function loadStorage() {
+  try {
+    const idb = await initDatabase();
+    const transaction = idb.transaction(STORE_NAME, 'readonly');
+    const getRequest = transaction.objectStore(STORE_NAME).get('erp_main');
+    
+    getRequest.onsuccess = () => {
+      if (getRequest.result) {
+        db = getRequest.result;
+      } else {
+        const legacy = localStorage.getItem('cwcc_erp_v1');
+        if (legacy) {
+          try { db = JSON.parse(legacy); } catch (err) {}
+        }
+      }
+      window.cwccDB = db;
+      renderAll();
+    };
+  } catch (err) {
+    console.error('IndexedDB initialization failed:', err);
+  }
+}
+async function persist() {
+  try {
+    const idb = await initDatabase();
+    const transaction = idb.transaction(STORE_NAME, 'readwrite');
+    transaction.objectStore(STORE_NAME).put(db, 'erp_main');
+    return true;
+  } catch (err) {
+    console.error('Failed to save to IndexedDB:', err);
+    alert('Storage save error: ' + err.message);
+    return false;
+  }
+}
+/ Initialize and load storage
+loadStorage();
+
+const money = n => '₹' + Number(n || 0).toLocaleString('en-IN');
+const today = () => new Date().toISOString().slice(0, 10);
+document.getElementById('sDate').value = today();
+document.getElementById('pDate').value = today();
+
+// ==========================================
+// 2. STUDY MATERIALS HUB DATABASE
+// ==========================================
+const studyMaterialsDB = [
+  { module: "M1", title: "M1 - Fundamentals of Computer & OS Notes", file: "PDF Document", size: "3.2 MB", url: "#" },
+  { module: "M2", title: "M2 - Internet Protocols, Web Browsing & Security", file: "PDF Document", size: "2.8 MB", url: "#" },
+  { module: "M3", title: "M3 (A) - Complete Microsoft Word Mastery Guide", file: "PDF Document", size: "4.5 MB", url: "#" },
+  { module: "M3", title: "M3 (B) - PowerPoint Presentation Skills & Shortcuts", file: "PDF Document", size: "2.1 MB", url: "#" },
+  { module: "M3", title: "M3 - Complete Excel Formulas & Functions Handout", file: "Spreadsheet / PDF", size: "5.4 MB", url: "#" },
+  { module: "M4", title: "M4 - DTP Photoshop & CorelDraw Project Sheets", file: "PDF Document", size: "7.1 MB", url: "#" },
+  { module: "M5", title: "M5 - Tally Prime GST Accounting Practical Vouchers", file: "Accounting PDF", size: "4.9 MB", url: "#" },
+  { module: "M6", title: "M6 - C and C++ Programming Notes & Exercise Sets", file: "PDF Document", size: "6.2 MB", url: "#" },
+  { module: "M7", title: "M7 - DCTT Final Test Prep & Teaching Methodology", file: "PDF Document", size: "3.8 MB", url: "#" },
+  { module: "TYPING", title: "Hindi & English Speed Typing Paragraphs (Set 1 to 20)", file: "Practice Set", size: "1.5 MB", url: "#" }
+];
+
+let loggedInStudent = null;
+
+function toggleRoleTab(role) {
+  const adminTab = document.getElementById('tabAdmin');
+  const studentTab = document.getElementById('tabStudent');
+  const adminForm = document.getElementById('adminLoginForm');
+  const studentForm = document.getElementById('studentLoginForm');
+  if (role === 'admin') {
+    adminTab.classList.add('active');
+    studentTab.classList.remove('active');
+    adminForm.style.display = 'block';
+    studentForm.style.display = 'none';
+  } else {
+    studentTab.classList.add('active');
+    adminTab.classList.remove('active');
+    studentForm.style.display = 'block';
+    adminForm.style.display = 'none';
+  }
+}const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
 const today=()=>new Date().toISOString().slice(0,10);
 document.getElementById('sDate').value=today(); document.getElementById('pDate').value=today();
 
@@ -466,7 +560,7 @@ function viewMyReceipts() {
   showReceipt(ps[ps.length - 1].id);
 }
 
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(db));return true;}catch(e){console.error('Local save failed:',e);alert('Storage full! Student data/photo save nahi hua. Photo ko chhota karein ya browser storage free karein.');return false;}}
+
 async function compressStudentPhoto(file){
   const source = await new Promise((resolve,reject)=>{
     const url=URL.createObjectURL(file), img=new Image();

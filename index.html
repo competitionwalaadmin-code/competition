@@ -332,6 +332,9 @@ Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purp
 </div>
 
 <script>
+// ==========================================
+// 1. HIGH-CAPACITY INDEXED-DB STORAGE ENGINE
+// ==========================================
 const DB_NAME = 'CWCC_ERP_DATABASE';
 const DB_VERSION = 1;
 const STORE_NAME = 'institute_store';
@@ -352,6 +355,7 @@ function initDatabase() {
     request.onerror = (e) => reject(e.target.error);
   });
 }
+
 async function loadStorage() {
   try {
     const idb = await initDatabase();
@@ -374,6 +378,7 @@ async function loadStorage() {
     console.error('IndexedDB initialization failed:', err);
   }
 }
+
 async function persist() {
   try {
     const idb = await initDatabase();
@@ -386,7 +391,8 @@ async function persist() {
     return false;
   }
 }
-/ Initialize and load storage
+
+// Initialize and load storage
 loadStorage();
 
 const money = n => '₹' + Number(n || 0).toLocaleString('en-IN');
@@ -397,42 +403,6 @@ document.getElementById('pDate').value = today();
 // ==========================================
 // 2. STUDY MATERIALS HUB DATABASE
 // ==========================================
-const studyMaterialsDB = [
-  { module: "M1", title: "M1 - Fundamentals of Computer & OS Notes", file: "PDF Document", size: "3.2 MB", url: "#" },
-  { module: "M2", title: "M2 - Internet Protocols, Web Browsing & Security", file: "PDF Document", size: "2.8 MB", url: "#" },
-  { module: "M3", title: "M3 (A) - Complete Microsoft Word Mastery Guide", file: "PDF Document", size: "4.5 MB", url: "#" },
-  { module: "M3", title: "M3 (B) - PowerPoint Presentation Skills & Shortcuts", file: "PDF Document", size: "2.1 MB", url: "#" },
-  { module: "M3", title: "M3 - Complete Excel Formulas & Functions Handout", file: "Spreadsheet / PDF", size: "5.4 MB", url: "#" },
-  { module: "M4", title: "M4 - DTP Photoshop & CorelDraw Project Sheets", file: "PDF Document", size: "7.1 MB", url: "#" },
-  { module: "M5", title: "M5 - Tally Prime GST Accounting Practical Vouchers", file: "Accounting PDF", size: "4.9 MB", url: "#" },
-  { module: "M6", title: "M6 - C and C++ Programming Notes & Exercise Sets", file: "PDF Document", size: "6.2 MB", url: "#" },
-  { module: "M7", title: "M7 - DCTT Final Test Prep & Teaching Methodology", file: "PDF Document", size: "3.8 MB", url: "#" },
-  { module: "TYPING", title: "Hindi & English Speed Typing Paragraphs (Set 1 to 20)", file: "Practice Set", size: "1.5 MB", url: "#" }
-];
-
-let loggedInStudent = null;
-
-function toggleRoleTab(role) {
-  const adminTab = document.getElementById('tabAdmin');
-  const studentTab = document.getElementById('tabStudent');
-  const adminForm = document.getElementById('adminLoginForm');
-  const studentForm = document.getElementById('studentLoginForm');
-  if (role === 'admin') {
-    adminTab.classList.add('active');
-    studentTab.classList.remove('active');
-    adminForm.style.display = 'block';
-    studentForm.style.display = 'none';
-  } else {
-    studentTab.classList.add('active');
-    adminTab.classList.remove('active');
-    studentForm.style.display = 'block';
-    adminForm.style.display = 'none';
-  }
-}const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
-const today=()=>new Date().toISOString().slice(0,10);
-document.getElementById('sDate').value=today(); document.getElementById('pDate').value=today();
-
-/* Study Materials Hub Folder Database */
 const studyMaterialsDB = [
   { module: "M1", title: "M1 - Fundamentals of Computer & OS Notes", file: "PDF Document", size: "3.2 MB", url: "#" },
   { module: "M2", title: "M2 - Internet Protocols, Web Browsing & Security", file: "PDF Document", size: "2.8 MB", url: "#" },
@@ -560,40 +530,59 @@ function viewMyReceipts() {
   showReceipt(ps[ps.length - 1].id);
 }
 
-
-async function compressStudentPhoto(file){
-  const source = await new Promise((resolve,reject)=>{
-    const url=URL.createObjectURL(file), img=new Image();
-    img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};
-    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Unsupported/corrupt image'))};
-    img.src=url;
+async function compressStudentPhoto(file) {
+  const source = await new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image failed')); };
+    img.src = url;
   });
-  const maxW=360,maxH=480,scale=Math.min(1,maxW/source.naturalWidth,maxH/source.naturalHeight);
-  const canvas=document.createElement('canvas');
-  canvas.width=Math.max(1,Math.round(source.naturalWidth*scale));
-  canvas.height=Math.max(1,Math.round(source.naturalHeight*scale));
-  const ctx=canvas.getContext('2d');
-  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(source,0,0,canvas.width,canvas.height);
-  let quality=0.72, result=canvas.toDataURL('image/jpeg',quality);
-  while(result.length>135000 && quality>0.38){quality-=0.08;result=canvas.toDataURL('image/jpeg',quality)}
-  if(result.length>180000){
-    const smaller=document.createElement('canvas');smaller.width=260;smaller.height=Math.max(1,Math.round(canvas.height*260/canvas.width));
-    smaller.getContext('2d').drawImage(canvas,0,0,smaller.width,smaller.height);
-    result=smaller.toDataURL('image/jpeg',0.48);
-  }
-  return result;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 150;
+  canvas.height = 180;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, 150, 180);
+  ctx.drawImage(source, 0, 0, 150, 180);
+
+  return canvas.toDataURL('image/jpeg', 0.5);
 }
-function doLogin(){
-  if(document.getElementById('loginUser').value==='admin'&&document.getElementById('loginPass').value==='1234') {
-    document.getElementById('login').style.display='none';
-    document.getElementById('adminApp').style.display='flex';
-    document.getElementById('studentPortalView').style.display='none';
+
+function doLogin() {
+  if (document.getElementById('loginUser').value === 'admin' && document.getElementById('loginPass').value === '1234') {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'flex';
+    document.getElementById('studentPortalView').style.display = 'none';
   } else {
     alert('Invalid login');
   }
 }
-function logout(){location.reload()}
-function show(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.getElementById('title').textContent={dashboard:'Dashboard',students:'Students',batchwise:'Batch Wise Students',dues:'EMI Due / Outstanding',receipts:'Payment Receipts',calls:'Call Letters',reports:'Reports',attendance:'QR Attendance'}[id]||'Dashboard'; if(btn){document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')} renderAll();}
+
+function logout() {
+  location.reload();
+}
+
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('title').textContent = {
+    dashboard: 'Dashboard',
+    students: 'Students',
+    batchwise: 'Batch Wise Students',
+    dues: 'EMI Due / Outstanding',
+    receipts: 'Payment Receipts',
+    calls: 'Call Letters',
+    reports: 'Reports',
+    attendance: 'QR Attendance'
+  }[id] || 'Dashboard';
+  if (btn) {
+    document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderAll();
+}
+
 let editingStudentId = null;
 function openAdmission(studentId = null) {
   editingStudentId = studentId;
@@ -630,7 +619,7 @@ function openAdmission(studentId = null) {
 }
 
 let editingPaymentId = null;
-function openPayment(){
+function openPayment() {
   editingPaymentId = null;
   fillStudentSelect('pStudent');
   document.querySelector('#paymentModal .modalhead h2').textContent = 'Receive Fee Payment';
@@ -641,9 +630,10 @@ function openPayment(){
   document.getElementById('paymentModal').classList.add('show');
   paymentInfo();
 }
-function editPayment(id){
+
+function editPayment(id) {
   const p = db.payments.find(x => x.id === id);
-  if(!p){ alert('Payment entry not found.'); return; }
+  if (!p) { alert('Payment entry not found.'); return; }
   editingPaymentId = id;
   fillStudentSelect('pStudent');
   document.getElementById('pStudent').value = p.studentId;
@@ -655,18 +645,26 @@ function editPayment(id){
   document.getElementById('paymentModal').classList.add('show');
   paymentInfo();
 }
-function deletePayment(id){
+
+async function deletePayment(id) {
   const p = db.payments.find(x => x.id === id);
-  if(!p) return alert('Payment entry not found.');
+  if (!p) return alert('Payment entry not found.');
   const s = db.students.find(x => x.id === p.studentId);
-  if(!confirm(`Delete this payment entry permanently?\n\nReceipt: ${p.receipt}\nStudent: ${s?.name || 'Unknown'}\nAmount: ${money(p.amount)}\n\nThis will update the student's paid total and balance.`)) return;
+  if (!confirm(`Delete this payment entry permanently?\n\nReceipt: ${p.receipt}\nStudent: ${s?.name || 'Unknown'}\nAmount: ${money(p.amount)}\n\nThis will update the student's paid total and balance.`)) return;
   db.payments = db.payments.filter(x => x.id !== id);
-  persist();
+  await persist();
   renderAll();
   alert('Payment entry deleted successfully.');
 }
-function closeModal(id){document.getElementById(id).classList.remove('show')}
-function nextAdmission(){return 'CWCC-'+(10001+db.students.length)}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+function nextAdmission() {
+  return 'CWCC-' + (10001 + db.students.length);
+}
+
 async function saveStudent() {
   const name = document.getElementById('sName').value.trim();
   const mobile = document.getElementById('sMobile').value.trim();
@@ -676,7 +674,7 @@ async function saveStudent() {
   const existing = editingStudentId ? db.students.find(s => s.id === editingStudentId) : null;
 
   if (editingStudentId && !existing) {
-    alert('Student record was not found. Please reopen the Students section.');
+    alert('Student record not found. Please reopen the Students section.');
     editingStudentId = null;
     return;
   }
@@ -693,15 +691,15 @@ async function saveStudent() {
   const file = document.getElementById('sPhoto').files?.[0];
   if (file) {
     if (!file.type.startsWith('image/') && !/\.(jpe?g|jfif|pjpeg|pjp|png|webp|gif|bmp)$/i.test(file.name)) {
-      alert('Photo format support nahi hai. JPG, JPEG, PNG, WEBP, GIF ya BMP file select karein.');
+      alert('Photo format not supported. Select a valid image file.');
       return;
     }
-    if (file.size === 0) { alert('Selected photo file empty hai. Dusri photo select karein.'); return; }
+    if (file.size === 0) { alert('Selected photo file is empty.'); return; }
     try {
       photo = await compressStudentPhoto(file);
     } catch (error) {
       console.error('Photo processing failed:', error);
-      alert('Photo read/convert nahi ho paya. JPG/JPEG/PNG format mein save karke dobara try karein.');
+      alert('Photo read failed. Please try saving again.');
       return;
     }
   }
@@ -734,7 +732,9 @@ async function saveStudent() {
   } else {
     db.students.push(st);
   }
-  if (!persist()) {
+
+  const saved = await persist();
+  if (!saved) {
     if (wasEditing) db.students[db.students.findIndex(x => x.id === st.id)] = existing;
     else db.students = db.students.filter(x => x.id !== st.id);
     window.cwccDB = db;
@@ -744,12 +744,11 @@ async function saveStudent() {
   if (window.cwccSyncStudent) {
     window.cwccSyncStudent(st).catch(error => {
       console.error('Firebase student sync:', error);
-      alert('Saved locally, but Firebase sync failed. Check your connection.');
     });
   }
 
   closeModal('admissionModal');
-  ['sName','sFather','sMobile','sDob','sFee','sEmi','sDue','sAddress','sPhoto'].forEach(id => {
+  ['sName', 'sFather', 'sMobile', 'sDob', 'sFee', 'sEmi', 'sDue', 'sAddress', 'sPhoto'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
@@ -769,20 +768,21 @@ async function saveStudent() {
 }
 
 let currentIDCardStudent = null;
-function studentAttendanceURL(studentId){
-  const url=new URL(location.href);
-  url.search='';url.hash='';
-  url.searchParams.set('attendance',studentId);
+function studentAttendanceURL(studentId) {
+  const url = new URL(location.href);
+  url.search = ''; url.hash = '';
+  url.searchParams.set('attendance', studentId);
   return url.toString();
 }
-function showStudentIDCard(id){
+
+function showStudentIDCard(id) {
   const st = db.students.find(x => x.id === id);
-  if(!st){ alert('Student record not found.'); return; }
+  if (!st) { alert('Student record not found.'); return; }
   currentIDCardStudent = st;
   const logo = document.querySelector('.loginbox img')?.src || 'competition-wala-logo.webp';
   const photo = st.photo
     ? `<img class="student-id-photo" src="${st.photo}" alt="Student photo">`
-    : `<div class="student-id-photo" style="display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900">${escapeHTML((st.name||'S').trim().charAt(0).toUpperCase())}</div>`;
+    : `<div class="student-id-photo" style="display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900">${escapeHTML((st.name || 'S').trim().charAt(0).toUpperCase())}</div>`;
   document.getElementById('studentIDPreview').innerHTML = `
     <div class="student-id-card">
       <div class="student-id-top">
@@ -793,42 +793,43 @@ function showStudentIDCard(id){
         <span class="student-id-tag">STUDENT</span>
         ${photo}
         <div class="student-id-details">
-          <div class="student-id-name">${escapeHTML(st.name||'Student Name')}</div>
+          <div class="student-id-name">${escapeHTML(st.name || 'Student Name')}</div>
           <div class="student-id-info">
-            <div class="student-id-row parent-row"><b>Father's Name:</b> ${escapeHTML(st.father||'-')}</div>
-            <div class="student-id-row"><b>Admission:</b> ${escapeHTML(st.admissionNo||'-')}</div>
-            <div class="student-id-row"><b>Course:</b> ${escapeHTML(st.course||'-')}</div>
-            <div class="student-id-row"><b>Batch:</b> ${escapeHTML(st.batch||'-')}</div>
-            <div class="student-id-row"><b>Mobile:</b> ${escapeHTML(st.mobile||'-')}</div>
-            <div class="student-id-row"><b>Admitted:</b> ${escapeHTML(st.date||'-')}</div>
+            <div class="student-id-row parent-row"><b>Father's Name:</b> ${escapeHTML(st.father || '-')}</div>
+            <div class="student-id-row"><b>Admission:</b> ${escapeHTML(st.admissionNo || '-')}</div>
+            <div class="student-id-row"><b>Course:</b> ${escapeHTML(st.course || '-')}</div>
+            <div class="student-id-row"><b>Batch:</b> ${escapeHTML(st.batch || '-')}</div>
+            <div class="student-id-row"><b>Mobile:</b> ${escapeHTML(st.mobile || '-')}</div>
+            <div class="student-id-row"><b>Admitted:</b> ${escapeHTML(st.date || '-')}</div>
           </div>
         </div>
       </div>
       <div class="student-id-qr" id="studentIDQR" aria-label="Student attendance QR code"></div>
-      <div class="student-id-bottom"><span class="student-id-number">${escapeHTML(st.admissionNo||'CWCC STUDENT')}</span><span class="student-id-sign">AUTHORISED SIGNATURE</span></div>
+      <div class="student-id-bottom"><span class="student-id-number">${escapeHTML(st.admissionNo || 'CWCC STUDENT')}</span><span class="student-id-sign">AUTHORISED SIGNATURE</span></div>
     </div>`;
-  const qrBox=document.getElementById('studentIDQR');
-  qrBox.innerHTML='';
-  if(window.QRCode){
-    new QRCode(qrBox,{text:studentAttendanceURL(st.id),width:180,height:180,correctLevel:QRCode.CorrectLevel.H});
+  const qrBox = document.getElementById('studentIDQR');
+  qrBox.innerHTML = '';
+  if (window.QRCode) {
+    new QRCode(qrBox, { text: studentAttendanceURL(st.id), width: 180, height: 180, correctLevel: QRCode.CorrectLevel.H });
   } else {
-    qrBox.innerHTML='<span style="font-size:7px;color:#111">QR unavailable</span>';
+    qrBox.innerHTML = '<span style="font-size:7px;color:#111">QR unavailable</span>';
   }
   document.getElementById('studentIDModal').classList.add('show');
 }
-window.showStudentIDCard=showStudentIDCard;
-function printStudentIDCard(){
-  const st=currentIDCardStudent;
-  if(!st)return alert('Choose a student first.');
-  const qrCanvas=document.querySelector('#studentIDQR canvas');
-  const qrImg=document.querySelector('#studentIDQR img');
-  const qrSrc=qrCanvas?qrCanvas.toDataURL('image/png'):(qrImg?.src||'');
-  const logo=document.querySelector('#studentIDPreview .student-id-logo')?.src||'';
-  const photo=st.photo?`<img class="photo" src="${st.photo}" alt="Student photo">`:`<div class="photo placeholder">${escapeHTML((st.name||'S').trim().charAt(0).toUpperCase())}</div>`;
-  const w=window.open('','_blank','width=520,height=620');
-  if(!w){alert('Please allow pop-ups to print the ID card.');return;}
-  const esc=escapeHTML;
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(st.admissionNo||'Student')} - ID Card</title><style>
+window.showStudentIDCard = showStudentIDCard;
+
+function printStudentIDCard() {
+  const st = currentIDCardStudent;
+  if (!st) return alert('Choose a student first.');
+  const qrCanvas = document.querySelector('#studentIDQR canvas');
+  const qrImg = document.querySelector('#studentIDQR img');
+  const qrSrc = qrCanvas ? qrCanvas.toDataURL('image/png') : (qrImg?.src || '');
+  const logo = document.querySelector('#studentIDPreview .student-id-logo')?.src || '';
+  const photo = st.photo ? `<img class="photo" src="${st.photo}" alt="Student photo">` : `<div class="photo placeholder">${escapeHTML((st.name || 'S').trim().charAt(0).toUpperCase())}</div>`;
+  const w = window.open('', '_blank', 'width=520,height=620');
+  if (!w) { alert('Please allow pop-ups to print the ID card.'); return; }
+  const esc = escapeHTML;
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(st.admissionNo || 'Student')} - ID Card</title><style>
     @page{size:52.1mm 83.9mm;margin:0}
     *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     html,body{width:52.1mm;height:83.9mm;margin:0;padding:0;font-family:Arial,sans-serif}
@@ -849,33 +850,34 @@ function printStudentIDCard(){
     .num{font-size:2.1mm;font-weight:900;letter-spacing:.05mm;max-width:56%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sign{font-size:1.65mm;text-align:right;color:#e0eaff}
     @media screen{body{display:flex;align-items:center;justify-content:center;background:#e5e7eb}.card{box-shadow:0 2mm 8mm #0003}}
   </style></head><body><div class="card">
-    <div class="top">${logo?`<img class="logo" src="${logo}" alt="Institute logo">`:''}<div class="brand">COMPETITION WALA<br>COMPUTER CLASSES</div></div>
-    <div class="content"><span class="tag">STUDENT</span>${photo}<div class="details"><div class="name">${esc(st.name||'Student Name')}</div><div class="info">
-      <div class="row parent-row"><b>Father's Name:</b> ${esc(st.father||'-')}</div>
-      <div class="row"><b>Admission:</b> ${esc(st.admissionNo||'-')}</div>
-      <div class="row"><b>Course:</b> ${esc(st.course||'-')}</div>
-      <div class="row"><b>Batch:</b> ${esc(st.batch||'-')}</div>
-      <div class="row"><b>Mobile:</b> ${esc(st.mobile||'-')}</div>
-      <div class="row"><b>Admitted:</b> ${esc(st.date||'-')}</div>
+    <div class="top">${logo ? `<img class="logo" src="${logo}" alt="Institute logo">` : ''}<div class="brand">COMPETITION WALA<br>COMPUTER CLASSES</div></div>
+    <div class="content"><span class="tag">STUDENT</span>${photo}<div class="details"><div class="name">${esc(st.name || 'Student Name')}</div><div class="info">
+      <div class="row parent-row"><b>Father's Name:</b> ${esc(st.father || '-')}</div>
+      <div class="row"><b>Admission:</b> ${esc(st.admissionNo || '-')}</div>
+      <div class="row"><b>Course:</b> ${esc(st.course || '-')}</div>
+      <div class="row"><b>Batch:</b> ${esc(st.batch || '-')}</div>
+      <div class="row"><b>Mobile:</b> ${esc(st.mobile || '-')}</div>
+      <div class="row"><b>Admitted:</b> ${esc(st.date || '-')}</div>
     </div></div></div>
-    ${qrSrc?`<div class="qr"><img src="${qrSrc}" alt="Student attendance QR"></div>`:''}<div class="bottom"><span class="num">${esc(st.admissionNo||'CWCC STUDENT')}</span><span class="sign">AUTHORISED SIGNATURE</span></div>
+    ${qrSrc ? `<div class="qr"><img src="${qrSrc}" alt="Student attendance QR"></div>` : ''}<div class="bottom"><span class="num">${esc(st.admissionNo || 'CWCC STUDENT')}</span><span class="sign">AUTHORISED SIGNATURE</span></div>
   </div><script>window.onload=()=>setTimeout(()=>window.print(),350);<\/script></body></html>`);
   w.document.close();
 }
-window.printStudentIDCard=printStudentIDCard;
+window.printStudentIDCard = printStudentIDCard;
 
-function paid(st){return db.payments.filter(p=>p.studentId===st.id).reduce((a,p)=>a+p.amount,0)}
-function balance(st){return Math.max(0,st.net-paid(st))}
-function fillStudentSelect(id){let el=document.getElementById(id);el.innerHTML='<option value="">Select Student</option>'+db.students.map(s=>`<option value="${s.id}">${s.admissionNo} - ${s.name} (${s.course})</option>`).join('')}
-function paymentInfo(){let st=db.students.find(s=>s.id===pStudent.value);pInfo.innerHTML=st?`<b>${st.name}</b> • Net Fee: ${money(st.net)} • Paid: ${money(paid(st))} • Balance: <b>${money(balance(st))}</b>`:''}
-function savePayment(){
+function paid(st) { return db.payments.filter(p => p.studentId === st.id).reduce((a, p) => a + p.amount, 0); }
+function balance(st) { return Math.max(0, st.net - paid(st)); }
+function fillStudentSelect(id) { let el = document.getElementById(id); el.innerHTML = '<option value="">Select Student</option>' + db.students.map(s => `<option value="${s.id}">${s.admissionNo} - ${s.name} (${s.course})</option>`).join(''); }
+function paymentInfo() { let st = db.students.find(s => s.id === document.getElementById('pStudent').value); document.getElementById('pInfo').innerHTML = st ? `<b>${st.name}</b> • Net Fee: ${money(st.net)} • Paid: ${money(paid(st))} • Balance: <b>${money(balance(st))}</b>` : ''; }
+
+async function savePayment() {
   const st = db.students.find(s => s.id === document.getElementById('pStudent').value);
   const amount = Number(document.getElementById('pAmount').value) || 0;
-  if(!st || amount <= 0) return alert('Select student and enter a valid amount.');
+  if (!st || amount <= 0) return alert('Select student and enter a valid amount.');
 
-  if(editingPaymentId){
+  if (editingPaymentId) {
     const index = db.payments.findIndex(x => x.id === editingPaymentId);
-    if(index < 0){ editingPaymentId = null; return alert('Payment entry not found. Please refresh the Receipts menu.'); }
+    if (index < 0) { editingPaymentId = null; return alert('Payment entry not found. Please refresh the Receipts menu.'); }
     const oldPayment = db.payments[index];
     db.payments[index] = {
       ...oldPayment,
@@ -886,7 +888,7 @@ function savePayment(){
     };
     const updatedId = db.payments[index].id;
     editingPaymentId = null;
-    persist();
+    await persist();
     closeModal('paymentModal');
     document.querySelector('#paymentModal .modalhead h2').textContent = 'Receive Fee Payment';
     document.querySelector('#paymentModal .modalbox > .btn').textContent = 'Save Payment & Generate Receipt';
@@ -896,17 +898,30 @@ function savePayment(){
     return;
   }
 
-  if(amount > balance(st) && !confirm('Payment is greater than current balance. Continue?')) return;
-  const rec = 'REC-' + new Date().getFullYear() + '-' + String(db.payments.length + 1).padStart(5,'0');
-  const p = {id:(crypto.randomUUID ? crypto.randomUUID() : 'payment-' + Date.now()),receipt:rec,studentId:st.id,amount,mode:document.getElementById('pMode').value,date:document.getElementById('pDate').value||today()};
+  if (amount > balance(st) && !confirm('Payment is greater than current balance. Continue?')) return;
+  const rec = 'REC-' + new Date().getFullYear() + '-' + String(db.payments.length + 1).padStart(5, '0');
+  const p = {
+    id: (crypto.randomUUID ? crypto.randomUUID() : 'payment-' + Date.now()),
+    receipt: rec,
+    studentId: st.id,
+    amount,
+    mode: document.getElementById('pMode').value,
+    date: document.getElementById('pDate').value || today()
+  };
   db.payments.push(p);
-  persist();
+  await persist();
   closeModal('paymentModal');
   showReceipt(p.id);
   renderAll();
 }
-function showReceipt(pid){let p=db.payments.find(x=>x.id===pid),s=db.students.find(x=>x.id===p.studentId),ps=paid(s);document.getElementById('receiptContent').innerHTML=receiptHTML(p,s,ps);document.getElementById('receiptModal').classList.add('show')}
-function receiptHTML(p,s,ps){
+
+function showReceipt(pid) {
+  let p = db.payments.find(x => x.id === pid), s = db.students.find(x => x.id === p.studentId), ps = paid(s);
+  document.getElementById('receiptContent').innerHTML = receiptHTML(p, s, ps);
+  document.getElementById('receiptModal').classList.add('show');
+}
+
+function receiptHTML(p, s, ps) {
   const logo = document.querySelector('.loginbox img')?.src || 'competition-wala-logo.webp';
   return `<div class="receipt">
     <div class="receipt-watermark"><img src="${logo}" alt=""></div>
@@ -919,10 +934,11 @@ function receiptHTML(p,s,ps){
     </div>
   </div>`;
 }
-function printReceipt(){
-  const content=document.getElementById('receiptContent').innerHTML;
-  const w=window.open('','_blank');
-  if(!w){alert('Please allow pop-ups to print the receipt.');return;}
+
+function printReceipt() {
+  const content = document.getElementById('receiptContent').innerHTML;
+  const w = window.open('', '_blank');
+  if (!w) { alert('Please allow pop-ups to print the receipt.'); return; }
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Payment Receipt</title><style>
     @page{size:A5 portrait;margin:5mm}
     *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -949,6 +965,7 @@ function printReceipt(){
   </style></head><body>${content}<script>window.onload=()=>{const imgs=[...document.images];Promise.all(imgs.map(i=>i.complete?Promise.resolve():new Promise(r=>{i.onload=r;i.onerror=r}))).then(()=>setTimeout(()=>window.print(),250))};<\/script></body></html>`);
   w.document.close();
 }
+
 function renderStudents() {
   const q = (document.getElementById('search')?.value || '').toLowerCase();
   const arr = db.students.filter(s =>
@@ -973,40 +990,63 @@ function renderStudents() {
       </tr>`).join('')}
     </table>`;
 }
+
 function escapeHTML(value) {
   return String(value ?? '').replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
 }
 
-async function deleteStudent(id){
-let s=db.students.find(x=>x.id===id);if(!s)return;
-let ps=db.payments.filter(p=>p.studentId===id);
-let msg=`Delete student permanently?\n\n${s.admissionNo} - ${s.name}\nCourse: ${s.course}\nMobile: ${s.mobile}`;
-if(ps.length)msg+=`\n\n${ps.length} payment record(s) will also be deleted.`;
-if(!confirm(msg+`\n\nThis action cannot be undone.`))return;
-db.students=db.students.filter(x=>x.id!==id);db.payments=db.payments.filter(p=>p.studentId!==id);persist();
-if(window.cwccDeleteStudent){try{await window.cwccDeleteStudent(id)}catch(e){console.error('Firebase student delete:',e);alert('Student deleted locally, but Firebase delete failed: '+e.message)}}
-renderAll();alert('✅ Student deleted successfully.');
+async function deleteStudent(id) {
+  let s = db.students.find(x => x.id === id); if (!s) return;
+  let ps = db.payments.filter(p => p.studentId === id);
+  let msg = `Delete student permanently?\n\n${s.admissionNo} - ${s.name}\nCourse: ${s.course}\nMobile: ${s.mobile}`;
+  if (ps.length) msg += `\n\n${ps.length} payment record(s) will also be deleted.`;
+  if (!confirm(msg + `\n\nThis action cannot be undone.`)) return;
+  db.students = db.students.filter(x => x.id !== id);
+  db.payments = db.payments.filter(p => p.studentId !== id);
+  await persist();
+  if (window.cwccDeleteStudent) {
+    try { await window.cwccDeleteStudent(id); } catch (e) {
+      console.error('Firebase student delete:', e);
+    }
+  }
+  renderAll();
+  alert('✅ Student deleted successfully.');
 }
-function studentView(id){let s=db.students.find(x=>x.id===id);let ps=db.payments.filter(p=>p.studentId===id);alert(`STUDENT PROFILE\n\n${s.admissionNo} - ${s.name}\nCourse: ${s.course}\nMobile: ${s.mobile}\nNet Fee: ${money(s.net)}\nPaid: ${money(paid(s))}\nBalance: ${money(balance(s))}\n\nPayments: ${ps.length}`)}
 
-function renderBatchwise(){
-let b=(document.getElementById('batchFilter')?.value||'');
-let c=(document.getElementById('batchCourseFilter')?.value||'');
-let q=(document.getElementById('batchSearch')?.value||'').toLowerCase();
-let arr=db.students.filter(s=>(!b||s.batch===b)&&(!c||s.course===c)&&((s.name+' '+s.mobile+' '+s.admissionNo).toLowerCase().includes(q)));
-let totalFee=arr.reduce((a,s)=>a+s.net,0), totalPaid=arr.reduce((a,s)=>a+paid(s),0), totalDue=arr.reduce((a,s)=>a+balance(s),0);
-document.getElementById('batchSummary').innerHTML =
-`<div class="cards" style="grid-template-columns:repeat(4,1fr)"><div class="card blue"><div class="label">STUDENTS</div><div class="num">${arr.length}</div></div><div class="card blue"><div class="label">TOTAL FEE</div><div class="num">${money(totalFee)}</div></div><div class="card green"><div class="label">PAID</div><div class="num">${money(totalPaid)}</div></div><div class="card red"><div class="label">BALANCE</div><div class="num">${money(totalDue)}</div></div></div>`;
-document.getElementById('batchTable').innerHTML =
-`<table><tr><th>Admission</th><th>Student</th><th>Course</th><th>Batch</th><th>Net Fee</th><th>Paid</th><th>Balance</th><th>Status</th><th>Action</th></tr>`+
-arr.map(s=>`<tr><td>${s.admissionNo}</td><td><b>${s.name}</b><br><small>${s.mobile}</small></td><td>${s.course}</td><td><b>${s.batch||'-'}</b></td><td>${money(s.net)}</td><td>${money(paid(s))}</td><td>${money(balance(s))}</td><td><span class="badge ${balance(s)==0?'paid':paid(s)>0?'partial':'due'}">${balance(s)==0?'PAID':paid(s)>0?'PARTIAL':'DUE'}</span></td><td><button class="btn secondary" onclick="studentView('${s.id}')">View</button></td></tr>`).join('')+
-`</table>`;
+function studentView(id) {
+  let s = db.students.find(x => x.id === id);
+  let ps = db.payments.filter(p => p.studentId === id);
+  alert(`STUDENT PROFILE\n\n${s.admissionNo} - ${s.name}\nCourse: ${s.course}\nMobile: ${s.mobile}\nNet Fee: ${money(s.net)}\nPaid: ${money(paid(s))}\nBalance: ${money(balance(s))}\n\nPayments: ${ps.length}`);
 }
-function renderDue(){let arr=db.students.filter(s=>balance(s)>0);dueTable.innerHTML=`<table><tr><th>Student</th><th>Course</th><th>Net Fee</th><th>Paid</th><th>Outstanding</th><th>Next Due</th><th>Action</th></tr>${arr.map(s=>`<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(s.net)}</td><td>${money(paid(s))}</td><td><b>${money(balance(s))}</b></td><td>${s.due||'-'}</td><td><button class="btn green" onclick="openPaymentFor('${s.id}')">Receive</button></td></tr>`).join('')}</table>`}
-function openPaymentFor(id){openPayment();pStudent.value=id;paymentInfo()}
-function renderReceipts(){
+
+function renderBatchwise() {
+  let b = (document.getElementById('batchFilter')?.value || '');
+  let c = (document.getElementById('batchCourseFilter')?.value || '');
+  let q = (document.getElementById('batchSearch')?.value || '').toLowerCase();
+  let arr = db.students.filter(s => (!b || s.batch === b) && (!c || s.course === c) && ((s.name + ' ' + s.mobile + ' ' + s.admissionNo).toLowerCase().includes(q)));
+  let totalFee = arr.reduce((a, s) => a + s.net, 0), totalPaid = arr.reduce((a, s) => a + paid(s), 0), totalDue = arr.reduce((a, s) => a + balance(s), 0);
+  document.getElementById('batchSummary').innerHTML =
+    `<div class="cards" style="grid-template-columns:repeat(4,1fr)"><div class="card blue"><div class="label">STUDENTS</div><div class="num">${arr.length}</div></div><div class="card blue"><div class="label">TOTAL FEE</div><div class="num">${money(totalFee)}</div></div><div class="card green"><div class="label">PAID</div><div class="num">${money(totalPaid)}</div></div><div class="card red"><div class="label">BALANCE</div><div class="num">${money(totalDue)}</div></div></div>`;
+  document.getElementById('batchTable').innerHTML =
+    `<table><tr><th>Admission</th><th>Student</th><th>Course</th><th>Batch</th><th>Net Fee</th><th>Paid</th><th>Balance</th><th>Status</th><th>Action</th></tr>` +
+    arr.map(s => `<tr><td>${s.admissionNo}</td><td><b>${s.name}</b><br><small>${s.mobile}</small></td><td>${s.course}</td><td><b>${s.batch || '-'}</b></td><td>${money(s.net)}</td><td>${money(paid(s))}</td><td>${money(balance(s))}</td><td><span class="badge ${balance(s) == 0 ? 'paid' : paid(s) > 0 ? 'partial' : 'due'}">${balance(s) == 0 ? 'PAID' : paid(s) > 0 ? 'PARTIAL' : 'DUE'}</span></td><td><button class="btn secondary" onclick="studentView('${s.id}')">View</button></td></tr>`).join('') +
+    `</table>`;
+}
+
+function renderDue() {
+  let arr = db.students.filter(s => balance(s) > 0);
+  document.getElementById('dueTable').innerHTML = `<table><tr><th>Student</th><th>Course</th><th>Net Fee</th><th>Paid</th><th>Outstanding</th><th>Next Due</th><th>Action</th></tr>${arr.map(s => `<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(s.net)}</td><td>${money(paid(s))}</td><td><b>${money(balance(s))}</b></td><td>${s.due || '-'}</td><td><button class="btn green" onclick="openPaymentFor('${s.id}')">Receive</button></td></tr>`).join('')}</table>`;
+}
+
+function openPaymentFor(id) {
+  openPayment();
+  document.getElementById('pStudent').value = id;
+  paymentInfo();
+}
+
+function renderReceipts() {
   const rows = db.payments.slice().reverse().map(p => {
     const s = db.students.find(x => x.id === p.studentId);
     const id = escapeHTML(p.id);
@@ -1023,27 +1063,83 @@ function renderReceipts(){
       </div></td>
     </tr>`;
   }).join('');
-  receiptTable.innerHTML = `<div style="overflow-x:auto"><table><tr><th>Receipt</th><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th>Action</th></tr>${rows || '<tr><td colspan="6" style="text-align:center;padding:25px">No payment receipts found.</td></tr>'}</table></div>`;
+  document.getElementById('receiptTable').innerHTML = `<div style="overflow-x:auto"><table><tr><th>Receipt</th><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th>Action</th></tr>${rows || '<tr><td colspan="6" style="text-align:center;padding:25px">No payment receipts found.</td></tr>'}</table></div>`;
 }
-function renderCallSelect(){fillStudentSelect('callStudent');let d=document.getElementById('callDate');if(d&&!d.value)d.value=today();updateCallPreview();}
-function fmtCallDate(v){if(!v)return '15 Oct 2026';let x=v.split('-');return new Date(Number(x[0]),Number(x[1])-1,Number(x[2])).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
-function fmtCallTime(v){if(!v)return '09:00 AM';let a=v.split(':').map(Number),h=a[0],m=a[1],ap=h>=12?'PM':'AM',hh=h%12||12;return String(hh).padStart(2,'0')+':'+String(m).padStart(2,'0')+' '+ap;}
-function escCall(v){return String(v??'').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\\':'&#92;'}[m]));}
-function callLetterHTML(){
-let s=db.students.find(x=>x.id===document.getElementById('callStudent')?.value);if(!s)return '<div style="padding:40px;text-align:center;color:#64748b">Please select a student to preview the call letter.</div>';
-let exam=document.getElementById('callExam')?.value||examListDefault(),date=document.getElementById('callDate')?.value||today(),report=document.getElementById('callReportTime')?.value||'09:00',examTime=document.getElementById('callExamTime')?.value||'09:30 AM - 10:30 AM',venue=document.getElementById('callVenue')?.value||'COMPETITION WALA COMPUTER CLASSES\nIndira Nagar, Patna - 800001',purpose=document.getElementById('callPurpose')?.value||'Module Examination';
-let photo=s.photo?`<img class="letter-photo" src="${s.photo}" alt="Student Photo">`:'<div class="letter-photo placeholder">STUDENT<br>PHOTO</div>';
-let admission=escCall(s.admissionNo||''),letterNo='CWC/EXAM/'+new Date().getFullYear()+'/'+String(s.admissionNo||'').replace(/[^0-9]/g,'').padStart(4,'0');
-let exams=`<div class="exam-row selected"><div class="exam-check">☑</div><div>${escCall(exam)}</div></div>`;
-let barcode=admission||'CWCC0001';
-return `<div class="letter-A5"><div class="letter-watermark"><div>COMPETITION WALA COMPUTER CLASSES</div></div><div class="letter-inner"><div class="call-letter-image-wrap"><img class="call-letter-image" src="call-letter-header.webp" alt="Competition Wala Exam Call Letter Header"><div class="call-letter-dynamic-meta"><span>Letter No. :</span> ${letterNo}<br><span>Issue Date :</span> ${fmtCallDate(today())}</div></div><div class="letter-profile"><div class="letter-info"><div class="li-row"><div>Student Name</div><div>: <b>${escCall(s.name)}</b></div></div><div class="li-row"><div>Admission No.</div><div>: <b>${admission}</b></div></div><div class="li-row"><div>Father's / Guardian Name</div><div>: <b>${escCall(s.father||'—')}</b></div></div><div class="li-row"><div>Course</div><div>: <b>${escCall(s.course||'—')}</b></div></div><div class="li-row"><div>Batch</div><div>: <b>${escCall(s.batch||'—')}</b></div></div><div class="li-row"><div>Mobile No.</div><div>: <b>${escCall(s.mobile||'—')}</b></div></div><div class="li-row"><div>Address</div><div>: <b>${escCall(s.address||'Indira Nagar, Patna - 800001')}</b></div></div></div>${photo}</div><div class="exam-bar">EXAM NAME (SELECTED)</div><div class="exam-list">${exams}</div><div class="details-bar">EXAM DETAILS</div><div class="detail-grid"><div class="detail-cell"><div class="icon">📅</div>Date of Exam<b>${fmtCallDate(date)}</b><span>(${new Date(date).toLocaleDateString('en-US',{weekday:'long'})})</span></div><div class="detail-cell"><div class="icon">◷</div>Reporting Time<b>${fmtCallTime(report)}</b><span>(Reporting 15 Minutes Before Exam)</span></div><div class="detail-cell"><div class="icon">▣</div>Exam Time<b>${escCall(examTime)}</b><span>(1 Hour)</span></div><div class="detail-cell"><div class="icon">📍</div>Exam Venue<b>COMPETITION WALA COMPUTER CLASSES</b><span>${escCall(venue).replace(/\n/g,'<br>')}</span></div></div><div class="instructions"><div class="instruction-box"><div class="instruction-head">📄 IMPORTANT INSTRUCTIONS</div><ol><li>This call letter is compulsory to appear in the examination.</li><li>Reach the exam centre at least 15 minutes before the reporting time.</li><li>Carry a valid Photo ID proof (Photo ID / Student ID).</li><li>Do not bring mobile phone, smart watch or any electronic device.</li><li>Follow all instructions given by the invigilator.</li><li>Any kind of malpractice will lead to cancellation of your exam.</li></ol></div><div class="barcode-box"><div class="barcode"></div><b style="font-size:11px">${admission}</b><div class="sign-line"></div><b style="font-size:9px">Authorized Signatory</b><br><span style="font-size:8px">Competition Wala Computer Classes</span></div></div><div class="letter-footer">${escCall(purpose)} • This is a computer-generated call letter. Valid only for the student named above.</div></div></div>`;
+
+function renderCallSelect() {
+  fillStudentSelect('callStudent');
+  let d = document.getElementById('callDate');
+  if (d && !d.value) d.value = today();
+  updateCallPreview();
 }
-function examListDefault(){return ['M1 - FUNDAMENTAL OF COMPUTER','M2 - INTERNET','M3 (A) - WORD','M3 (B) - POWERPOINT','M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)','M4 - DTP (Photoshop, CorelDraw, Canva)','M5 - TALLY (Basic for GST)','M6 - C, C++','M7 - DCTT FINAL TEST'];}
-function updateCallPreview(){let box=document.getElementById('callPreview');if(box)box.innerHTML=callLetterHTML();}
-function generateCallLetter(){updateCallPreview();alert('✅ Professional Exam Call Letter generated in preview.');}
-function printCall(){updateCallPreview();let box=document.getElementById('callPreview');if(!box||!box.innerHTML)return;let w=window.open('','_blank');w.document.write(`<!doctype html><html><head><title>Exam Call Letter</title><style>body{margin:0;background:#fff} ${document.querySelector('style')?.textContent||''}</style></head><body>${box.innerHTML}</body></html>`);w.document.close();setTimeout(()=>w.print(),500);}
-function downloadCallPDF(){updateCallPreview();printCall();}
-function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='CWCC-ERP-Backup-'+today()+'.json';a.click()}
+
+function fmtCallDate(v) {
+  if (!v) return '15 Oct 2026';
+  let x = v.split('-');
+  return new Date(Number(x[0]), Number(x[1]) - 1, Number(x[2])).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function fmtCallTime(v) {
+  if (!v) return '09:00 AM';
+  let a = v.split(':').map(Number), h = a[0], m = a[1], ap = h >= 12 ? 'PM' : 'AM', hh = h % 12 || 12;
+  return String(hh).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ' ' + ap;
+}
+
+function escCall(v) {
+  return String(v ?? '').replace(/[&<>\"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\\': '&#92;' }[m]));
+}
+
+function callLetterHTML() {
+  let s = db.students.find(x => x.id === document.getElementById('callStudent')?.value);
+  if (!s) return '<div style="padding:40px;text-align:center;color:#64748b">Please select a student to preview the call letter.</div>';
+  let exam = document.getElementById('callExam')?.value || examListDefault(),
+    date = document.getElementById('callDate')?.value || today(),
+    report = document.getElementById('callReportTime')?.value || '09:00',
+    examTime = document.getElementById('callExamTime')?.value || '09:30 AM - 10:30 AM',
+    venue = document.getElementById('callVenue')?.value || 'COMPETITION WALA COMPUTER CLASSES\nIndira Nagar, Patna - 800001',
+    purpose = document.getElementById('callPurpose')?.value || 'Module Examination';
+  let photo = s.photo ? `<img class="letter-photo" src="${s.photo}" alt="Student Photo">` : '<div class="letter-photo placeholder">STUDENT<br>PHOTO</div>';
+  let admission = escCall(s.admissionNo || ''), letterNo = 'CWC/EXAM/' + new Date().getFullYear() + '/' + String(s.admissionNo || '').replace(/[^0-9]/g, '').padStart(4, '0');
+  let exams = `<div class="exam-row selected"><div class="exam-check">☑</div><div>${escCall(exam)}</div></div>`;
+  let barcode = admission || 'CWCC0001';
+  return `<div class="letter-A5"><div class="letter-watermark"><div>COMPETITION WALA COMPUTER CLASSES</div></div><div class="letter-inner"><div class="call-letter-image-wrap"><img class="call-letter-image" src="call-letter-header.webp" alt="Competition Wala Exam Call Letter Header"><div class="call-letter-dynamic-meta"><span>Letter No. :</span> ${letterNo}<br><span>Issue Date :</span> ${fmtCallDate(today())}</div></div><div class="letter-profile"><div class="letter-info"><div class="li-row"><div>Student Name</div><div>: <b>${escCall(s.name)}</b></div></div><div class="li-row"><div>Admission No.</div><div>: <b>${admission}</b></div></div><div class="li-row"><div>Father's / Guardian Name</div><div>: <b>${escCall(s.father || '—')}</b></div></div><div class="li-row"><div>Course</div><div>: <b>${escCall(s.course || '—')}</b></div></div><div class="li-row"><div>Batch</div><div>: <b>${escCall(s.batch || '—')}</b></div></div><div class="li-row"><div>Mobile No.</div><div>: <b>${escCall(s.mobile || '—')}</b></div></div><div class="li-row"><div>Address</div><div>: <b>${escCall(s.address || 'Indira Nagar, Patna - 800001')}</b></div></div></div>${photo}</div><div class="exam-bar">EXAM NAME (SELECTED)</div><div class="exam-list">${exams}</div><div class="details-bar">EXAM DETAILS</div><div class="detail-grid"><div class="detail-cell"><div class="icon">📅</div>Date of Exam<b>${fmtCallDate(date)}</b><span>(${new Date(date).toLocaleDateString('en-US', { weekday: 'long' })})</span></div><div class="detail-cell"><div class="icon">◷</div>Reporting Time<b>${fmtCallTime(report)}</b><span>(Reporting 15 Minutes Before Exam)</span></div><div class="detail-cell"><div class="icon">▣</div>Exam Time<b>${escCall(examTime)}</b><span>(1 Hour)</span></div><div class="detail-cell"><div class="icon">📍</div>Exam Venue<b>COMPETITION WALA COMPUTER CLASSES</b><span>${escCall(venue).replace(/\n/g, '<br>')}</span></div></div><div class="instructions"><div class="instruction-box"><div class="instruction-head">📄 IMPORTANT INSTRUCTIONS</div><ol><li>This call letter is compulsory to appear in the examination.</li><li>Reach the exam centre at least 15 minutes before the reporting time.</li><li>Carry a valid Photo ID proof (Photo ID / Student ID).</li><li>Do not bring mobile phone, smart watch or any electronic device.</li><li>Follow all instructions given by the invigilator.</li><li>Any kind of malpractice will lead to cancellation of your exam.</li></ol></div><div class="barcode-box"><div class="barcode"></div><b style="font-size:11px">${admission}</b><div class="sign-line"></div><b style="font-size:9px">Authorized Signatory</b><br><span style="font-size:8px">Competition Wala Computer Classes</span></div></div><div class="letter-footer">${escCall(purpose)} • This is a computer-generated call letter. Valid only for the student named above.</div></div></div>`;
+}
+
+function examListDefault() {
+  return ['M1 - FUNDAMENTAL OF COMPUTER', 'M2 - INTERNET', 'M3 (A) - WORD', 'M3 (B) - POWERPOINT', 'M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)', 'M4 - DTP (Photoshop, CorelDraw, Canva)', 'M5 - TALLY (Basic for GST)', 'M6 - C, C++', 'M7 - DCTT FINAL TEST'];
+}
+
+function updateCallPreview() {
+  let box = document.getElementById('callPreview');
+  if (box) box.innerHTML = callLetterHTML();
+}
+
+function generateCallLetter() {
+  updateCallPreview();
+  alert('✅ Professional Exam Call Letter generated in preview.');
+}
+
+function printCall() {
+  updateCallPreview();
+  let box = document.getElementById('callPreview');
+  if (!box || !box.innerHTML) return;
+  let w = window.open('', '_blank');
+  w.document.write(`<!doctype html><html><head><title>Exam Call Letter</title><style>body{margin:0;background:#fff} ${document.querySelector('style')?.textContent || ''}</style></head><body>${box.innerHTML}</body></html>`);
+  w.document.close();
+  setTimeout(() => w.print(), 500);
+}
+
+function downloadCallPDF() {
+  updateCallPreview();
+  printCall();
+}
+
+function backup() {
+  let blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' }), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'CWCC-ERP-Backup-' + today() + '.json';
+  a.click();
+}
 
 let activeDemandStudentId = null;
 let activeDemandBillData = null;
@@ -1071,6 +1167,7 @@ function openDemandBill(studentId) {
   document.getElementById('demandBillPreview').innerHTML = '<p style="text-align:center;padding:35px;color:#64748b">Click Preview Demand Bill to see the completed A5 bill.</p>';
   document.getElementById('demandBillModal').classList.add('show');
 }
+
 function demandBillHTML(data) {
   const s = data.student;
   const logoSrc = document.querySelector('.loginbox img')?.src || 'competition-wala-logo.webp';
@@ -1116,6 +1213,7 @@ function demandBillHTML(data) {
     <div class="demand-footnote">Please retain this demand bill for your records. Contact the institute office for clarification.</div>
   </article>`;
 }
+
 function previewDemandBill() {
   const s = db.students.find(x => x.id === activeDemandStudentId);
   const amount = Number(document.getElementById('demandAmount').value);
@@ -1135,6 +1233,7 @@ function previewDemandBill() {
   };
   document.getElementById('demandBillPreview').innerHTML = demandBillHTML(activeDemandBillData);
 }
+
 function printDemandBill() {
   previewDemandBill();
   if (!activeDemandBillData) return;
@@ -1180,8 +1279,29 @@ function printDemandBill() {
   }, 150);
 }
 
-function renderAll(){let total=db.students.reduce((a,s)=>a+s.net,0),tp=db.payments.reduce((a,p)=>a+p.amount,0),todayPay=db.payments.filter(p=>p.date===today()).reduce((a,p)=>a+p.amount,0),due=db.students.filter(s=>balance(s)>0);cStudents.textContent=db.students.length;cToday.textContent=money(todayPay);cDue.textContent=money(total-tp);cDueStudents.textContent=due.length;rTotal.textContent=money(total);rPaid.textContent=money(tp);rBalance.textContent=money(total-tp);rPayments.textContent=db.payments.length;recentStudents.innerHTML=`<table><tr><th>Student</th><th>Course</th><th>Fee Status</th></tr>${db.students.slice(-6).reverse().map(s=>`<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(balance(s))} due</td></tr>`).join('')}</table>`;renderStudents();renderBatchwise();renderDue();renderReceipts();renderCallSelect(); if(document.getElementById('attendance')?.classList.contains('active') && window.renderAttendanceStudents) window.renderAttendanceStudents();}
-renderAll();
+function renderAll() {
+  let total = db.students.reduce((a, s) => a + s.net, 0),
+    tp = db.payments.reduce((a, p) => a + p.amount, 0),
+    todayPay = db.payments.filter(p => p.date === today()).reduce((a, p) => a + p.amount, 0),
+    due = db.students.filter(s => balance(s) > 0);
+  document.getElementById('cStudents').textContent = db.students.length;
+  document.getElementById('cToday').textContent = money(todayPay);
+  document.getElementById('cDue').textContent = money(total - tp);
+  document.getElementById('cDueStudents').textContent = due.length;
+  document.getElementById('rTotal').textContent = money(total);
+  document.getElementById('rPaid').textContent = money(tp);
+  document.getElementById('rBalance').textContent = money(total - tp);
+  document.getElementById('rPayments').textContent = db.payments.length;
+  document.getElementById('recentStudents').innerHTML = `<table><tr><th>Student</th><th>Course</th><th>Fee Status</th></tr>${db.students.slice(-6).reverse().map(s => `<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(balance(s))} due</td></tr>`).join('')}</table>`;
+  renderStudents();
+  renderBatchwise();
+  renderDue();
+  renderReceipts();
+  renderCallSelect();
+  if (document.getElementById('attendance')?.classList.contains('active') && window.renderAttendanceStudents) {
+    window.renderAttendanceStudents();
+  }
+}
 </script>
 
 <div id="publicAttendance" style="display:none;min-height:100vh;background:linear-gradient(135deg,#07111f,#102A53);padding:20px;font-family:Arial,sans-serif;color:#111">

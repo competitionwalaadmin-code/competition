@@ -418,7 +418,18 @@ table td{color:#35425e}
 </div>
 
 <!-- MAIN ADMIN ERP APPLICATION -->
-<div class="app" id="adminApp"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('batchwise',this)">🕘 Batch Wise</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🏷️ Other</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel"><div class="toolbar"><input id="search" placeholder="Search name, mobile or admission no..." oninput="renderStudents()"><button class="btn" onclick="openAdmission()">+ New Student</button></div><div id="studentTable"></div></div></section><section id="batchwise" class="page"><div class="panel"><div class="toolbar"><select id="batchFilter" onchange="renderBatchwise()"><option value="">All Batches</option><option>7 AM</option><option>8 AM</option><option>9 AM</option><option>10 AM</option><option>11 AM</option><option>3 PM</option><option>4 PM</option><option>5 PM</option><option>6 PM</option><option>7 PM</option></select><select id="batchCourseFilter" onchange="renderBatchwise()"><option value="">All Courses</option><option>DCA</option><option>ADCA</option><option>DCTT</option><option>AI TOOLS</option><option>SET PRACTICE</option></select><input id="batchSearch" placeholder="Search student / mobile / admission no..." oninput="renderBatchwise()"><button class="btn secondary" onclick="document.getElementById('batchFilter').value='';document.getElementById('batchCourseFilter').value='';document.getElementById('batchSearch').value='';renderBatchwise()">Reset</button></div><div id="batchSummary" style="margin:12px 0"></div><div id="batchTable"></div></div></section><section id="dues" class="page"><div class="panel"><h3>Pending / Outstanding Fee</h3><div id="dueTable"></div></div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
+<div class="app" id="adminApp"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('batchwise',this)">🕘 Batch Wise</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🏷️ Other</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel">
+  <div class="toolbar" style="justify-content:space-between">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button type="button" class="btn" id="studentsAvailableTab" onclick="setStudentListTab('active')">🟢 Available Students</button>
+      <button type="button" class="btn secondary" id="studentsDeniedTab" onclick="setStudentListTab('denied')">⛔ Denied Access</button>
+    </div>
+    <button class="btn" onclick="openAdmission()">+ New Student</button>
+  </div>
+  <div class="toolbar"><input id="search" placeholder="Search name, mobile or admission no..." oninput="renderStudents()"></div>
+  <div id="studentListSummary" style="margin:0 0 12px;color:#64748b;font-size:13px;font-weight:700"></div>
+  <div id="studentTable"></div>
+</div></section><section id="batchwise" class="page"><div class="panel"><div class="toolbar"><select id="batchFilter" onchange="renderBatchwise()"><option value="">All Batches</option><option>7 AM</option><option>8 AM</option><option>9 AM</option><option>10 AM</option><option>11 AM</option><option>3 PM</option><option>4 PM</option><option>5 PM</option><option>6 PM</option><option>7 PM</option></select><select id="batchCourseFilter" onchange="renderBatchwise()"><option value="">All Courses</option><option>DCA</option><option>ADCA</option><option>DCTT</option><option>AI TOOLS</option><option>SET PRACTICE</option></select><input id="batchSearch" placeholder="Search student / mobile / admission no..." oninput="renderBatchwise()"><button class="btn secondary" onclick="document.getElementById('batchFilter').value='';document.getElementById('batchCourseFilter').value='';document.getElementById('batchSearch').value='';renderBatchwise()">Reset</button></div><div id="batchSummary" style="margin:12px 0"></div><div id="batchTable"></div></div></section><section id="dues" class="page"><div class="panel"><h3>Pending / Outstanding Fee</h3><div id="dueTable"></div></div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
 Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purpose</label><input id="callPurpose" value="Module Examination" oninput="updateCallPreview()"></div><div class="call-actions"><button class="btn green" onclick="generateCallLetter()">🖨 Generate Call Letter</button><button class="btn" onclick="printCall()">👁 View / Print</button><button class="btn red" onclick="downloadCallPDF()">📄 Download PDF</button></div></div></div><div class="call-preview-panel"><div class="preview-head">👁️ Call Letter Preview</div><div class="preview-body"><div id="callPreview"></div></div></div></div></section><section id="reports" class="page"><div class="cards"><div class="card blue"><div class="label">TOTAL COURSE FEE</div><div class="num" id="rTotal">₹0</div></div><div class="card green"><div class="label">TOTAL PAID</div><div class="num" id="rPaid">₹0</div></div><div class="card red"><div class="label">TOTAL BALANCE</div><div class="num" id="rBalance">₹0</div></div><div class="card orange"><div class="label">TOTAL PAYMENTS</div><div class="num" id="rPayments">0</div></div></div></section><section id="attendance" class="page"><div class="panel"><div class="panel" style="margin-bottom:16px;background:#f8fbff"><h3>🔐 Teacher-only QR Attendance</h3><p style="font-size:13px;color:#64748b">Sign in with an authorized teacher Firebase account. Students scanning their own ID QR will NOT mark attendance.</p><div class="formgrid"><div><label>Teacher Email</label><input id="teacherEmail" type="email" placeholder="teacher email"></div><div><label>Teacher Password</label><input id="teacherPassword" type="password" placeholder="teacher password"></div><div style="display:flex;align-items:end;gap:8px"><button class="btn green" onclick="teacherSignIn()">Teacher Login</button><button class="btn secondary" onclick="teacherSignOut()">Logout</button></div></div><div id="teacherAuthStatus" style="margin-top:10px;font-size:13px;font-weight:700">Not signed in</div><div class="call-actions"><button class="btn" onclick="startTeacherScanner()">📷 Start Teacher Scanner</button><button class="btn secondary" onclick="stopTeacherScanner()">Stop Scanner</button></div><div id="teacherQrScanner" style="max-width:420px;margin-top:12px"></div><div id="teacherScanResult" style="margin-top:10px;font-weight:700"></div></div><div class="toolbar"><input id="attendanceSearch" placeholder="Search name / admission no..." oninput="renderAttendanceStudents()"><button class="btn green" onclick="syncAllStudentsToFirebase()">☁️ Sync Students</button><button class="btn" onclick="loadTodayAttendance()">🔄 Refresh Today</button><button class="btn secondary" onclick="renderAttendanceHistory()">📈 Student Attendance Scores</button></div><div id="attendanceHistory" class="panel" style="margin-bottom:15px;display:none"></div><div id="attendanceStats" class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:15px"></div><div id="attendanceStudentTable"></div></div></section>
 
 <!-- OTHER TAB: STUDENT ADMISSION CERTIFICATE & DETAILS ON A4 -->
@@ -555,9 +566,13 @@ async function loadStorage() {
 async function persist() {
   try {
     const idb = await initDatabase();
-    const transaction = idb.transaction(STORE_NAME, 'readwrite');
-    transaction.objectStore(STORE_NAME).put(db, 'erp_main');
-    return true;
+    return await new Promise((resolve, reject) => {
+      const transaction = idb.transaction(STORE_NAME, 'readwrite');
+      transaction.oncomplete = () => resolve(true);
+      transaction.onerror = () => reject(transaction.error || new Error('IndexedDB transaction failed'));
+      transaction.onabort = () => reject(transaction.error || new Error('IndexedDB transaction aborted'));
+      transaction.objectStore(STORE_NAME).put(db, 'erp_main');
+    });
   } catch (err) {
     console.error('Failed to save to IndexedDB:', err);
     alert('Storage save error: ' + err.message);
@@ -609,7 +624,7 @@ function toggleRoleTab(role) {
   }
 }
 
-function doStudentLogin() {
+async function doStudentLogin() {
   const roll = document.getElementById('stLoginRoll').value.trim().toLowerCase();
   const mobile = document.getElementById('stLoginMobile').value.trim();
   if (!roll || !mobile) {
@@ -623,6 +638,27 @@ function doStudentLogin() {
   if (!st) {
     alert('Student record not found. Please verify your Admission No and Mobile Number or contact office.');
     return;
+  }
+  if (String(st.accessStatus || 'active').toLowerCase() === 'denied') {
+    alert('⛔ ACCESS DENIED\\n\\nYour student portal access has been temporarily suspended by the institute. Please contact the office.');
+    return;
+  }
+  // Verify the latest access status from Firebase as well, so a student cannot
+  // bypass an admin restriction by signing in from another browser/device.
+  if (typeof window.cwccCheckRemoteStudentAccess === 'function') {
+    try {
+      const remoteStatus = await window.cwccCheckRemoteStudentAccess(st.admissionNo);
+      if (remoteStatus === 'denied') {
+        st.accessStatus = 'denied';
+        alert('⛔ ACCESS DENIED\\n\\nYour student portal access has been temporarily suspended by the institute. Please contact the office.');
+        return;
+      }
+      if (remoteStatus === 'active') st.accessStatus = 'active';
+    } catch (error) {
+      console.error('Could not verify student access status:', error);
+      alert('Unable to verify your portal access right now. Please check your internet connection and try again.');
+      return;
+    }
   }
   loggedInStudent = st;
   document.getElementById('login').style.display = 'none';
@@ -838,8 +874,14 @@ function closeModal(id) {
   document.getElementById(id).classList.remove('show');
 }
 
-function nextAdmission() {
-  return 'CWCC-' + (10001 + db.students.length);
+// Admission numbers are allocated by Firebase Realtime Database transactions.
+// Never derive an admission number from db.students.length: deletions, restores,
+// multiple browsers and simultaneous admissions make that method unsafe.
+function localAdmissionSequenceMax() {
+  return (db.students || []).reduce((max, student) => {
+    const match = String(student.admissionNo || '').match(/^CWCC-(\\d+)$/i);
+    return match ? Math.max(max, Number(match[1])) : max;
+  }, 10000);
 }
 
 async function saveStudent() {
@@ -882,10 +924,32 @@ async function saveStudent() {
   }
 
   const wasEditing = Boolean(existing);
+  let admissionNo = existing?.admissionNo || '';
+  if (!wasEditing) {
+    try {
+      if (window.cwccAdmissionAllocatorReady) {
+        await window.cwccAdmissionAllocatorReady;
+      }
+      if (typeof window.cwccReserveAdmissionNo !== 'function') {
+        throw new Error('The secure admission-number service is not ready. Please refresh the page and try again.');
+      }
+      admissionNo = await window.cwccReserveAdmissionNo(localAdmissionSequenceMax());
+      if (!admissionNo || db.students.some(student =>
+        String(student.admissionNo || '').toUpperCase() === admissionNo.toUpperCase()
+      )) {
+        throw new Error('A duplicate admission number was detected. No student was saved. Please try again.');
+      }
+    } catch (error) {
+      console.error('Admission number allocation failed:', error);
+      alert('Admission could not be saved safely. ' + (error.message || 'Please check your internet/Firebase connection and try again.'));
+      return;
+    }
+  }
+
   const st = {
     ...(existing || {}),
-    id: existing ? existing.id : (crypto.randomUUID ? crypto.randomUUID() : 'cwcc-' + Date.now()),
-    admissionNo: existing ? existing.admissionNo : nextAdmission(),
+    id: existing ? existing.id : (crypto.randomUUID ? crypto.randomUUID() : 'cwcc-' + Date.now() + '-' + Math.random().toString(36).slice(2)),
+    admissionNo,
     name,
     father: document.getElementById('sFather').value.trim(),
     mobile,
@@ -900,6 +964,7 @@ async function saveStudent() {
     due: document.getElementById('sDue').value,
     address: document.getElementById('sAddress').value.trim(),
     photo,
+    accessStatus: existing?.accessStatus || 'active',
     paid: existing ? (existing.paid || 0) : 0
   };
 
@@ -1143,29 +1208,95 @@ function printReceipt() {
   w.document.close();
 }
 
+let studentListTab = 'active';
+
+function setStudentListTab(tab) {
+  studentListTab = tab === 'denied' ? 'denied' : 'active';
+  const activeBtn = document.getElementById('studentsAvailableTab');
+  const deniedBtn = document.getElementById('studentsDeniedTab');
+  if (activeBtn) activeBtn.className = studentListTab === 'active' ? 'btn' : 'btn secondary';
+  if (deniedBtn) deniedBtn.className = studentListTab === 'denied' ? 'btn red' : 'btn secondary';
+  renderStudents();
+}
+
 function renderStudents() {
   const q = (document.getElementById('search')?.value || '').toLowerCase();
-  const arr = db.students.filter(s =>
+  const all = db.students.filter(s =>
     (String(s.name || '') + ' ' + String(s.mobile || '') + ' ' + String(s.admissionNo || '')).toLowerCase().includes(q)
   );
-  document.getElementById('studentTable').innerHTML = `
+  const arr = all.filter(s => (String(s.accessStatus || 'active').toLowerCase() === 'denied') === (studentListTab === 'denied'));
+  const activeCount = db.students.filter(s => String(s.accessStatus || 'active').toLowerCase() !== 'denied').length;
+  const deniedCount = db.students.length - activeCount;
+  const summary = document.getElementById('studentListSummary');
+  if (summary) summary.textContent = `Available: ${activeCount}  •  Access denied: ${deniedCount}  •  Showing: ${arr.length}`;
+  const table = document.getElementById('studentTable');
+  if (!arr.length) {
+    table.innerHTML = `<div style="padding:28px;text-align:center;color:#64748b">${studentListTab === 'denied' ? 'No students currently have denied access.' : 'No available students found.'}</div>`;
+    return;
+  }
+  table.innerHTML = `
     <table>
-      <tr><th>Admission</th><th>Student</th><th>Course</th><th>Fee</th><th>Paid</th><th>Balance</th><th>Status</th><th>Action</th></tr>
-      ${arr.map(s => `<tr>
-        <td>${escapeHTML(s.admissionNo)}</td>
-        <td><b>${escapeHTML(s.name)}</b><br><small>${escapeHTML(s.mobile)}</small></td>
-        <td>${escapeHTML(s.course)}</td>
-        <td>${money(s.net)}</td><td>${money(paid(s))}</td><td>${money(balance(s))}</td>
-        <td><span class="badge ${balance(s) === 0 ? 'paid' : paid(s) > 0 ? 'partial' : 'due'}">${balance(s) === 0 ? 'PAID' : paid(s) > 0 ? 'PARTIAL' : 'DUE'}</span></td>
-        <td><div class="student-action-buttons">
-          <button class="btn secondary" onclick="studentView('${s.id}')">View</button>
-          <button class="btn green" onclick="showStudentIDCard('${s.id}')">🪪 ID Card</button>
-          <button class="btn" onclick="openAdmission('${s.id}')">✏️ Edit</button>
-          <button class="btn green" onclick="openDemandBill('${s.id}')">🧾 Demand Bill</button>
-          <button class="btn red" onclick="deleteStudent('${s.id}')">🗑 Delete</button>
-        </div></td>
-      </tr>`).join('')}
+      <tr><th>Admission</th><th>Student</th><th>Course</th><th>Fee</th><th>Paid</th><th>Balance</th><th>Portal Access</th><th>Action</th></tr>
+      ${arr.map(s => {
+        const denied = String(s.accessStatus || 'active').toLowerCase() === 'denied';
+        return `<tr style="${denied ? 'background:#fff7f7' : ''}">
+          <td>${escapeHTML(s.admissionNo)}</td>
+          <td><b>${escapeHTML(s.name)}</b><br><small>${escapeHTML(s.mobile)}</small></td>
+          <td>${escapeHTML(s.course)}</td>
+          <td>${money(s.net)}</td><td>${money(paid(s))}</td><td>${money(balance(s))}</td>
+          <td><span class="badge ${denied ? 'due' : 'paid'}">${denied ? 'ACCESS DENIED' : 'AVAILABLE'}</span></td>
+          <td><div class="student-action-buttons">
+            <button class="btn secondary" onclick="studentView('${s.id}')">View</button>
+            <button class="btn green" onclick="showStudentIDCard('${s.id}')">🪪 ID Card</button>
+            <button class="btn" onclick="openAdmission('${s.id}')">✏️ Edit</button>
+            <button class="btn green" onclick="openDemandBill('${s.id}')">🧾 Demand Bill</button>
+            ${denied
+              ? `<button class="btn green" onclick="setStudentAccess('${s.id}','active')">✓ Restore Access</button>`
+              : `<button class="btn red" onclick="setStudentAccess('${s.id}','denied')">⛔ Deny Access</button>`}
+          </div></td>
+        </tr>`;
+      }).join('')}
     </table>`;
+}
+
+async function setStudentAccess(id, nextStatus) {
+  const student = db.students.find(x => x.id === id);
+  if (!student) return alert('Student record not found.');
+  const deny = nextStatus === 'denied';
+  const promptText = deny
+    ? `Deny student portal access for ${student.name} (${student.admissionNo})?\\n\\nThe student record, admission number, fees and receipts will NOT be deleted.`
+    : `Restore student portal access for ${student.name} (${student.admissionNo})?`;
+  if (!confirm(promptText)) return;
+
+  const previousStatus = student.accessStatus || 'active';
+  student.accessStatus = deny ? 'denied' : 'active';
+  student.accessStatusUpdatedAt = new Date().toISOString();
+  window.cwccDB = db;
+
+  const saved = await persist();
+  if (!saved) {
+    student.accessStatus = previousStatus;
+    window.cwccDB = db;
+    return;
+  }
+
+  if (typeof window.cwccSyncStudent === 'function') {
+    try {
+      await window.cwccSyncStudent(student);
+    } catch (error) {
+      console.error('Firebase access-status sync failed:', error);
+      alert('Local status saved, but Firebase sync failed. Please check your connection and sync students again.\\n' + error.message);
+    }
+  }
+
+  if (loggedInStudent && loggedInStudent.id === id && deny) {
+    logoutStudent();
+  }
+  renderAll();
+  renderStudents();
+  alert(deny
+    ? '⛔ Student portal access denied. Student record has been retained.'
+    : '✅ Student portal access restored.');
 }
 
 function escapeHTML(value) {
@@ -1601,7 +1732,7 @@ function renderAll() {
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-import {getDatabase,ref,get,set,update,remove} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+import {getDatabase,ref,get,set,update,remove,runTransaction} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
 import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 const firebaseConfig = {
   apiKey: "AIzaSyAz3NvFEDd-AyqXJoU2HLhTLerf3XdY1F8",
@@ -1613,6 +1744,43 @@ const firebaseConfig = {
   appId: "1:178104848004:web:ee1e4c9d395c4d7773bcd1"
 };
 const app=initializeApp(firebaseConfig), fdb=getDatabase(app), auth=getAuth(app);
+
+// Resolve the classic-script admission form only after the Firebase allocator exists.
+let resolveAdmissionAllocatorReady;
+window.cwccAdmissionAllocatorReady = new Promise(resolve => {
+  resolveAdmissionAllocatorReady = resolve;
+});
+
+/**
+ * Globally serializes admission-number allocation across browsers/devices.
+ * The transaction is the authority: two simultaneous admissions cannot receive
+ * the same sequence number. Existing Firebase student records and this browser's
+ * local records are used to seed the counter safely.
+ */
+window.cwccReserveAdmissionNo = async function(localMax = 10000) {
+  const studentsSnapshot = await get(ref(fdb, 'students'));
+  let remoteMax = 10000;
+  if (studentsSnapshot.exists()) {
+    const records = studentsSnapshot.val() || {};
+    Object.values(records).forEach(student => {
+      const match = String(student?.admissionNo || '').match(/^CWCC-(\\d+)$/i);
+      if (match) remoteMax = Math.max(remoteMax, Number(match[1]));
+    });
+  }
+
+  const counterRef = ref(fdb, 'counters/admissionSequence');
+  const result = await runTransaction(counterRef, current => {
+    const currentValue = Number(current) || 10000;
+    return Math.max(currentValue, Number(localMax) || 10000, remoteMax) + 1;
+  });
+
+  if (!result.committed || !Number.isSafeInteger(Number(result.snapshot.val()))) {
+    throw new Error('Firebase could not reserve a unique admission number.');
+  }
+
+  return 'CWCC-' + String(result.snapshot.val()).padStart(5, '0');
+};
+resolveAdmissionAllocatorReady();
 let teacherUser=null, teacherScanner=null;
 onAuthStateChanged(auth,user=>{teacherUser=user;const el=document.getElementById('teacherAuthStatus');if(el)el.textContent=user?'✅ Teacher authenticated: '+user.email:'🔒 Teacher login required';});
 window.teacherSignIn=async function(){const email=document.getElementById('teacherEmail').value.trim(),password=document.getElementById('teacherPassword').value;if(!email||!password)return alert('Enter teacher email and password.');try{await signInWithEmailAndPassword(auth,email,password);alert('Teacher login successful.');}catch(e){alert('Teacher login failed: '+e.message)}};
@@ -1625,8 +1793,22 @@ window.cwccFirebaseDB=fdb;
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;ummer'[m]}));
 const indiaDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const indiaTime=()=>new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}).format(new Date());
-async function syncStudent(st){await set(ref(fdb,'students/'+st.id),{id:st.id,admissionNo:st.admissionNo||'',name:st.name||'',father:st.father||'',mobile:st.mobile||'',dob:st.dob||'',course:st.course||'',batch:st.batch||'',date:st.date||'',status:'active',updatedAt:Date.now()});}
+async function syncStudent(st){await set(ref(fdb,'students/'+st.id),{id:st.id,admissionNo:st.admissionNo||'',name:st.name||'',father:st.father||'',mobile:st.mobile||'',dob:st.dob||'',course:st.course||'',batch:st.batch||'',date:st.date||'',status:(st.accessStatus||'active'),accessStatus:(st.accessStatus||'active'),updatedAt:Date.now()});}
 window.cwccSyncStudent=syncStudent;
+
+// Central access-status lookup used at every student login. It reads the
+// shared Firebase student directory, so restrictions apply across devices.
+window.cwccCheckRemoteStudentAccess = async function(admissionNo) {
+  const snapshot = await get(ref(fdb, 'students'));
+  if (!snapshot.exists()) return 'unknown';
+  const wanted = String(admissionNo || '').trim().toLowerCase();
+  const records = snapshot.val() || {};
+  const match = Object.values(records).find(st =>
+    String(st?.admissionNo || '').trim().toLowerCase() === wanted
+  );
+  return match ? String(match.accessStatus || match.status || 'active').toLowerCase() : 'unknown';
+};
+
 async function deleteFirebaseStudent(id){await remove(ref(fdb,'students/'+id));}
 window.cwccDeleteStudent=deleteFirebaseStudent;
 async function syncAllStudentsToFirebase(){if(!window.cwccDB||!window.cwccDB.students.length)return alert('ERP में कोई student नहीं है.');try{for(const st of window.cwccDB.students)await syncStudent(st);alert('✅ '+window.cwccDB.students.length+' students Firebase में sync हो गए.');loadTodayAttendance();}catch(e){alert('Sync Error: '+e.message)}}

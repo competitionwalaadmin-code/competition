@@ -424,6 +424,7 @@ table td{color:#35425e}
       <button type="button" class="btn" id="studentsAvailableTab" onclick="setStudentListTab('active')">🟢 Available Students</button>
       <button type="button" class="btn secondary" id="studentsDeniedTab" onclick="setStudentListTab('denied')">⛔ Denied Access</button>
     </div>
+    <button class="btn secondary" onclick="repairDuplicateAdmissionNumbers()">🛠 Repair Duplicate Admission Nos</button>
     <button class="btn" onclick="openAdmission()">+ New Student</button>
   </div>
   <div class="toolbar"><input id="search" placeholder="Search name, mobile or admission no..." oninput="renderStudents()"></div>
@@ -1302,6 +1303,82 @@ async function setStudentAccess(id, nextStatus) {
     : '✅ Student portal access restored.');
 }
 
+async function repairDuplicateAdmissionNumbers() {
+  if (!confirm('This will scan the local ERP and Firebase student records. For every repeated admission number, one student keeps the existing number and the other student(s) receive new numbers. Student IDs, fees, payments and attendance references are not deleted. Continue?')) return;
+
+  const button = document.querySelector('button[onclick="repairDuplicateAdmissionNumbers()"]');
+  if (button) { button.disabled = true; button.textContent = 'Scanning records…'; }
+
+  try {
+    if (!window.cwccGetRemoteStudents || !window.cwccReserveAdmissionNo || !window.cwccSyncStudent) {
+      throw new Error('Firebase services are not ready. Refresh the page and try again.');
+    }
+
+    const remote = await window.cwccGetRemoteStudents();
+    const localStudents = Array.isArray(db.students) ? db.students : [];
+    const byId = new Map();
+
+    // Merge by immutable internal student ID. Local records remain authoritative
+    // for local-only fields (photo, address, fee details, etc.).
+    for (const st of remote) if (st && st.id) byId.set(String(st.id), { ...st });
+    for (const st of localStudents) if (st && st.id) {
+      byId.set(String(st.id), { ...(byId.get(String(st.id)) || {}), ...st });
+    }
+
+    const all = [...byId.values()];
+    const groups = new Map();
+    for (const st of all) {
+      const key = String(st.admissionNo || '').trim().toUpperCase();
+      if (!key) continue;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(st);
+    }
+
+    const duplicates = [...groups.entries()].filter(([, list]) => list.length > 1);
+    if (!duplicates.length) {
+      alert('✅ No duplicate admission numbers were found in the local and Firebase student records.');
+      return;
+    }
+
+    // For each repeated number, retain it for the oldest dated record; use
+    // stable ID as tie-breaker. All other records get fresh transactional IDs.
+    let changed = 0;
+    const localById = new Map(localStudents.map(st => [String(st.id), st]));
+    for (const [oldNo, list] of duplicates) {
+      list.sort((a, b) => {
+        const da = String(a.date || '9999-12-31');
+        const dbb = String(b.date || '9999-12-31');
+        return da.localeCompare(dbb) || String(a.id).localeCompare(String(b.id));
+      });
+
+      // Keep first record unchanged; renumber every subsequent record.
+      for (const st of list.slice(1)) {
+        const nextNo = await window.cwccReserveAdmissionNo(localAdmissionSequenceMax());
+        st.admissionNo = nextNo;
+        st.accessStatus = st.accessStatus || st.status || 'active';
+        await window.cwccSyncStudent(st);
+
+        const local = localById.get(String(st.id));
+        if (local) local.admissionNo = nextNo;
+        changed++;
+      }
+    }
+
+    const saved = await persist();
+    if (!saved) throw new Error('Could not save the repaired records to this browser database.');
+
+    window.cwccDB = db;
+    renderAll();
+    alert(`✅ Duplicate repair completed.\\n\\nDuplicate groups found: ${duplicates.length}\\nStudent records assigned new admission numbers: ${changed}\\n\\nAll student records and internal IDs were retained. Please sync this same ERP data on your other office computers before admitting anyone there.`);
+  } catch (error) {
+    console.error('Duplicate admission repair failed:', error);
+    alert('Repair stopped: ' + (error.message || error) + '\\n\\nDo not delete student records. Check Firebase connection/rules and run the repair again.');
+  } finally {
+    if (button) { button.disabled = false; button.textContent = '🛠 Repair Duplicate Admission Nos'; }
+  }
+}
+window.repairDuplicateAdmissionNumbers = repairDuplicateAdmissionNumbers;
+
 function escapeHTML(value) {
   return String(value ?? '').replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -1806,6 +1883,11 @@ const indiaDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',yea
 const indiaTime=()=>new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}).format(new Date());
 async function syncStudent(st){await set(ref(fdb,'students/'+st.id),{id:st.id,admissionNo:st.admissionNo||'',name:st.name||'',father:st.father||'',mobile:st.mobile||'',dob:st.dob||'',course:st.course||'',batch:st.batch||'',date:st.date||'',status:(st.accessStatus||'active'),accessStatus:(st.accessStatus||'active'),updatedAt:Date.now()});}
 window.cwccSyncStudent=syncStudent;
+window.cwccGetRemoteStudents = async function() {
+  const snapshot = await get(ref(fdb, 'students'));
+  if (!snapshot.exists()) return [];
+  return Object.values(snapshot.val() || {}).filter(Boolean);
+};
 
 // Central access-status lookup used at every student login. It reads the
 // shared Firebase student directory, so restrictions apply across devices.

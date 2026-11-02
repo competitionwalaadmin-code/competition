@@ -879,7 +879,7 @@ function closeModal(id) {
 // multiple browsers and simultaneous admissions make that method unsafe.
 function localAdmissionSequenceMax() {
   return (db.students || []).reduce((max, student) => {
-    const match = String(student.admissionNo || '').match(/^CWCC-(\\d+)$/i);
+    const match = String(student.admissionNo || '').match(/^CWCC-(\d+)$/i);
     return match ? Math.max(max, Number(match[1])) : max;
   }, 10000);
 }
@@ -984,9 +984,12 @@ async function saveStudent() {
   }
 
   if (window.cwccSyncStudent) {
-    window.cwccSyncStudent(st).catch(error => {
+    try {
+      await window.cwccSyncStudent(st);
+    } catch (error) {
       console.error('Firebase student sync:', error);
-    });
+      alert('Admission number ' + admissionNo + ' was saved on this device, but cloud sync failed. Do not admit from another device until Firebase access is fixed and this student is synced. Error: ' + (error.message || error));
+    }
   }
 
   closeModal('admissionModal');
@@ -1758,27 +1761,35 @@ window.cwccAdmissionAllocatorReady = new Promise(resolve => {
  * local records are used to seed the counter safely.
  */
 window.cwccReserveAdmissionNo = async function(localMax = 10000) {
+  // Read the shared student directory and recover the highest number ever
+  // issued there. A missing/deleted student must never cause number reuse.
   const studentsSnapshot = await get(ref(fdb, 'students'));
   let remoteMax = 10000;
   if (studentsSnapshot.exists()) {
     const records = studentsSnapshot.val() || {};
-    Object.values(records).forEach(student => {
-      const match = String(student?.admissionNo || '').match(/^CWCC-(\\d+)$/i);
+    for (const student of Object.values(records)) {
+      const value = String(student?.admissionNo || '').trim().toUpperCase();
+      const match = value.match(/^CWCC-(\d+)$/);
       if (match) remoteMax = Math.max(remoteMax, Number(match[1]));
-    });
+    }
   }
 
+  const safeLocalMax = Number.isSafeInteger(Number(localMax)) ? Number(localMax) : 10000;
   const counterRef = ref(fdb, 'counters/admissionSequence');
   const result = await runTransaction(counterRef, current => {
-    const currentValue = Number(current) || 10000;
-    return Math.max(currentValue, Number(localMax) || 10000, remoteMax) + 1;
+    const currentValue = Number(current);
+    const safeCurrent = Number.isSafeInteger(currentValue) && currentValue >= 10000
+      ? currentValue : 10000;
+    const next = Math.max(safeCurrent, safeLocalMax, remoteMax) + 1;
+    return Number.isSafeInteger(next) ? next : undefined;
   });
 
-  if (!result.committed || !Number.isSafeInteger(Number(result.snapshot.val()))) {
-    throw new Error('Firebase could not reserve a unique admission number.');
+  const allocated = Number(result.snapshot?.val());
+  if (!result.committed || !Number.isSafeInteger(allocated) || allocated <= remoteMax || allocated <= safeLocalMax) {
+    throw new Error('Firebase could not safely reserve a new unique admission number. No admission was saved.');
   }
 
-  return 'CWCC-' + String(result.snapshot.val()).padStart(5, '0');
+  return 'CWCC-' + String(allocated).padStart(5, '0');
 };
 resolveAdmissionAllocatorReady();
 let teacherUser=null, teacherScanner=null;

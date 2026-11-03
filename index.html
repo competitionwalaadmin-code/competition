@@ -344,7 +344,139 @@ table td{color:#35425e}
   .print-watermark-bg::before{content:"";position:absolute;inset:0;background-image:url('competition-wala-logo.webp');background-repeat:no-repeat;background-position:center;background-size:65% auto;opacity:.05;pointer-events:none;z-index:0}
   .print-watermark-bg>*{position:relative;z-index:1}
 }
-</style></head><body>
+</style><style>
+
+/* ===== CALL LETTER + DETACHABLE ATTENDANCE SLIP: POLISHED LAYOUT ===== */
+.call-a4-page{
+  width:100%;max-width:800px;min-height:1120px;height:auto;margin:0 auto;
+  background:#fff;border:1px solid #dbe4f0;border-radius:12px;
+  box-shadow:0 12px 34px rgba(22,43,82,.10);overflow:hidden;
+  color:#17233c;font-family:Arial,Helvetica,sans-serif;
+}
+.call-a4-page .letter-inner{padding:22px 25px 24px;position:relative;z-index:1}
+.call-a4-page .call-letter-image-wrap{margin:0 0 15px;border-radius:8px;overflow:hidden}
+.call-a4-page .call-letter-image{width:100%;display:block;max-height:150px;object-fit:contain}
+.call-a4-page .call-letter-dynamic-meta{font-size:9px;top:7px;right:9px;padding:4px 6px;border-radius:4px}
+.call-a4-page .letter-profile{display:grid;grid-template-columns:minmax(0,1fr) 125px;gap:12px;border:1px solid #d6dfec;border-radius:9px;overflow:hidden;background:#fff}
+.call-a4-page .letter-info{min-width:0}
+.call-a4-page .li-row{display:grid;grid-template-columns:175px minmax(0,1fr);border-bottom:1px solid #edf1f7;font-size:12px}
+.call-a4-page .li-row:last-child{border-bottom:0}
+.call-a4-page .li-row>div{padding:7px 9px;overflow-wrap:anywhere}
+.call-a4-page .li-row>div:first-child{background:#f5f8fd;color:#53627d;font-weight:700}
+.call-a4-page .letter-photo{width:108px;height:130px;margin:8px auto;border:2px solid #d5deeb;border-radius:7px}
+.call-a4-page .exam-bar,.call-a4-page .details-bar{border-radius:6px;margin-top:12px;padding:8px 12px;font-size:13px;letter-spacing:.5px}
+.call-a4-page .exam-list{border:1px solid #d6dfec;border-radius:0 0 7px 7px;overflow:hidden}
+.call-a4-page .exam-row{min-height:34px;font-size:12px}
+.call-a4-page .detail-grid{border:1px solid #d6dfec;border-top:0;border-radius:0 0 7px 7px;overflow:hidden;grid-template-columns:repeat(4,minmax(0,1fr))}
+.call-a4-page .detail-cell{padding:10px 7px;font-size:10px;line-height:1.4;overflow-wrap:anywhere}
+.call-a4-page .detail-cell .icon{font-size:17px;margin-bottom:3px}
+.call-a4-page .detail-cell b{font-size:11px;color:#183c76;line-height:1.35}
+.call-a4-page .instructions{grid-template-columns:minmax(0,1fr) 155px;gap:12px;margin-top:12px}
+.call-a4-page .instruction-box,.call-a4-page .barcode-box{border:1px solid #d6dfec;border-radius:8px;overflow:hidden}
+.call-a4-page .instruction-head{padding:8px 10px;font-size:11px;letter-spacing:.3px}
+.call-a4-page .instruction-box ol{font-size:10px;line-height:1.55;margin:9px 10px 9px 27px}
+.call-a4-page .barcode-box{padding:12px 8px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.call-a4-page .barcode{width:100%;height:42px}
+.call-a4-page .letter-footer{margin-top:10px;padding:7px 4px;border-top:1px solid #e3e9f2;font-size:9px;color:#687791}
+.call-a4-page .tear-guide{
+  display:flex;align-items:center;gap:10px;margin:22px 0 10px;padding:8px 0;
+  border-top:2px dashed #64748b;border-bottom:2px dashed #64748b;
+  color:#334155;text-align:center;font-size:11px;font-weight:900;letter-spacing:.5px;
+  white-space:normal;overflow:visible
+}
+.call-a4-page .tear-guide span{flex:1;min-width:12px;font-size:9px;letter-spacing:2px;color:#94a3b8;overflow:hidden}
+.call-a4-page .tear-guide b{white-space:nowrap;background:#fff;padding:0 7px;color:#b45309}
+.call-a4-page .exam-attendance-slip{
+  position:relative;border:1.5px solid #9aabc3;border-radius:10px;overflow:hidden;
+  padding:0;background:rgba(255,255,255,.94);min-height:0;
+  box-shadow:0 3px 10px rgba(23,48,86,.05)
+}
+.call-a4-page .slip-heading{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:12px 15px;background:linear-gradient(110deg,#102b58,#2456a6);color:#fff;border:0
+}
+.call-a4-page .slip-heading b{display:block;font-size:14px;letter-spacing:.45px;color:#fff}
+.call-a4-page .slip-heading small{display:block;font-size:9px;letter-spacing:1.1px;margin-top:4px;color:#dce9ff}
+.call-a4-page .slip-heading strong{
+  flex:none;font-size:9px;letter-spacing:.8px;color:#183b73;background:#fff;
+  border:0;border-radius:4px;padding:6px 9px
+}
+.call-a4-page .slip-meta{
+  display:grid;grid-template-columns:1.5fr 1fr 1.2fr;gap:8px;
+  padding:10px 14px;background:#f2f6fc;border-bottom:1px solid #dce5f1;
+  color:#34445f;font-size:9px;line-height:1.4
+}
+.call-a4-page .slip-meta span{min-width:0;overflow-wrap:anywhere}
+.call-a4-page .slip-meta b{color:#173d78}
+.call-a4-page .slip-fields{
+  display:grid;grid-template-columns:1fr 1fr;gap:0 22px;padding:9px 15px 4px;
+  font-size:10px;color:#263650
+}
+.call-a4-page .slip-fields>div{
+  min-height:30px;display:flex;align-items:center;gap:4px;
+  border-bottom:1px dotted #aebbd0;padding:5px 0;overflow-wrap:anywhere
+}
+.call-a4-page .slip-fields b{color:#52627c;white-space:nowrap}
+.call-a4-page .slip-signatures{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  margin:19px 15px 0;text-align:center;font-size:9px;color:#34445f
+}
+.call-a4-page .slip-signatures>div{min-width:0}
+.call-a4-page .slip-signatures span{display:block;height:22px;border-top:1px solid #52627c;margin-bottom:5px}
+.call-a4-page .slip-note{
+  margin:12px 15px 13px;padding:7px 9px;border-radius:5px;background:#f5f8fc;
+  color:#64748b;text-align:center;font-size:8px;line-height:1.4
+}
+@media(max-width:620px){
+ .call-a4-page .letter-inner{padding:12px}
+ .call-a4-page .letter-profile{grid-template-columns:minmax(0,1fr) 92px}
+ .call-a4-page .li-row{grid-template-columns:115px minmax(0,1fr);font-size:10px}
+ .call-a4-page .li-row>div{padding:5px}
+ .call-a4-page .letter-photo{width:80px;height:100px}
+ .call-a4-page .detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .call-a4-page .instructions{grid-template-columns:minmax(0,1fr) 110px}
+ .call-a4-page .slip-meta{grid-template-columns:1fr}
+ .call-a4-page .slip-fields{grid-template-columns:1fr;gap:0}
+ .call-a4-page .slip-signatures{gap:8px;font-size:8px}
+}
+@media print{
+ @page{size:A4 portrait;margin:7mm}
+ html,body{margin:0!important;padding:0!important;background:#fff!important}
+ .call-a4-page{width:196mm!important;max-width:none!important;height:283mm!important;min-height:283mm!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important}
+ .call-a4-page .letter-inner{padding:2mm 3mm 0!important}
+ .call-a4-page .call-letter-image-wrap{margin-bottom:2mm}
+ .call-a4-page .call-letter-image{max-height:30mm!important}
+ .call-a4-page .letter-profile{grid-template-columns:minmax(0,1fr) 29mm!important;gap:1mm}
+ .call-a4-page .li-row{grid-template-columns:39mm minmax(0,1fr)!important;font-size:8pt!important}
+ .call-a4-page .li-row>div{padding:1.5mm 2mm!important}
+ .call-a4-page .letter-photo{width:26mm!important;height:32mm!important;margin:1.5mm auto!important}
+ .call-a4-page .exam-bar,.call-a4-page .details-bar{margin-top:1.5mm!important;padding:1.5mm 2mm!important;font-size:9pt!important}
+ .call-a4-page .exam-row{min-height:6mm!important;font-size:8pt!important}
+ .call-a4-page .detail-cell{padding:1.5mm!important;font-size:7pt!important}
+ .call-a4-page .detail-cell b{font-size:7.5pt!important}
+ .call-a4-page .instructions{grid-template-columns:minmax(0,1fr) 39mm!important;gap:1.5mm!important;margin-top:1.5mm!important}
+ .call-a4-page .instruction-head{font-size:8pt!important;padding:1.5mm!important}
+ .call-a4-page .instruction-box ol{font-size:6.8pt!important;line-height:1.25!important;margin:1mm 0 1mm 5mm!important}
+ .call-a4-page .barcode-box{padding:1.5mm!important}
+ .call-a4-page .barcode{height:7mm!important}
+ .call-a4-page .letter-footer{margin-top:1.5mm!important;padding:1mm!important;font-size:6.5pt!important}
+ .call-a4-page .tear-guide{margin:3mm 0 1.5mm!important;padding:1.5mm 0!important;font-size:8pt!important;gap:2mm!important}
+ .call-a4-page .tear-guide span{font-size:6pt!important;letter-spacing:1px!important}
+ .call-a4-page .exam-attendance-slip{min-height:0!important;border-radius:2mm!important;box-shadow:none!important}
+ .call-a4-page .slip-heading{padding:2.5mm 3mm!important}
+ .call-a4-page .slip-heading b{font-size:10pt!important}
+ .call-a4-page .slip-heading small{font-size:6.5pt!important}
+ .call-a4-page .slip-heading strong{font-size:6.5pt!important;padding:1mm 2mm!important}
+ .call-a4-page .slip-meta{grid-template-columns:1.5fr 1fr 1.2fr!important;padding:1.8mm 3mm!important;font-size:6.8pt!important}
+ .call-a4-page .slip-fields{grid-template-columns:1fr 1fr!important;gap:0 5mm!important;padding:1.5mm 3mm 0!important;font-size:7.2pt!important}
+ .call-a4-page .slip-fields>div{min-height:7mm!important;padding:1mm 0!important}
+ .call-a4-page .slip-signatures{grid-template-columns:repeat(3,1fr)!important;gap:4mm!important;margin:4mm 3mm 0!important;font-size:6.8pt!important}
+ .call-a4-page .slip-signatures span{height:5mm!important;margin-bottom:1mm!important}
+ .call-a4-page .slip-note{margin:2mm 3mm 2.5mm!important;padding:1.5mm!important;font-size:6pt!important}
+}
+
+</style>
+</head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
 <div class="login" id="login">

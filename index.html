@@ -336,6 +336,14 @@ table td{color:#35425e}
 }
 
 @media(max-width:760px){#studentPortalView{padding:10px!important}.cards[style*="repeat(4,1fr)"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}.grid2{grid-template-columns:1fr!important}#studentPortalView .panel{min-width:0;overflow-wrap:anywhere}#studentPortalView table{min-width:0;width:100%;font-size:12px}}
+
+/* PRINT BRANDING: subtle institute watermark on all printable documents */
+@media print {
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-watermark-bg{position:relative;isolation:isolate}
+  .print-watermark-bg::before{content:"";position:absolute;inset:0;background-image:url('competition-wala-logo.webp');background-repeat:no-repeat;background-position:center;background-size:65% auto;opacity:.05;pointer-events:none;z-index:0}
+  .print-watermark-bg>*{position:relative;z-index:1}
+}
 </style></head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -1180,7 +1188,7 @@ function printReceipt() {
   const w = window.open('', '_blank');
   if (!w) { alert('Please allow pop-ups to print the receipt.'); return; }
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Payment Receipt</title><style>
-    @page{size:A5 portrait;margin:5mm}
+    @page{size:A4 portrait;margin:8mm}
     *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     html,body{margin:0;padding:0;background:#fff;font-family:Arial,Segoe UI,sans-serif;color:#172033}
     .print-watermark-bg { position: relative; overflow: hidden; }
@@ -1475,7 +1483,7 @@ function escCall(v) {
 function callLetterHTML() {
   let s = db.students.find(x => x.id === document.getElementById('callStudent')?.value);
   if (!s) return '<div style="padding:40px;text-align:center;color:#64748b">Please select a student to preview the call letter.</div>';
-  let exam = document.getElementById('callExam')?.value || examListDefault(),
+  let exam = document.getElementById('callExam')?.value || 'Module Examination',
     date = document.getElementById('callDate')?.value || today(),
     report = document.getElementById('callReportTime')?.value || '09:00',
     examTime = document.getElementById('callExamTime')?.value || '09:30 AM - 10:30 AM',
@@ -1484,7 +1492,44 @@ function callLetterHTML() {
   let photo = s.photo ? `<img class="letter-photo" src="${s.photo}" alt="Student Photo">` : '<div class="letter-photo placeholder">STUDENT<br>PHOTO</div>';
   let admission = escCall(s.admissionNo || ''), letterNo = 'CWC/EXAM/' + new Date().getFullYear() + '/' + String(s.admissionNo || '').replace(/[^0-9]/g, '').padStart(4, '0');
   let exams = `<div class="exam-row selected"><div class="exam-check">☑</div><div>${escCall(exam)}</div></div>`;
-  return `<div class="letter-A5 print-watermark-bg"><div class="letter-inner"><div class="call-letter-image-wrap"><img class="call-letter-image" src="call-letter-header.webp" alt="Competition Wala Exam Call Letter Header"><div class="call-letter-dynamic-meta"><span>Letter No. :</span> ${letterNo}<br><span>Issue Date :</span> ${fmtCallDate(today())}</div></div><div class="letter-profile"><div class="letter-info"><div class="li-row"><div>Student Name</div><div>: <b>${escCall(s.name)}</b></div></div><div class="li-row"><div>Admission No.</div><div>: <b>${admission}</b></div></div><div class="li-row"><div>Father's / Guardian Name</div><div>: <b>${escCall(s.father || '—')}</b></div></div><div class="li-row"><div>Course</div><div>: <b>${escCall(s.course || '—')}</b></div></div><div class="li-row"><div>Batch</div><div>: <b>${escCall(s.batch || '—')}</b></div></div><div class="li-row"><div>Mobile No.</div><div>: <b>${escCall(s.mobile || '—')}</b></div></div><div class="li-row"><div>Address</div><div>: <b>${escCall(s.address || 'Indira Nagar, Patna - 800001')}</b></div></div></div>${photo}</div><div class="exam-bar">EXAM NAME (SELECTED)</div><div class="exam-list">${exams}</div><div class="details-bar">EXAM DETAILS</div><div class="detail-grid"><div class="detail-cell"><div class="icon">📅</div>Date of Exam<b>${fmtCallDate(date)}</b><span>(${new Date(date).toLocaleDateString('en-US', { weekday: 'long' })})</span></div><div class="detail-cell"><div class="icon">◷</div>Reporting Time<b>${fmtCallTime(report)}</b><span>(Reporting 15 Minutes Before Exam)</span></div><div class="detail-cell"><div class="icon">▣</div>Exam Time<b>${escCall(examTime)}</b><span>(1 Hour)</span></div><div class="detail-cell"><div class="icon">📍</div>Exam Venue<b>COMPETITION WALA COMPUTER CLASSES</b><span>${escCall(venue).replace(/\n/g, '<br>')}</span></div></div><div class="instructions"><div class="instruction-box"><div class="instruction-head">📄 IMPORTANT INSTRUCTIONS</div><ol><li>This call letter is compulsory to appear in the examination.</li><li>Reach the exam centre at least 15 minutes before the reporting time.</li><li>Carry a valid Photo ID proof (Photo ID / Student ID).</li><li>Do not bring mobile phone, smart watch or any electronic device.</li><li>Follow all instructions given by the invigilator.</li><li>Any kind of malpractice will lead to cancellation of your exam.</li></ol></div><div class="barcode-box"><div class="barcode"></div><b style="font-size:11px">${admission}</b><div class="sign-line"></div><b style="font-size:9px">Authorized Signatory</b><br><span style="font-size:8px">Competition Wala Computer Classes</span></div></div><div class="letter-footer">${escCall(purpose)} • This is a computer-generated call letter. Valid only for the student named above.</div></div></div>`;
+  return `<div class="letter-A5 print-watermark-bg call-a4-page"><div class="letter-inner">
+    <div class="call-letter-image-wrap"><img class="call-letter-image" src="call-letter-header.webp" alt="Competition Wala Exam Call Letter Header"><div class="call-letter-dynamic-meta"><span>Letter No. :</span> ${letterNo}<br><span>Issue Date :</span> ${fmtCallDate(today())}</div></div>
+    <div class="letter-profile"><div class="letter-info">
+      <div class="li-row"><div>Student Name</div><div>: <b>${escCall(s.name)}</b></div></div>
+      <div class="li-row"><div>Admission No.</div><div>: <b>${admission}</b></div></div>
+      <div class="li-row"><div>Father's / Guardian Name</div><div>: <b>${escCall(s.father || '—')}</b></div></div>
+      <div class="li-row"><div>Course</div><div>: <b>${escCall(s.course || '—')}</b></div></div>
+      <div class="li-row"><div>Batch</div><div>: <b>${escCall(s.batch || '—')}</b></div></div>
+      <div class="li-row"><div>Mobile No.</div><div>: <b>${escCall(s.mobile || '—')}</b></div></div>
+      <div class="li-row"><div>Address</div><div>: <b>${escCall(s.address || 'Indira Nagar, Patna - 800001')}</b></div></div>
+    </div>${photo}</div>
+    <div class="exam-bar">EXAM NAME (SELECTED)</div><div class="exam-list">${exams}</div>
+    <div class="details-bar">EXAM DETAILS</div><div class="detail-grid">
+      <div class="detail-cell"><div class="icon">📅</div>Date of Exam<b>${fmtCallDate(date)}</b><span>(${new Date(date).toLocaleDateString('en-US', { weekday: 'long' })})</span></div>
+      <div class="detail-cell"><div class="icon">◷</div>Reporting Time<b>${fmtCallTime(report)}</b><span>Report 15 minutes early</span></div>
+      <div class="detail-cell"><div class="icon">▣</div>Exam Time<b>${escCall(examTime)}</b></div>
+      <div class="detail-cell"><div class="icon">📍</div>Exam Venue<b>COMPETITION WALA COMPUTER CLASSES</b><span>${escCall(venue).replace(/\n/g, '<br>')}</span></div>
+    </div>
+    <div class="instructions"><div class="instruction-box"><div class="instruction-head">📄 IMPORTANT INSTRUCTIONS</div><ol>
+      <li>This call letter is compulsory to appear in the examination.</li><li>Reach the exam centre at least 15 minutes before reporting time.</li>
+      <li>Carry a valid Photo ID proof / Student ID.</li><li>Do not bring mobile phone, smart watch or electronic devices.</li>
+      <li>Follow all instructions given by the invigilator.</li><li>Malpractice may lead to cancellation of the examination.</li>
+    </ol></div><div class="barcode-box"><div class="barcode"></div><b style="font-size:11px">${admission}</b><div class="sign-line"></div><b style="font-size:9px">Authorized Signatory</b><br><span style="font-size:8px">Competition Wala Computer Classes</span></div></div>
+    <div class="letter-footer">${escCall(purpose)} • Valid only for the student named above.</div>
+    <div class="tear-guide"><span>✂ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><b> TEAR HERE / DETACHABLE EXAM ATTENDANCE SLIP </b><span> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span></div>
+    <section class="exam-attendance-slip">
+      <div class="slip-heading"><div><b>COMPETITION WALA COMPUTER CLASSES</b><small>EXAMINATION ATTENDANCE ACKNOWLEDGEMENT</small></div><strong>OFFICE USE</strong></div>
+      <div class="slip-meta"><span><b>Exam:</b> ${escCall(exam)}</span><span><b>Date:</b> ${fmtCallDate(date)}</span><span><b>Time:</b> ${escCall(examTime)}</span></div>
+      <div class="slip-fields">
+        <div><b>Student Name:</b> ${escCall(s.name)}</div><div><b>Admission No.:</b> ${admission}</div>
+        <div><b>Father's Name:</b> ${escCall(s.father || '')}</div><div><b>Mobile No.:</b> ${escCall(s.mobile || '')}</div>
+        <div><b>Course / Batch:</b> ${escCall(s.course || '')} / ${escCall(s.batch || '')}</div>
+        <div><b>Roll / Seat No.:</b> ________________________</div>
+      </div>
+      <div class="slip-signatures"><div><span></span>Student Signature</div><div><span></span>Invigilator Signature</div><div><span></span>Exam In-charge Signature</div></div>
+      <div class="slip-note">Please fill in the required details and submit this slip to the invigilator at the examination centre.</div>
+    </section>
+  </div></div>`;
 }
 
 function examListDefault() {
@@ -1506,11 +1551,35 @@ function printCall() {
   let box = document.getElementById('callPreview');
   if (!box || !box.innerHTML) return;
   let w = window.open('', '_blank');
-  w.document.write(`<!doctype html><html><head><title>Exam Call Letter</title><style>
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Exam Call Letter</title><style>
+    @page{size:A4 portrait;margin:7mm} *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    html,body{margin:0;padding:0;background:#fff;font-family:Arial,sans-serif}
+    .call-a4-page{width:196mm!important;min-height:283mm!important;height:283mm!important;max-width:none!important;margin:0!important;border:0!important;overflow:hidden!important}
+    .call-a4-page .letter-inner{padding:2mm 3mm 0!important}
+    .call-a4-page .call-letter-image{max-height:34mm;object-fit:contain}
+    .call-a4-page .letter-profile{grid-template-columns:1fr 31mm}
+    .call-a4-page .letter-photo{width:28mm;height:34mm;margin:2mm}
+    .call-a4-page .li-row{grid-template-columns:39mm 1fr}
+    .call-a4-page .li-row>div{padding:2.1mm 2mm;font-size:9pt}
+    .call-a4-page .exam-bar,.call-a4-page .details-bar{margin-top:2mm;padding:2mm 3mm;font-size:10pt}
+    .call-a4-page .exam-row{min-height:7mm;font-size:9pt}
+    .call-a4-page .detail-cell{padding:2mm;font-size:8pt}.call-a4-page .detail-cell b{font-size:8.5pt}
+    .call-a4-page .instructions{grid-template-columns:1fr 42mm;gap:2mm;margin-top:2mm}
+    .call-a4-page .instruction-head{font-size:9pt;padding:2mm}.call-a4-page .instruction-box ol{font-size:7.5pt;line-height:1.35;margin:1mm 0 1mm 5mm}
+    .call-a4-page .barcode-box{padding:2mm}.call-a4-page .barcode{height:9mm}
+    .call-a4-page .letter-footer{margin-top:2mm;font-size:7pt}
+    .tear-guide{display:flex;align-items:center;gap:2mm;margin:5mm 0 2mm;border-top:1px dashed #111;padding-top:2mm;font-size:8pt;font-weight:900;text-align:center;white-space:nowrap;overflow:hidden}
+    .tear-guide span{font-size:7pt;letter-spacing:1px}
+    .exam-attendance-slip{border:1px solid #334155;padding:3mm 4mm;background:rgba(255,255,255,.84);min-height:48mm}
+    .slip-heading{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #94a3b8;padding-bottom:2mm}.slip-heading b{font-size:11pt;color:#123c7a}.slip-heading small{display:block;font-size:7pt;margin-top:1mm}.slip-heading strong{font-size:8pt;border:1px solid #123c7a;padding:1mm 2mm}
+    .slip-meta{display:flex;justify-content:space-between;gap:3mm;font-size:7.5pt;padding:2mm 0;border-bottom:1px solid #cbd5e1}
+    .slip-fields{display:grid;grid-template-columns:1fr 1fr;gap:3mm 7mm;padding:3mm 1mm;font-size:8pt}.slip-fields>div{border-bottom:1px dotted #94a3b8;padding-bottom:1.5mm}
+    .slip-signatures{display:flex;justify-content:space-between;gap:5mm;margin-top:5mm;text-align:center;font-size:7.5pt}.slip-signatures>div{flex:1}.slip-signatures span{display:block;border-top:1px solid #111;margin-bottom:1mm;height:5mm}
+    .slip-note{text-align:center;font-size:6.5pt;color:#475569;margin-top:2mm}
     .print-watermark-bg { position: relative; overflow: hidden; }
     .print-watermark-bg::before { content: ""; position: absolute; inset: 0; background-image: url('competition-wala-logo.webp'); background-repeat: no-repeat; background-position: center; background-size: 65% auto; opacity: 0.045; pointer-events: none; z-index: 0; }
     .print-watermark-bg > * { position: relative; z-index: 1; }
-    body{margin:0;background:#fff} ${document.querySelector('style')?.textContent || ''}
+    body{margin:0;background:#fff} .print-watermark-bg{position:relative;isolation:isolate}.print-watermark-bg::before{content:"";position:absolute;inset:0;background:url('competition-wala-logo.webp') center 52%/68% auto no-repeat;opacity:.055;pointer-events:none;z-index:0}.print-watermark-bg>*{position:relative;z-index:1} ${document.querySelector('style')?.textContent || ''}
   </style></head><body>${box.innerHTML}</body></html>`);
   w.document.close();
   setTimeout(() => w.print(), 500);
@@ -1723,7 +1792,7 @@ function printDemandBill() {
   const w = window.open('', '_blank');
   if (!w) { alert('Allow pop-ups in your browser to print the Demand Bill.'); return; }
   w.document.write(`<!doctype html><html><head><meta charset="UTF-8"><title>Demand Bill - ${escapeHTML(activeDemandBillData.student.name)}</title><style>
-    @page { size: A5 portrait; margin: 7mm; }
+    @page { size: A4 portrait; margin: 8mm; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: Arial, sans-serif; color: #172033; }
     .print-watermark-bg { position: relative; overflow: hidden; }
@@ -1908,7 +1977,7 @@ function openStudentQR(id){const s=db.students.find(x=>x.id===id);if(!s)return;c
 window.openStudentQR=openStudentQR;
 function downloadStudentQR(){const c=document.querySelector('#qrcode canvas');if(!c||!currentQRStudent)return;const a=document.createElement('a');a.download=currentQRStudent.admissionNo+'-QR.png';a.href=c.toDataURL('image/png');a.click();}
 window.downloadStudentQR=downloadStudentQR;
-function printStudentQR(){const c=document.querySelector('#qrcode canvas');if(!c||!currentQRStudent)return;const w=open('','_blank');w.document.write(`<html><body style="font-family:Arial;text-align:center;padding:40px"><h1>COMPETITION WALA</h1><p>COMPUTER CLASSES</p><img src="${c.toDataURL('image/png')}" width="280"><h2>${esc(currentQRStudent.name)}</h2><p>Admission: <b>${esc(currentQRStudent.admissionNo)}</b></p><p>${esc(currentQRStudent.course)} • ${esc(currentQRStudent.batch)}</p></body></html>`);w.document.close();setTimeout(()=>w.print(),400);}
+function printStudentQR(){const c=document.querySelector('#qrcode canvas');if(!c||!currentQRStudent)return;const w=open('','_blank');if(!w){alert('Please allow pop-ups to print.');return;}w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Student QR</title><style>@page{size:A4 portrait;margin:10mm}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:Arial;text-align:center;padding:35mm 15mm;position:relative}body:before{content:"";position:fixed;inset:0;background:url('competition-wala-logo.webp') center/65% auto no-repeat;opacity:.05;z-index:-1}img{width:70mm;height:70mm;object-fit:contain}</style></head><body><h1>COMPETITION WALA</h1><p>COMPUTER CLASSES</p><img src="${c.toDataURL('image/png')}"><h2>${esc(currentQRStudent.name)}</h2><p>Admission: <b>${esc(currentQRStudent.admissionNo)}</b></p><p>${esc(currentQRStudent.course)} • ${esc(currentQRStudent.batch)}</p></body></html>`);w.document.close();setTimeout(()=>w.print(),400);}
 window.printStudentQR=printStudentQR;
 async function loadTodayAttendance(){if(!window.cwccDB)return;const db=window.cwccDB;try{const snap=await get(ref(fdb,'attendance/'+indiaDate())),a=snap.exists()?snap.val():{};let present=0,inc=0,outc=0;db.students.forEach(s=>{const x=a[s.id],cell=document.getElementById('att-'+s.id);if(!cell)return;if(!x){cell.innerHTML='<span class="badge due">ABSENT</span>';return;}present++;if(x.inTimestamp)inc++;if(x.outTimestamp)outc++;cell.innerHTML=x.outTimestamp?`<span class="badge paid">IN + OUT</span><br><small>${esc(x.inTime)} → ${esc(x.outTime)}</small>`:`<span class="badge partial">IN</span><br><small>${esc(x.inTime)}</small>`});document.getElementById('attendanceStats').innerHTML=`<div class="card blue"><div class="label">TOTAL</div><div class="num">${db.students.length}</div></div><div class="card green"><div class="label">PRESENT</div><div class="num">${present}</div></div><div class="card orange"><div class="label">IN</div><div class="num">${inc}</div></div><div class="card red"><div class="label">OUT</div><div class="num">${outc}</div></div>`;}catch(e){console.error(e)}}
 window.renderAttendanceHistory=async function(){const box=document.getElementById('attendanceHistory');box.style.display='block';box.innerHTML='<b>Loading student attendance scores…</b>';try{const snap=await get(ref(fdb,'attendance'));const all=snap.exists()?snap.val():{};const dates=Object.keys(all).filter(k=>/^\d{4}-\d{2}-\d{2}$/.test(k)).sort();const students=window.cwccDB?.students||[];const rows=students.map(s=>{const records=dates.map(d=>({date:d,rec:all[d]?.[s.id]})).filter(x=>x.rec);const present=records.length;const possible=dates.length;const pct=possible?Math.round(present/possible*100):0;return `<tr><td>${esc(s.admissionNo||'')}</td><td>${esc(s.name||'')}</td><td>${esc(s.course||'')}</td><td>${esc(s.batch||'')}</td><td>${present}</td><td>${possible}</td><td><b>${pct}%</b></td><td><button class=\"btn secondary\" onclick=\"showStudentAttendanceHistory('${s.id}')\">View Dates</button></td></tr>`}).join('');box.innerHTML=`<h3>📈 Student Attendance Scores</h3><p style=\"font-size:12px;color:#64748b\">Score = days with an attendance record ÷ dates that have attendance records in Firebase. For accurate percentages, sync students and maintain attendance records consistently.</p><div style=\"overflow:auto\"><table><tr><th>Admission</th><th>Student</th><th>Course</th><th>Batch</th><th>Present Days</th><th>Recorded Dates</th><th>Score</th><th>Details</th></tr>${rows||'<tr><td colspan=\"8\">No student records.</td></tr>'}</table></div><div id=\"studentHistoryDetail\"></div>`;students.forEach(s=>{const cell=document.getElementById('score-'+s.id);if(cell){const n=dates.filter(d=>all[d]?.[s.id]).length;cell.textContent=(dates.length?Math.round(n/dates.length*100):0)+'%'}});window.__cwccAttendanceHistory={all,dates};}catch(e){box.innerHTML='Could not load history: '+esc(e.message)}};

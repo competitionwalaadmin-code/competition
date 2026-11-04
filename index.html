@@ -518,7 +518,7 @@ table { max-width:100%; }
 
 /* Phone navigation becomes a compact horizontal menu; content uses full width */
 @media (max-width: 700px) {
-  .app { display:block !important; min-height:100vh; }
+  .app { display:block; min-height:100vh; }
   .side {
     position:sticky !important;
     top:0 !important;
@@ -842,7 +842,7 @@ input, select, textarea { min-width:0; }
 </div>
 
 <!-- DEDICATED STUDENT PORTAL INTERFACE -->
-<div id="studentPortalView">
+<div id="studentPortalView" style="display:none">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;background:#fff;padding:18px 24px;border-radius:18px;border:1px solid #e7ecf6;box-shadow:var(--shadow)">
     <div>
       <h1 style="margin:0;font-size:22px;font-weight:900;color:#1e3a8a">🎓 STUDENT WORKSPACE & STUDY HUB</h1>
@@ -1136,8 +1136,9 @@ async function logoutStudent() {
   catch (e) { console.error('Student logout error:', e); }
   loggedInStudent = null;
   document.getElementById('studentPortalView').style.display = 'none';
-  document.getElementById('adminApp').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'none';
   document.getElementById('login').style.display = 'flex';
+  if (typeof toggleRoleTab === 'function') toggleRoleTab('student');
 }
 
 function renderStudentWorkspace() {
@@ -2572,7 +2573,7 @@ button, input, select, textarea { max-width:100%; }
 .panel { max-width:100%; }
 .toolbar { flex-wrap:wrap; }
 @media (max-width:700px) {
-  .app { display:block !important; min-height:100vh; }
+  .app { display:block; min-height:100vh; }
   .side {
     position:sticky !important; top:0 !important; left:auto !important;
     width:100% !important; height:auto !important; min-height:0 !important;
@@ -2612,6 +2613,14 @@ button, input, select, textarea { max-width:100%; }
   .nav button { padding:8px 9px !important; font-size:11px !important; }
   #login .loginbox { padding:17px !important; }
 }
+</style>
+
+
+<style id="cwcc-role-visibility-hotfix">
+#adminApp[style*="display: none"], #adminApp[style*="display:none"] { display:none !important; }
+#studentPortalView[style*="display: none"], #studentPortalView[style*="display:none"] { display:none !important; }
+#login[style*="display: none"], #login[style*="display:none"] { display:none !important; }
+#adminApp, #studentPortalView { min-width:0; }
 </style>
 
 </head><body><h1>COMPETITION WALA</h1><p>COMPUTER CLASSES</p><img src="${c.toDataURL('image/png')}"><h2>${esc(currentQRStudent.name)}</h2><p>Admission: <b>${esc(currentQRStudent.admissionNo)}</b></p><p>${esc(currentQRStudent.course)} • ${esc(currentQRStudent.batch)}</p></body></html>`);w.document.close();setTimeout(()=>w.print(),400);}

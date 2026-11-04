@@ -891,7 +891,7 @@ input, select, textarea { min-width:0; }
 </div>
 
 <!-- MAIN ADMIN ERP APPLICATION -->
-<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('batchwise',this)">🕘 Batch Wise</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🏷️ Other</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel">
+<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🏷️ Other</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel">
   <div class="toolbar" style="justify-content:space-between">
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button type="button" class="btn" id="studentsAvailableTab" onclick="setStudentListTab('active')">🟢 Available Students</button>
@@ -900,10 +900,23 @@ input, select, textarea { min-width:0; }
     <button class="btn secondary" onclick="repairDuplicateAdmissionNumbers()">🛠 Repair Duplicate Admission Nos</button>
     <button class="btn" onclick="openAdmission()">+ New Student</button>
   </div>
-  <div class="toolbar"><input id="search" placeholder="Search name, mobile or admission no..." oninput="renderStudents()"></div>
-  <div id="studentListSummary" style="margin:0 0 12px;color:#64748b;font-size:13px;font-weight:700"></div>
+  <div class="toolbar" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px">
+    <input id="search" placeholder="Search name, mobile or admission no..." oninput="renderStudents()">
+    <select id="studentBatchFilter" onchange="renderStudents()">
+      <option value="">All Batches</option>
+      <option>7 AM</option><option>8 AM</option><option>9 AM</option><option>10 AM</option><option>11 AM</option>
+      <option>3 PM</option><option>4 PM</option><option>5 PM</option><option>6 PM</option><option>7 PM</option>
+    </select>
+    <select id="studentCourseFilter" onchange="renderStudents()">
+      <option value="">All Courses</option><option>DCA</option><option>ADCA</option><option>DCTT</option>
+      <option>AI TOOLS</option><option>SET PRACTICE</option>
+    </select>
+    <button type="button" class="btn secondary" onclick="resetStudentFilters()">↺ Reset Filters</button>
+  </div>
+  <div id="studentBatchSummary" style="margin:0 0 12px"></div>
+  <div id="studentListSummarystyle="margin:0 0 12px;color:#64748b;font-size:13px;font-weight:700"></div>
   <div id="studentTable"></div>
-</div></section><section id="batchwise" class="page"><div class="panel"><div class="toolbar"><select id="batchFilter" onchange="renderBatchwise()"><option value="">All Batches</option><option>7 AM</option><option>8 AM</option><option>9 AM</option><option>10 AM</option><option>11 AM</option><option>3 PM</option><option>4 PM</option><option>5 PM</option><option>6 PM</option><option>7 PM</option></select><select id="batchCourseFilter" onchange="renderBatchwise()"><option value="">All Courses</option><option>DCA</option><option>ADCA</option><option>DCTT</option><option>AI TOOLS</option><option>SET PRACTICE</option></select><input id="batchSearch" placeholder="Search student / mobile / admission no..." oninput="renderBatchwise()"><button class="btn secondary" onclick="document.getElementById('batchFilter').value='';document.getElementById('batchCourseFilter').value='';document.getElementById('batchSearch').value='';renderBatchwise()">Reset</button></div><div id="batchSummary" style="margin:12px 0"></div><div id="batchTable"></div></div></section><section id="dues" class="page"><div class="panel"><h3>Pending / Outstanding Fee</h3><div id="dueTable"></div></div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
+</div></section><section id="dues" class="page"><div class="panel"><h3>Pending / Outstanding Fee</h3><div id="dueTable"></div></div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
 Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purpose</label><input id="callPurpose" value="Module Examination" oninput="updateCallPreview()"></div><div class="call-actions"><button class="btn green" onclick="generateCallLetter()">🖨 Generate Call Letter</button><button class="btn" onclick="printCall()">👁 View / Print</button><button class="btn red" onclick="downloadCallPDF()">📄 Download PDF</button></div></div></div><div class="call-preview-panel"><div class="preview-head">👁️ Call Letter Preview</div><div class="preview-body"><div id="callPreview"></div></div></div></div></section><section id="reports" class="page"><div class="cards"><div class="card blue"><div class="label">TOTAL COURSE FEE</div><div class="num" id="rTotal">₹0</div></div><div class="card green"><div class="label">TOTAL PAID</div><div class="num" id="rPaid">₹0</div></div><div class="card red"><div class="label">TOTAL BALANCE</div><div class="num" id="rBalance">₹0</div></div><div class="card orange"><div class="label">TOTAL PAYMENTS</div><div class="num" id="rPayments">0</div></div></div></section><section id="attendance" class="page"><div class="panel"><div class="panel" style="margin-bottom:16px;background:#f8fbff"><h3>🔐 Teacher-only QR Attendance</h3><p style="font-size:13px;color:#64748b">Sign in with an authorized teacher Firebase account. Students scanning their own ID QR will NOT mark attendance.</p><div class="formgrid"><div><label>Teacher Email</label><input id="teacherEmail" type="email" placeholder="teacher email"></div><div><label>Teacher Password</label><input id="teacherPassword" type="password" placeholder="teacher password"></div><div style="display:flex;align-items:end;gap:8px"><button class="btn green" onclick="teacherSignIn()">Teacher Login</button><button class="btn secondary" onclick="teacherSignOut()">Logout</button></div></div><div id="teacherAuthStatus" style="margin-top:10px;font-size:13px;font-weight:700">Not signed in</div><div class="call-actions"><button class="btn" onclick="startTeacherScanner()">📷 Start Teacher Scanner</button><button class="btn secondary" onclick="stopTeacherScanner()">Stop Scanner</button></div><div id="teacherQrScanner" style="max-width:420px;margin-top:12px"></div><div id="teacherScanResult" style="margin-top:10px;font-weight:700"></div></div><div class="toolbar"><input id="attendanceSearch" placeholder="Search name / admission no..." oninput="renderAttendanceStudents()"><button class="btn green" onclick="syncAllStudentsToFirebase()">☁️ Sync Students</button><button class="btn" onclick="loadTodayAttendance()">🔄 Refresh Today</button><button class="btn secondary" onclick="renderAttendanceHistory()">📈 Student Attendance Scores</button></div><div id="attendanceHistory" class="panel" style="margin-bottom:15px;display:none"></div><div id="attendanceStats" class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:15px"></div><div id="attendanceStudentTable"></div></div></section>
 
 <!-- OTHER TAB: STUDENT ADMISSION CERTIFICATE & DETAILS ON A4 -->
@@ -1252,7 +1265,6 @@ function show(id, btn) {
   document.getElementById('title').textContent = {
     dashboard: 'Dashboard',
     students: 'Students',
-    batchwise: 'Batch Wise Students',
     dues: 'EMI Due / Outstanding',
     receipts: 'Payment Receipts',
     calls: 'Call Letters',
@@ -1697,9 +1709,21 @@ function setStudentListTab(tab) {
   renderStudents();
 }
 
+function resetStudentFilters() {
+  ['search','studentBatchFilter','studentCourseFilter'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  renderStudents();
+}
+
 function renderStudents() {
-  const q = (document.getElementById('search')?.value || '').toLowerCase();
+  const q = (document.getElementById('search')?.value || '').toLowerCase().trim();
+  const batch = document.getElementById('studentBatchFilter')?.value || '';
+  const course = document.getElementById('studentCourseFilter')?.value || '';
   const all = db.students.filter(s =>
+    (!batch || String(s.batch || '') === batch) &&
+    (!course || String(s.course || '').toUpperCase() === course.toUpperCase()) &&
     (String(s.name || '') + ' ' + String(s.mobile || '') + ' ' + String(s.admissionNo || '')).toLowerCase().includes(q)
   );
   const arr = all.filter(s => (String(s.accessStatus || 'active').toLowerCase() === 'denied') === (studentListTab === 'denied'));
@@ -1707,6 +1731,18 @@ function renderStudents() {
   const deniedCount = db.students.length - activeCount;
   const summary = document.getElementById('studentListSummary');
   if (summary) summary.textContent = `Available: ${activeCount}  •  Access denied: ${deniedCount}  •  Showing: ${arr.length}`;
+  const batchSummary = document.getElementById('studentBatchSummary');
+  if (batchSummary) {
+    const totalFee = arr.reduce((sum, st) => sum + Number(st.net || 0), 0);
+    const totalPaid = arr.reduce((sum, st) => sum + paid(st), 0);
+    const totalDue = arr.reduce((sum, st) => sum + balance(st), 0);
+    batchSummary.innerHTML = `<div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px">
+      <div class="card blue"><div class="label">FILTERED STUDENTS</div><div class="num">${arr.length}</div></div>
+      <div class="card blue"><div class="label">TOTAL FEE</div><div class="num">${money(totalFee)}</div></div>
+      <div class="card green"><div class="label">PAID</div><div class="num">${money(totalPaid)}</div></div>
+      <div class="card red"><div class="label">BALANCE</div><div class="num">${money(totalDue)}</div></div>
+    </div>`;
+  }
   const table = document.getElementById('studentTable');
   if (!arr.length) {
     table.innerHTML = `<div style="padding:28px;text-align:center;color:#64748b">${studentListTab === 'denied' ? 'No students currently have denied access.' : 'No available students found.'}</div>`;
@@ -1714,13 +1750,14 @@ function renderStudents() {
   }
   table.innerHTML = `
     <table>
-      <tr><th>Admission</th><th>Student</th><th>Course</th><th>Fee</th><th>Paid</th><th>Balance</th><th>Portal Access</th><th>Action</th></tr>
+      <tr><th>Admission</th><th>Student</th><th>Course</th><th>Batch</th><th>Fee</th><th>Paid</th><th>Balance</th><th>Portal Access</th><th>Action</th></tr>
       ${arr.map(s => {
         const denied = String(s.accessStatus || 'active').toLowerCase() === 'denied';
         return `<tr style="${denied ? 'background:#fff7f7' : ''}">
           <td>${escapeHTML(s.admissionNo)}</td>
           <td><b>${escapeHTML(s.name)}</b><br><small>${escapeHTML(s.mobile)}</small></td>
           <td>${escapeHTML(s.course)}</td>
+          <td>${escapeHTML(s.batch || '-')}</td>
           <td>${money(s.net)}</td><td>${money(paid(s))}</td><td>${money(balance(s))}</td>
           <td><span class="badge ${denied ? 'due' : 'paid'}">${denied ? 'ACCESS DENIED' : 'AVAILABLE'}</span></td>
           <td><div class="student-action-buttons">
@@ -2427,7 +2464,6 @@ function renderAll() {
   document.getElementById('rPayments').textContent = db.payments.length;
   document.getElementById('recentStudents').innerHTML = `<table><tr><th>Student</th><th>Course</th><th>Fee Status</th></tr>${db.students.slice(-6).reverse().map(s => `<tr><td>${s.name}<br><small>${s.admissionNo}</small></td><td>${s.course}</td><td>${money(balance(s))} due</td></tr>`).join('')}</table>`;
   renderStudents();
-  renderBatchwise();
   renderDue();
   renderReceipts();
   renderCallSelect();

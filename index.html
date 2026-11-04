@@ -476,6 +476,17 @@ table td{color:#35425e}
 }
 
 </style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#10244b">
+<meta name="description" content="Competition Wala Computer Classes ERP and Student Portal">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Competition Wala">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -1241,7 +1252,50 @@ function printStudentIDCard() {
       <div class="row"><b>Admitted:</b> ${esc(st.date || '-')}</div>
     </div></div></div>
     ${qrSrc ? `<div class="qr"><img src="${qrSrc}" alt="Student attendance QR"></div>` : ''}<div class="bottom"><span class="num">${esc(st.admissionNo || 'CWCC STUDENT')}</span><span class="sign">AUTHORISED SIGNATURE</span></div>
-  </div><script>window.onload=()=>setTimeout(()=>window.print(),350);<\/script></body></html>`);
+  </div><script>window.onload=()=>setTimeout(()=>window.print(),350);<\/script>
+<style>
+#cwccInstallApp{display:none;position:fixed;right:18px;bottom:18px;z-index:99999;
+border:0;border-radius:999px;padding:13px 18px;background:linear-gradient(135deg,#22d3ee,#3867f5);
+color:#fff;font:700 14px Arial,sans-serif;box-shadow:0 8px 24px #10244b44;cursor:pointer}
+#cwccInstallApp:focus{outline:3px solid #fbbf24;outline-offset:3px}
+</style>
+<button id="cwccInstallApp" type="button" aria-label="Install Competition Wala app">⬇ Install App</button>
+<script>
+(() => {
+  let installPrompt = null;
+  const installButton = document.getElementById('cwccInstallApp');
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    installPrompt = event;
+    if (installButton) installButton.style.display = 'block';
+  });
+
+  if (installButton) {
+    installButton.addEventListener('click', async () => {
+      if (!installPrompt) return;
+      installPrompt.prompt();
+      await installPrompt.userChoice;
+      installPrompt = null;
+      installButton.style.display = 'none';
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (installButton) installButton.style.display = 'none';
+    installPrompt = null;
+  });
+
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+        .catch(error => console.error('PWA service worker registration failed:', error));
+    });
+  }
+})();
+</script>
+
+</body></html>`);
   w.document.close();
 }
 window.printStudentIDCard = printStudentIDCard;

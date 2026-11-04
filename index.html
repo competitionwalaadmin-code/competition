@@ -1392,6 +1392,7 @@ function renderStudents() {
             ${denied
               ? `<button class="btn green" onclick="setStudentAccess('${s.id}','active')">✓ Restore Access</button>`
               : `<button class="btn red" onclick="setStudentAccess('${s.id}','denied')">⛔ Deny Access</button>`}
+            <button class="btn red" onclick="deleteStudent('${s.id}')" title="Permanently delete this student and their linked payment records">🗑 Delete</button>
           </div></td>
         </tr>`;
       }).join('')}
@@ -1521,21 +1522,60 @@ function escapeHTML(value) {
 }
 
 async function deleteStudent(id) {
-  let s = db.students.find(x => x.id === id); if (!s) return;
-  let ps = db.payments.filter(p => p.studentId === id);
-  let msg = `Delete student permanently?\n\n${s.admissionNo} - ${s.name}\nCourse: ${s.course}\nMobile: ${s.mobile}`;
-  if (ps.length) msg += `\n\n${ps.length} payment record(s) will also be deleted.`;
-  if (!confirm(msg + `\n\nThis action cannot be undone.`)) return;
-  db.students = db.students.filter(x => x.id !== id);
-  db.payments = db.payments.filter(p => p.studentId !== id);
-  await persist();
-  if (window.cwccDeleteStudent) {
-    try { await window.cwccDeleteStudent(id); } catch (e) {
-      console.error('Firebase student delete:', e);
+  const student = db.students.find(x => String(x.id) === String(id));
+  if (!student) {
+    alert('Student record not found.');
+    return;
+  }
+
+  const linkedPayments = db.payments.filter(p => String(p.studentId) === String(id));
+  const message =
+    `PERMANENTLY DELETE STUDENT?\n\n` +
+    `Name: ${student.name}\n` +
+    `Admission No: ${student.admissionNo}\n` +
+    `Course: ${student.course}\n` +
+    `Mobile: ${student.mobile}\n\n` +
+    `Linked payment records to be removed: ${linkedPayments.length}\n\n` +
+    `This cannot be undone. Continue?`;
+
+  if (!confirm(message)) return;
+
+  // Keep a backup so a failed local/cloud save does not silently lose data.
+  const previousStudents = db.students.slice();
+  const previousPayments = db.payments.slice();
+
+  db.students = db.students.filter(x => String(x.id) !== String(id));
+  db.payments = db.payments.filter(p => String(p.studentId) !== String(id));
+  window.cwccDB = db;
+
+  const saved = await persist();
+  if (!saved) {
+    db.students = previousStudents;
+    db.payments = previousPayments;
+    window.cwccDB = db;
+    renderAll();
+    renderStudents();
+    alert('Student was NOT deleted because the data could not be saved. Please check storage/cloud connection and try again.');
+    return;
+  }
+
+  // Remove the matching student from Firebase, if cloud sync is configured.
+  if (typeof window.cwccDeleteStudent === 'function') {
+    try {
+      await window.cwccDeleteStudent(id);
+    } catch (error) {
+      console.error('Firebase student delete failed:', error);
+      alert('Student was removed from this ERP, but Firebase deletion failed. Please check Firebase permissions/connection and verify the cloud record.');
     }
   }
+
+  if (loggedInStudent && String(loggedInStudent.id) === String(id)) {
+    logoutStudent();
+  }
+
   renderAll();
-  alert('✅ Student deleted successfully.');
+  renderStudents();
+  alert(`Student ${student.name} (${student.admissionNo}) has been deleted.`);
 }
 
 function studentView(id) {

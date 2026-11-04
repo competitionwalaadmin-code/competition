@@ -851,6 +851,23 @@ input, select, textarea { min-width:0; }
     <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn secondary" onclick="changeStudentPassword()">🔐 Change Password</button><button class="btn red" onclick="logoutStudent()">🚪 Sign Out</button></div>
   </div>
 
+  <section class="cwcc-profile-card" aria-label="My student profile">
+    <div id="stProfilePhoto"></div>
+    <div style="min-width:0">
+      <div style="font-size:10px;font-weight:900;letter-spacing:.14em;color:#3867f5;margin-bottom:5px">MY STUDENT PROFILE</div>
+      <h2 id="stProfileName" style="margin:0;color:#172554;font-size:clamp(19px,3vw,25px)">Student Name</h2>
+      <p id="stProfileAdmission" style="margin:4px 0 0;color:#64748b;font-size:12px;font-weight:700">Admission Number</p>
+      <div class="cwcc-profile-grid">
+        <div class="cwcc-profile-field"><small>Father / Guardian</small><strong id="stProfileFather">—</strong></div>
+        <div class="cwcc-profile-field"><small>Mobile</small><strong id="stProfileMobile">—</strong></div>
+        <div class="cwcc-profile-field"><small>Gender</small><strong id="stProfileGender">—</strong></div>
+        <div class="cwcc-profile-field"><small>Date of Birth</small><strong id="stProfileDob">—</strong></div>
+        <div class="cwcc-profile-field"><small>Course</small><strong id="stProfileCourse">—</strong></div>
+        <div class="cwcc-profile-field"><small>Batch</small><strong id="stProfileBatch">—</strong></div>
+      </div>
+    </div>
+  </section>
+
   <div class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px">
     <div class="card blue"><div class="label">MY COURSE & BATCH</div><div class="num" style="font-size:20px" id="stCardCourse">—</div><span id="stCardBatch" style="font-size:11px;color:#3867f5;font-weight:700"></span></div>
     <div class="card green"><div class="label">ATTENDANCE SCORE</div><div class="num" id="stCardAtt">--%</div><span style="font-size:11px;color:#16a879;font-weight:700">Firebase QR Verified</span></div>
@@ -1166,6 +1183,24 @@ function renderStudentWorkspace() {
   const s = loggedInStudent;
   if (!s) return;
   document.getElementById('stProfileGreeting').textContent = `${s.name} (Admission: ${s.admissionNo}) • Batch: ${s.batch || 'Regular'}`;
+  const profilePhoto = document.getElementById('stProfilePhoto');
+  if (profilePhoto) profilePhoto.innerHTML = s.photo
+    ? cwccStudentAvatar(s,'cwcc-profile-photo')
+    : `<div class="cwcc-profile-fallback">${escapeHTML(cwccStudentInitials(s.name))}</div>`;
+  const profileFields = {
+    stProfileName: s.name || 'Student',
+    stProfileAdmission: `Admission No. ${s.admissionNo || '—'}`,
+    stProfileFather: s.father || '—',
+    stProfileMobile: s.mobile || '—',
+    stProfileGender: s.gender || 'Not recorded',
+    stProfileDob: s.dob || '—',
+    stProfileCourse: s.course || '—',
+    stProfileBatch: s.batch || '—'
+  };
+  Object.entries(profileFields).forEach(([id,value]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  });
   document.getElementById('stCardCourse').textContent = s.course || 'Course';
   document.getElementById('stCardBatch').textContent = `Batch Timing: ${s.batch || 'Not Set'}`;
   document.getElementById('stCardPaid').textContent = money(paid(s));
@@ -1727,6 +1762,21 @@ function resetStudentFilters() {
   renderStudents();
 }
 
+function cwccStudentInitials(name) {
+  return String(name || 'CW').trim().split(/\s+/).slice(0,2).map(x => x.charAt(0).toUpperCase()).join('') || 'CW';
+}
+function cwccStudentAvatar(student, sizeClass = '') {
+  const name = escapeHTML(student?.name || 'Student');
+  const initials = escapeHTML(cwccStudentInitials(student?.name));
+  const photo = String(student?.photo || '');
+  // Only render locally stored, base64 image data; reject arbitrary URLs/markup.
+  const safePhoto = /^data:image\/(?:jpeg|png|webp|gif);base64,[a-z0-9+/=]+$/i.test(photo) ? photo : '';
+  if (safePhoto) {
+    return `<img class="cwcc-avatar ${sizeClass}" src="${safePhoto}" alt="${name} photo" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cwcc-avatar ${sizeClass}',textContent:'${initials}'}))">`;
+  }
+  return `<span class="cwcc-avatar ${sizeClass}" role="img" aria-label="${name} initials">${initials}</span>`;
+}
+
 function renderStudents() {
   const q = (document.getElementById('search')?.value || '').toLowerCase().trim();
   const batch = document.getElementById('studentBatchFilter')?.value || '';
@@ -1770,7 +1820,7 @@ function renderStudents() {
         const denied = String(s.accessStatus || 'active').toLowerCase() === 'denied';
         return `<tr style="${denied ? 'background:#fff7f7' : ''}">
           <td>${escapeHTML(s.admissionNo)}</td>
-          <td><b>${escapeHTML(s.name)}</b><br><small>${escapeHTML(s.mobile)}</small></td>
+          <td><div class="cwcc-student-cell">${cwccStudentAvatar(s,'cwcc-avatar-sm')}<div><b>${escapeHTML(s.name)}</b><br><small>${escapeHTML(s.mobile)}</small></div></div></td>
           <td>${escapeHTML(s.gender || 'Not recorded')}</td>
           <td>${escapeHTML(s.course)}</td>
           <td>${escapeHTML(s.batch || '-')}</td>
@@ -2673,6 +2723,21 @@ button, input, select, textarea { max-width:100%; }
 #studentPortalView[style*="display: none"], #studentPortalView[style*="display:none"] { display:none !important; }
 #login[style*="display: none"], #login[style*="display:none"] { display:none !important; }
 #adminApp, #studentPortalView { min-width:0; }
+</style>
+
+
+<style id="cwcc-student-profile-photos">
+.cwcc-avatar{width:42px;height:50px;flex:0 0 42px;border-radius:12px;object-fit:cover;background:#e8efff;border:1px solid #dbe5fb;display:inline-flex;align-items:center;justify-content:center;color:#2856bd;font-weight:900;font-size:14px;overflow:hidden}
+.cwcc-avatar-sm{width:38px;height:46px;flex-basis:38px;border-radius:10px}
+.cwcc-student-cell{display:flex;align-items:center;gap:10px;min-width:190px}
+.cwcc-profile-card{display:grid;grid-template-columns:116px minmax(0,1fr);gap:20px;align-items:center;background:linear-gradient(135deg,#fff,#f3f7ff);border:1px solid #e1e9f8;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:var(--shadow)}
+.cwcc-profile-photo{width:112px;height:132px;object-fit:cover;border-radius:16px;border:3px solid #fff;box-shadow:0 8px 24px rgba(30,64,175,.15);background:#e8efff}
+.cwcc-profile-fallback{width:112px;height:132px;border-radius:16px;background:linear-gradient(145deg,#dbeafe,#e0e7ff);display:flex;align-items:center;justify-content:center;color:#1d4ed8;font-size:34px;font-weight:900}
+.cwcc-profile-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.cwcc-profile-field{background:#fff;border:1px solid #e8edf7;border-radius:12px;padding:9px 11px;min-width:0}
+.cwcc-profile-field small{display:block;color:#718096;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.cwcc-profile-field strong{display:block;color:#1e293b;font-size:13px;overflow-wrap:anywhere}
+@media(max-width:700px){.cwcc-profile-card{grid-template-columns:76px minmax(0,1fr);gap:12px;padding:13px}.cwcc-profile-photo,.cwcc-profile-fallback{width:76px;height:92px}.cwcc-profile-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.cwcc-profile-field{padding:8px}.cwcc-profile-field strong{font-size:12px}}
 </style>
 
 </head><body><h1>COMPETITION WALA</h1><p>COMPUTER CLASSES</p><img src="${c.toDataURL('image/png')}"><h2>${esc(currentQRStudent.name)}</h2><p>Admission: <b>${esc(currentQRStudent.admissionNo)}</b></p><p>${esc(currentQRStudent.course)} • ${esc(currentQRStudent.batch)}</p></body></html>`);w.document.close();setTimeout(()=>w.print(),400);}

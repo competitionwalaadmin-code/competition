@@ -802,49 +802,6 @@ input, select, textarea { min-width:0; }
 }
 </style>
 
-
-<style id="cwcc-final-product-polish">
-/* Competition Wala — final release shell polish */
-:root{color-scheme:light;--cwcc-deep:#08142b;--cwcc-navy:#10264d;--cwcc-primary:#315cf5;--cwcc-aqua:#35d5e8;--cwcc-paper:#f7f9fd}
-body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important}
-#login{isolation:isolate;overflow-y:auto!important;padding:clamp(14px,3vw,34px)!important}
-#login:after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(120deg,transparent 0 48%,rgba(255,255,255,.035) 48% 49%,transparent 49% 100%);background-size:34px 34px}
-#login .loginbox{width:min(470px,100%)!important;max-width:470px!important;padding:clamp(22px,4vw,36px)!important;border:1px solid rgba(255,255,255,.72)!important;border-radius:28px!important;box-shadow:0 34px 90px rgba(0,0,0,.34),0 2px 8px rgba(0,0,0,.08)!important}
-#login .loginbox>div:first-child img{width:clamp(76px,18vw,104px)!important;height:clamp(76px,18vw,104px)!important;border-radius:25px!important;padding:5px;background:#fff;box-shadow:0 12px 28px rgba(20,44,90,.15)!important}
-#login .loginbox h2{font-size:clamp(23px,5vw,29px)!important;letter-spacing:-.055em!important;color:#102044!important}
-#login .loginbox>p{font-size:10px!important;letter-spacing:.18em!important;color:#71809d!important}
-#login .portal-kicker{width:max-content;max-width:100%;margin:17px auto 14px;padding:7px 12px;border-radius:999px;background:#edf3ff;color:#315cf5;font-size:9px;font-weight:900;letter-spacing:.16em}
-#login .role-tabs{gap:7px;padding:6px;background:#f0f3f9;border:1px solid #e6ebf4;border-radius:15px;margin:0 0 15px}
-#login .role-tab{min-height:48px;border:1px solid transparent;border-radius:11px;color:#63718b;font-size:12px;font-weight:850;transition:all .2s}
-#login .role-tab.active{background:#fff;color:#173a83;border-color:#dce6ff;box-shadow:0 5px 16px rgba(31,67,140,.10)}
-#login .portal-intro{display:flex;flex-direction:column;gap:5px;padding:14px 15px;margin:0 0 13px;border:1px solid #e8edf6;border-radius:13px;background:linear-gradient(135deg,#fbfcff,#f4f7fd);color:#1b2c4b}
-#login .portal-intro strong{font-size:14px;font-weight:850}
-#login .portal-intro span{font-size:11px;line-height:1.55;color:#71809a}
-#login #studentLoginForm,#login #adminLoginForm{animation:cwccEntry .22s ease both}
-#login input{box-sizing:border-box!important;width:100%!important;min-height:51px!important;margin:6px 0!important;padding:14px 15px!important;border:1px solid #dfe6f1!important;border-radius:13px!important;background:#fbfcff!important;color:#14213d!important;font-size:15px!important}
-#login input:focus{background:#fff!important;border-color:#6d8cff!important;box-shadow:0 0 0 4px rgba(49,92,245,.11)!important}
-#login .btn{min-height:51px!important;border-radius:13px!important;font-size:13px!important;font-weight:850!important;letter-spacing:.01em!important}
-#login .btn.green{background:linear-gradient(120deg,#12a878,#0b8e8c)!important;box-shadow:0 9px 20px rgba(18,168,120,.19)!important}
-#login .btn:not(.green){background:linear-gradient(120deg,#315cf5,#554be0)!important;box-shadow:0 9px 20px rgba(49,92,245,.2)!important}
-#login .loginbox small{font-size:10px!important;line-height:1.6!important;color:#8490a5!important}
-#login:not([style*="display: none"]) ~ #adminApp,
-#login:not([style*="display: none"]) ~ #studentPortalView{display:none!important;visibility:hidden!important;pointer-events:none!important}
-#adminApp[style*="display: none"],#studentPortalView[style*="display: none"]{visibility:hidden}
-#adminApp .side{z-index:20}
-#adminApp .nav button{min-height:42px}
-#studentPortalView{padding:clamp(12px,2.5vw,28px)!important}
-#studentPortalView .panel{border-radius:18px!important}
-@keyframes cwccEntry{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:700px){
- #login{align-items:center!important}
- #login .loginbox{margin:auto!important}
- #adminApp .side{position:relative!important;top:auto!important}
- #adminApp .nav{scrollbar-width:none!important}
- #adminApp .nav::-webkit-scrollbar{display:none}
-}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
-</style>
-
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -1622,27 +1579,6 @@ function printStudentIDCard() {
     </div></div></div>
     ${qrSrc ? `<div class="qr"><img src="${qrSrc}" alt="Student attendance QR"></div>` : ''}<div class="bottom"><span class="num">${esc(st.admissionNo || 'CWCC STUDENT')}</span><span class="sign">AUTHORISED SIGNATURE</span></div>
   </div><script>window.onload=()=>setTimeout(()=>window.print(),350);<\/script>
-
-<script id="cwcc-final-auth-shell-guard">
-/* UI safety net: while the portal chooser is visible, never expose staff navigation. */
-(function(){
-  const login=document.getElementById('login');
-  const admin=document.getElementById('adminApp');
-  const student=document.getElementById('studentPortalView');
-  if(!login||!admin||!student)return;
-  const loginVisible=()=>getComputedStyle(login).display!=='none';
-  const enforce=()=>{
-    if(loginVisible()){
-      admin.style.display='none';
-      student.style.display='none';
-    }
-  };
-  enforce();
-  new MutationObserver(enforce).observe(login,{attributes:true,attributeFilter:['style','class']});
-  document.addEventListener('visibilitychange',enforce);
-})();
-</script>
-
 </body></html>`);
   w.document.close();
 }
@@ -2620,7 +2556,65 @@ function openStudentQR(id){const s=db.students.find(x=>x.id===id);if(!s)return;c
 window.openStudentQR=openStudentQR;
 function downloadStudentQR(){const c=document.querySelector('#qrcode canvas');if(!c||!currentQRStudent)return;const a=document.createElement('a');a.download=currentQRStudent.admissionNo+'-QR.png';a.href=c.toDataURL('image/png');a.click();}
 window.downloadStudentQR=downloadStudentQR;
-function printStudentQR(){const c=document.querySelector('#qrcode canvas');if(!c||!currentQRStudent)return;const w=open('','_blank');if(!w){alert('Please allow pop-ups to print.');return;}w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Student QR</title><style>@page{size:A4 portrait;margin:10mm}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:Arial;text-align:center;padding:35mm 15mm;position:relative}body:before{content:"";position:fixed;inset:0;background:url('competition-wala-logo.webp') center/65% auto no-repeat;opacity:.05;z-index:-1}img{width:70mm;height:70mm;object-fit:contain}</style></head><body><h1>COMPETITION WALA</h1><p>COMPUTER CLASSES</p><img src="${c.toDataURL('image/png')}"><h2>${esc(currentQRStudent.name)}</h2><p>Admission: <b>${esc(currentQRStudent.admissionNo)}</b></p><p>${esc(currentQRStudent.course)} • ${esc(currentQRStudent.batch)}</p></body></html>`);w.document.close();setTimeout(()=>w.print(),400);}
+function printStudentQR(){const c=document.querySelector('#qrcode canvas');if(!c||!currentQRStudent)return;const w=open('','_blank');if(!w){alert('Please allow pop-ups to print.');return;}w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Student QR</title><style>@page{size:A4 portrait;margin:10mm}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:Arial;text-align:center;padding:35mm 15mm;position:relative}body:before{content:"";position:fixed;inset:0;background:url('competition-wala-logo.webp') center/65% auto no-repeat;opacity:.05;z-index:-1}img{width:70mm;height:70mm;object-fit:contain}</style>
+<style id="cwcc-safe-responsive-hotfix">
+/* Safe responsive polish: CSS only; no ERP/Firebase JavaScript is replaced. */
+html, body { width:100%; max-width:100%; overflow-x:hidden; }
+*, *::before, *::after { box-sizing:border-box; }
+img, canvas, video, iframe { max-width:100%; }
+button, input, select, textarea { max-width:100%; }
+#login { padding:clamp(12px,3vw,26px); min-height:100vh; min-height:100dvh; overflow-y:auto; }
+#login .loginbox { width:min(480px,calc(100vw - 24px)); max-width:100%; margin:auto; }
+#login input, #login button { min-height:44px; }
+#adminApp { min-width:0; }
+.main { min-width:0; max-width:100%; }
+.page, .panel, .grid2, .call-wrap, .formgrid { min-width:0; }
+.panel { max-width:100%; }
+.toolbar { flex-wrap:wrap; }
+@media (max-width:700px) {
+  .app { display:block !important; min-height:100vh; }
+  .side {
+    position:sticky !important; top:0 !important; left:auto !important;
+    width:100% !important; height:auto !important; min-height:0 !important;
+    padding:8px 9px !important; display:block !important;
+    overflow:visible !important; z-index:1000 !important;
+  }
+  .brand { font-size:14px !important; line-height:1.2 !important; padding:4px 7px 8px !important; }
+  .brand small { display:block !important; font-size:9px !important; }
+  .nav {
+    display:flex !important; flex-direction:row !important; gap:6px !important;
+    overflow-x:auto !important; overflow-y:hidden !important; white-space:nowrap !important;
+    padding:2px 0 6px !important; -webkit-overflow-scrolling:touch;
+  }
+  .nav button {
+    flex:0 0 auto !important; width:auto !important; min-width:max-content !important;
+    margin:0 !important; padding:9px 11px !important; font-size:12px !important;
+    text-align:center !important; white-space:nowrap !important;
+  }
+  .nav button:before { content:none !important; }
+  .main { margin:0 !important; width:100% !important; max-width:100% !important; padding:12px !important; }
+  .top { gap:8px; flex-wrap:wrap; }
+  .top h1 { font-size:20px !important; }
+  .cards { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:9px !important; }
+  .card { min-width:0; padding:12px !important; }
+  .card .num { font-size:clamp(18px,5vw,23px) !important; overflow-wrap:anywhere; }
+  .grid2, .call-wrap, .formgrid { grid-template-columns:minmax(0,1fr) !important; }
+  .panel { min-width:0 !important; padding:12px !important; overflow-x:auto; }
+  .panel table { min-width:600px; }
+  #studentPortalView { padding:10px !important; }
+  #studentPortalView .cards { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  .modalbox { width:calc(100vw - 18px) !important; max-width:calc(100vw - 18px) !important; max-height:90dvh; overflow:auto; }
+  .call-wrap { gap:12px; }
+}
+@media (max-width:380px) {
+  .main { padding:9px !important; }
+  .cards, #studentPortalView .cards { grid-template-columns:1fr !important; }
+  .nav button { padding:8px 9px !important; font-size:11px !important; }
+  #login .loginbox { padding:17px !important; }
+}
+</style>
+
+</head><body><h1>COMPETITION WALA</h1><p>COMPUTER CLASSES</p><img src="${c.toDataURL('image/png')}"><h2>${esc(currentQRStudent.name)}</h2><p>Admission: <b>${esc(currentQRStudent.admissionNo)}</b></p><p>${esc(currentQRStudent.course)} • ${esc(currentQRStudent.batch)}</p></body></html>`);w.document.close();setTimeout(()=>w.print(),400);}
 window.printStudentQR=printStudentQR;
 async function loadTodayAttendance(){if(!window.cwccDB)return;const db=window.cwccDB;try{const snap=await get(ref(fdb,'attendance/'+indiaDate())),a=snap.exists()?snap.val():{};let present=0,inc=0,outc=0;db.students.forEach(s=>{const x=a[s.id],cell=document.getElementById('att-'+s.id);if(!cell)return;if(!x){cell.innerHTML='<span class="badge due">ABSENT</span>';return;}present++;if(x.inTimestamp)inc++;if(x.outTimestamp)outc++;cell.innerHTML=x.outTimestamp?`<span class="badge paid">IN + OUT</span><br><small>${esc(x.inTime)} → ${esc(x.outTime)}</small>`:`<span class="badge partial">IN</span><br><small>${esc(x.inTime)}</small>`});document.getElementById('attendanceStats').innerHTML=`<div class="card blue"><div class="label">TOTAL</div><div class="num">${db.students.length}</div></div><div class="card green"><div class="label">PRESENT</div><div class="num">${present}</div></div><div class="card orange"><div class="label">IN</div><div class="num">${inc}</div></div><div class="card red"><div class="label">OUT</div><div class="num">${outc}</div></div>`;}catch(e){console.error(e)}}
 window.renderAttendanceHistory=async function(){const box=document.getElementById('attendanceHistory');box.style.display='block';box.innerHTML='<b>Loading student attendance scores…</b>';try{const snap=await get(ref(fdb,'attendance'));const all=snap.exists()?snap.val():{};const dates=Object.keys(all).filter(k=>/^\d{4}-\d{2}-\d{2}$/.test(k)).sort();const students=window.cwccDB?.students||[];const rows=students.map(s=>{const records=dates.map(d=>({date:d,rec:all[d]?.[s.id]})).filter(x=>x.rec);const present=records.length;const possible=dates.length;const pct=possible?Math.round(present/possible*100):0;return `<tr><td>${esc(s.admissionNo||'')}</td><td>${esc(s.name||'')}</td><td>${esc(s.course||'')}</td><td>${esc(s.batch||'')}</td><td>${present}</td><td>${possible}</td><td><b>${pct}%</b></td><td><button class=\"btn secondary\" onclick=\"showStudentAttendanceHistory('${s.id}')\">View Dates</button></td></tr>`}).join('');box.innerHTML=`<h3>📈 Student Attendance Scores</h3><p style=\"font-size:12px;color:#64748b\">Score = days with an attendance record ÷ dates that have attendance records in Firebase. For accurate percentages, sync students and maintain attendance records consistently.</p><div style=\"overflow:auto\"><table><tr><th>Admission</th><th>Student</th><th>Course</th><th>Batch</th><th>Present Days</th><th>Recorded Dates</th><th>Score</th><th>Details</th></tr>${rows||'<tr><td colspan=\"8\">No student records.</td></tr>'}</table></div><div id=\"studentHistoryDetail\"></div>`;students.forEach(s=>{const cell=document.getElementById('score-'+s.id);if(cell){const n=dates.filter(d=>all[d]?.[s.id]).length;cell.textContent=(dates.length?Math.round(n/dates.length*100):0)+'%'}});window.__cwccAttendanceHistory={all,dates};}catch(e){box.innerHTML='Could not load history: '+esc(e.message)}};

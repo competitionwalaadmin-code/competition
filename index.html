@@ -592,6 +592,217 @@ table { max-width:100%; }
 }
 </style>
 
+
+<style id="cwcc-premium-login">
+:root {
+  --cwcc-ink:#101a35;
+  --cwcc-muted:#71809d;
+  --cwcc-blue:#315cf5;
+  --cwcc-cyan:#35d5e8;
+  --cwcc-line:#e5ebf5;
+}
+html,body { max-width:100%; overflow-x:hidden; }
+#login {
+  position:fixed !important; inset:0 !important; z-index:20000 !important;
+  display:flex; align-items:center; justify-content:center;
+  padding:22px;
+  background:
+    radial-gradient(ellipse at 14% 15%,rgba(54,215,232,.19),transparent 34%),
+    radial-gradient(ellipse at 88% 82%,rgba(92,74,242,.25),transparent 38%),
+    linear-gradient(135deg,#071329 0%,#10264d 52%,#171b45 100%) !important;
+  overflow-y:auto;
+}
+#login:before {
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.24;
+  background-image:radial-gradient(rgba(255,255,255,.34) .7px,transparent .7px);
+  background-size:19px 19px;
+}
+#login .loginbox {
+  position:relative; z-index:1; width:min(470px,100%) !important;
+  max-width:470px; margin:auto; padding:30px !important;
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:28px !important;
+  background:linear-gradient(155deg,rgba(255,255,255,.99),rgba(245,248,255,.98)) !important;
+  box-shadow:0 30px 90px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.12);
+  overflow:hidden;
+}
+#login .loginbox:before {
+  content:""; position:absolute; left:0; right:0; top:0; height:5px;
+  background:linear-gradient(90deg,#2dd4e7,#4264ff,#8b5cf6,#f5a623);
+}
+#login .loginbox > div:first-child { margin-bottom:12px !important; }
+#login .loginbox img {
+  width:88px !important; height:88px !important; padding:4px;
+  background:#fff; border:1px solid #e7edf8;
+  box-shadow:0 9px 24px rgba(22,43,91,.13) !important;
+}
+#login .loginbox h2 {
+  color:var(--cwcc-ink); font-size:25px; letter-spacing:-.8px;
+  font-weight:900; margin:5px 0 4px !important;
+}
+#login .loginbox > p {
+  color:#72809b !important; font-size:10px !important;
+  letter-spacing:2px; font-weight:800 !important;
+}
+#login .portal-kicker {
+  margin:20px 0 9px; text-align:center; color:#8290aa;
+  font-size:9px; font-weight:900; letter-spacing:2.2px;
+}
+#login .role-tabs {
+  display:grid !important; grid-template-columns:1fr 1fr;
+  gap:6px; padding:5px; margin:0 0 14px !important;
+  border:1px solid #e6ebf5; border-radius:15px;
+  background:#edf2fa;
+}
+#login .role-tab {
+  min-height:47px; border:0; border-radius:11px;
+  background:transparent; color:#65738f; font-size:12px;
+  font-weight:850; letter-spacing:.1px; transition:all .2s ease;
+}
+#login .role-tab.active {
+  color:#fff; background:linear-gradient(135deg,#315ff4,#5548db);
+  box-shadow:0 7px 18px rgba(49,92,245,.24);
+}
+#login .portal-intro {
+  display:flex; flex-direction:column; gap:4px; margin:0 0 13px;
+  padding:12px 14px; border:1px solid #e5ecfa; border-radius:13px;
+  background:linear-gradient(120deg,#f4f8ff,#f7f6ff);
+}
+#login .portal-intro strong { color:#1c2b4d; font-size:13px; }
+#login .portal-intro span { color:#7a88a2; font-size:11px; line-height:1.45; }
+#login #adminLoginForm, #login #studentLoginForm { animation:cwccFade .22s ease both; }
+#login .loginbox input {
+  width:100%; min-height:51px; margin:6px 0 !important;
+  padding:0 15px !important; border:1px solid #dfe6f2 !important;
+  border-radius:13px !important; background:#fff !important;
+  color:#17233f; font-size:14px !important; outline:none;
+  box-shadow:0 2px 5px rgba(22,43,91,.025);
+}
+#login .loginbox input:focus {
+  border-color:#6685ff !important;
+  box-shadow:0 0 0 4px rgba(65,100,245,.11);
+}
+#login .loginbox .btn {
+  min-height:52px; border:0; border-radius:13px !important;
+  background:linear-gradient(110deg,#315ff4,#5548df) !important;
+  color:#fff; font-size:14px; font-weight:900;
+  box-shadow:0 9px 20px rgba(49,92,245,.22);
+  transition:transform .18s,box-shadow .18s;
+}
+#login .loginbox .btn.green {
+  background:linear-gradient(110deg,#079b83,#10b99c) !important;
+  box-shadow:0 9px 20px rgba(16,185,129,.2);
+}
+#login .loginbox .btn:active { transform:translateY(1px) scale(.99); }
+#login .loginbox small {
+  color:#8190a9 !important; font-size:10px !important; line-height:1.5;
+}
+#adminApp { display:none; }
+#studentPortalView { display:none; }
+@keyframes cwccFade { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+/* Keep the login screen isolated: no admin navigation behind it. */
+body:has(#login[style*="display: flex"]) #adminApp { display:none !important; }
+@media(max-width:600px) {
+  #login { padding:14px !important; }
+  #login .loginbox {
+    width:min(440px,100%) !important; padding:22px 19px !important;
+    border-radius:23px !important;
+  }
+  #login .loginbox img { width:76px !important; height:76px !important; }
+  #login .loginbox h2 { font-size:21px !important; }
+  #login .portal-kicker { margin-top:16px; }
+  #login .role-tab { min-height:45px; font-size:11px; }
+  #login .loginbox input { min-height:49px; font-size:16px !important; }
+}
+@media(min-width:900px) {
+  #login .loginbox { padding:34px !important; }
+}
+</style>
+
+
+<style id="cwcc-platform-polish-v2">
+/* Platform-wide finishing pass: predictable sizing, accessible controls and responsive workspaces */
+*, *::before, *::after { box-sizing:border-box; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { min-width:320px; }
+button, input, select, textarea { font:inherit; }
+button { touch-action:manipulation; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline:3px solid rgba(53,213,232,.75) !important; outline-offset:2px;
+}
+img { max-width:100%; }
+#login { isolation:isolate; }
+#login .loginbox { max-height:calc(100dvh - 28px); overflow-y:auto; overscroll-behavior:contain; }
+#login .loginbox input { color:#14213d; }
+#login .loginbox input::placeholder { color:#94a0b5; opacity:1; }
+#login .role-tab { min-width:0; }
+#login .role-tab:active { transform:scale(.985); }
+
+/* Admin workspace: compact, branded mobile header and usable horizontal module navigation */
+#adminApp { min-width:0; }
+#adminApp .side { min-width:0; }
+#adminApp .brand { position:relative; }
+#adminApp .brand:before {
+  content:"CW"; display:inline-flex; align-items:center; justify-content:center;
+  width:30px; height:30px; margin-right:8px; border-radius:10px;
+  vertical-align:middle; color:#fff; font-size:12px; font-weight:950;
+  background:linear-gradient(135deg,#36d5e8,#315cf5 58%,#7856e8);
+  box-shadow:0 5px 14px rgba(49,92,245,.28);
+}
+#adminApp .main { min-width:0; }
+#adminApp .page { min-width:0; }
+#adminApp .page > * { max-width:100%; }
+#adminApp .panel, #adminApp .modalbox { min-width:0; }
+#adminApp table { max-width:100%; }
+#studentPortalView { min-width:0; }
+#studentPortalView > div:first-child { gap:14px; flex-wrap:wrap; }
+#studentPortalView .cards { grid-template-columns:repeat(4,minmax(0,1fr)); }
+#studentPortalView .card { min-width:0; overflow-wrap:anywhere; }
+#studentPortalView button { min-height:42px; }
+
+/* Forms and dialogs should remain usable on short screens and small phones */
+.modal, .modal-overlay { padding:12px; }
+.modalbox, .modal-content {
+  max-width:calc(100vw - 24px);
+  max-height:calc(100dvh - 24px);
+  overflow:auto;
+  overscroll-behavior:contain;
+}
+input, select, textarea { min-width:0; }
+@media(max-width:700px) {
+  #adminApp .side {
+    display:block !important; width:100% !important;
+    padding:8px 10px 7px !important;
+  }
+  #adminApp .brand {
+    padding:2px 4px 7px !important; font-size:14px !important;
+    line-height:1.1 !important; white-space:nowrap;
+  }
+  #adminApp .brand small { display:inline-block !important; margin:0 0 0 7px !important; font-size:8px !important; letter-spacing:.7px; }
+  #adminApp .nav { gap:6px !important; padding:2px 0 5px !important; }
+  #adminApp .nav button { min-height:38px; border-radius:10px !important; }
+  #studentPortalView { padding:12px !important; }
+  #studentPortalView > div:first-child {
+    align-items:flex-start !important; flex-direction:column !important;
+    padding:14px !important; margin-bottom:14px !important;
+  }
+  #studentPortalView > div:first-child > div:last-child { width:100%; }
+  #studentPortalView .cards { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:9px !important; }
+  #studentPortalView .card { padding:12px !important; }
+  #studentPortalView .card .num { font-size:20px !important; }
+  #studentPortalView h1 { font-size:18px !important; line-height:1.25; }
+  #studentPortalView .material-folder { gap:10px; flex-wrap:wrap; }
+}
+@media(max-width:380px) {
+  #adminApp .brand small { display:block !important; margin:4px 0 0 39px !important; }
+  #studentPortalView .cards { grid-template-columns:1fr !important; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
+</style>
+
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -603,13 +814,18 @@ table { max-width:100%; }
     <h2 style="text-align:center;margin-bottom:4px">COMPETITION WALA</h2>
     <p style="text-align:center;margin-top:0;color:#667085;font-size:11px;font-weight:700">COMPUTER CLASSES • CENTRAL PORTAL</p>
     
+    <div class="portal-kicker">SECURE DIGITAL CAMPUS</div>
     <div class="role-tabs">
-      <button type="button" class="role-tab active" id="tabAdmin" onclick="toggleRoleTab('admin')">🔑 Admin ERP</button>
-      <button type="button" class="role-tab" id="tabStudent" onclick="toggleRoleTab('student')">👨‍🎓 Student Portal</button>
+      <button type="button" class="role-tab active" id="tabStudent" onclick="toggleRoleTab('student')">🎓 Student Portal</button>
+      <button type="button" class="role-tab" id="tabAdmin" onclick="toggleRoleTab('admin')">🔐 Staff / Admin</button>
+    </div>
+    <div class="portal-intro" id="portalIntro">
+      <strong>Welcome back, Student</strong>
+      <span>Sign in to view your learning space, attendance and fee details.</span>
     </div>
 
     <!-- Admin Form -->
-    <div id="adminLoginForm">
+    <div id="adminLoginForm" style="display:none">
       <input id="loginUser" type="email" autocomplete="username" placeholder="Admin Firebase email">
       <input id="loginPass" type="password" autocomplete="current-password" placeholder="Admin Firebase password">
       <button class="btn" style="width:100%;margin-top:10px" onclick="doLogin()">Secure Admin Login</button>
@@ -617,7 +833,7 @@ table { max-width:100%; }
     </div>
 
     <!-- Student Form -->
-    <div id="studentLoginForm" style="display:none">
+    <div id="studentLoginForm">
       <input id="stLoginRoll" placeholder="Roll No / Admission No (e.g. CWCC-10001)">
       <input id="stLoginMobile" type="password" autocomplete="current-password" placeholder="Student portal password">
       <button class="btn green" style="width:100%;margin-top:10px" onclick="doStudentLogin()">Access Student Portal</button>
@@ -676,7 +892,7 @@ table { max-width:100%; }
 </div>
 
 <!-- MAIN ADMIN ERP APPLICATION -->
-<div class="app" id="adminApp"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('batchwise',this)">🕘 Batch Wise</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🏷️ Other</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel">
+<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('batchwise',this)">🕘 Batch Wise</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🏷️ Other</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel">
   <div class="toolbar" style="justify-content:space-between">
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button type="button" class="btn" id="studentsAvailableTab" onclick="setStudentListTab('active')">🟢 Available Students</button>
@@ -884,16 +1100,18 @@ function toggleRoleTab(role) {
   const studentTab = document.getElementById('tabStudent');
   const adminForm = document.getElementById('adminLoginForm');
   const studentForm = document.getElementById('studentLoginForm');
-  if (role === 'admin') {
-    adminTab.classList.add('active');
-    studentTab.classList.remove('active');
-    adminForm.style.display = 'block';
-    studentForm.style.display = 'none';
-  } else {
-    studentTab.classList.add('active');
-    adminTab.classList.remove('active');
-    studentForm.style.display = 'block';
-    adminForm.style.display = 'none';
+  const intro = document.getElementById('portalIntro');
+  const isAdmin = role === 'admin';
+
+  adminTab.classList.toggle('active', isAdmin);
+  studentTab.classList.toggle('active', !isAdmin);
+  adminForm.style.display = isAdmin ? 'block' : 'none';
+  studentForm.style.display = isAdmin ? 'none' : 'block';
+
+  if (intro) {
+    intro.innerHTML = isAdmin
+      ? '<strong>Staff & Admin Access</strong><span>Authorized institute personnel only. Sign in with your Firebase admin account.</span>'
+      : '<strong>Welcome back, Student</strong><span>Sign in to view your learning space, attendance and fee details.</span>';
   }
 }
 

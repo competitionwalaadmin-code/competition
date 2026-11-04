@@ -914,7 +914,9 @@ async function changeStudentPassword() {
   catch (e) { alert('Could not change password: ' + e.message + '. Please sign in again if your session has expired.'); }
 }
 
-function logoutStudent() {
+async function logoutStudent() {
+  try { if (window.cwccLogoutCurrentSession) await window.cwccLogoutCurrentSession(); }
+  catch (e) { console.error('Student logout error:', e); }
   loggedInStudent = null;
   document.getElementById('studentPortalView').style.display = 'none';
   document.getElementById('adminApp').style.display = 'flex';
@@ -1020,7 +1022,9 @@ async function doLogin() {
   }
 }
 
-function logout() {
+async function logout() {
+  try { if (window.cwccLogoutCurrentSession) await window.cwccLogoutCurrentSession(); }
+  catch (e) { console.error('Logout error:', e); }
   location.reload();
 }
 
@@ -2166,7 +2170,7 @@ function renderAll() {
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getDatabase,ref,get,set,update,remove,runTransaction,onValue} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
-import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,updatePassword} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,updatePassword,setPersistence,browserLocalPersistence} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 const firebaseConfig = {
   apiKey: "AIzaSyAz3NvFEDd-AyqXJoU2HLhTLerf3XdY1F8",
   authDomain: "competition-wala-attendance.firebaseapp.com",
@@ -2177,6 +2181,8 @@ const firebaseConfig = {
   appId: "1:178104848004:web:ee1e4c9d395c4d7773bcd1"
 };
 const app=initializeApp(firebaseConfig), fdb=getDatabase(app), auth=getAuth(app);
+// Persist Firebase authentication across browser/app restarts on this device.
+const authPersistenceReady = setPersistence(auth, browserLocalPersistence);
 
 // Resolve the classic-script admission form only after the Firebase allocator exists.
 let resolveAdmissionAllocatorReady;
@@ -2286,44 +2292,73 @@ const studentEmailForAdmission = value => {
   if (!safe) throw new Error('Invalid admission number.');
   return safe + '@students.competitionwala.in';
 };
-window.cwccAdminLogin = async function(email, password) {
-  const credential = await signInWithEmailAndPassword(auth, email, password);
-  const uid = credential.user.uid;
+async function cwccActivateAdminSession() {
+  const uid = auth.currentUser?.uid;
+  if (!uid) throw new Error('Admin session is not available.');
   const adminFlag = await get(ref(fdb, 'admins/' + uid));
-  if (!adminFlag.exists() || adminFlag.val() !== true) { await signOut(auth); throw new Error('This account is not authorized as an ERP administrator. Add its UID under admins in Firebase Realtime Database.'); }
-  adminCloudActive = true; window.cwccIsAdminCloud = true;
+  if (!adminFlag.exists() || adminFlag.val() !== true) {
+    await signOut(auth);
+    throw new Error('This account is not authorized as an ERP administrator.');
+  }
+  adminCloudActive = true;
+  window.cwccIsAdminCloud = true;
   if (stopAdminCloudListener) stopAdminCloudListener();
   stopAdminCloudListener = onValue(ref(fdb, 'erpCloud/data'), snap => {
     if (snap.exists()) window.cwccReplaceLocalDB(snap.val());
-  }, err => alert('Cloud live-sync error: ' + err.message));
+  }, err => console.error('Cloud live-sync error:', err));
   const cloud = await get(ref(fdb, 'erpCloud/data'));
   if (!cloud.exists()) {
     const local = window.cwccDB || {students:[],payments:[]};
     if (!Array.isArray(local.students) || local.students.length === 0) {
-      await signOut(auth); adminCloudActive=false; window.cwccIsAdminCloud=false;
-      throw new Error('Cloud database is empty and this device has no student records. Sign in on the computer containing the original ERP data first to perform the first migration.');
+      await signOut(auth);
+      adminCloudActive = false;
+      window.cwccIsAdminCloud = false;
+      throw new Error('Cloud database is empty and this device has no student records. Sign in on the computer containing the original ERP data first.');
     }
     await window.cwccCloudPersist(local);
     alert('First cloud migration completed from this computer. Keep the original backup safely.');
-  } else { window.cwccReplaceLocalDB(cloud.val()); }
+  } else {
+    window.cwccReplaceLocalDB(cloud.val());
+  }
+  const login = document.getElementById('login');
+  const adminApp = document.getElementById('adminApp');
+  const studentView = document.getElementById('studentPortalView');
+  if (login) login.style.display = 'none';
+  if (adminApp) adminApp.style.display = 'flex';
+  if (studentView) studentView.style.display = 'none';
+}
+window.cwccAdminLogin = async function(email, password) {
+  await authPersistenceReady;
+  await signInWithEmailAndPassword(auth, email, password);
+  await cwccActivateAdminSession();
 };
 window.cwccChangeStudentPassword = async function(newPassword) { if (!auth.currentUser) throw new Error('Please sign in again.'); await updatePassword(auth.currentUser,newPassword); };
+async function cwccActivateStudentSession(uid) {
+  const mapSnap = await get(ref(fdb, 'studentAuth/' + uid));
+  if (!mapSnap.exists()) throw new Error('Student account is not linked to an admission record. Contact the institute.');
+  const map = mapSnap.val();
+  if (String(map.accessStatus || 'active').toLowerCase() === 'denied') {
+    throw new Error('ACCESS DENIED by institute. Contact the office.');
+  }
+  const studentSnap = await get(ref(fdb, 'students/' + map.studentId));
+  if (!studentSnap.exists()) throw new Error('Student profile not found in cloud. Contact the institute.');
+  const student = studentSnap.val();
+  if (String(student.accessStatus || student.status || 'active').toLowerCase() === 'denied') {
+    throw new Error('ACCESS DENIED by institute. Contact the office.');
+  }
+  const paySnap = await get(ref(fdb, 'studentPayments/' + map.studentId));
+  const payments = paySnap.exists() ? Object.values(paySnap.val() || {}) : [];
+  window.cwccCompleteStudentLogin(student, payments);
+}
 window.cwccStudentLogin = async function(admissionNo, password) {
+  await authPersistenceReady;
   const credential = await signInWithEmailAndPassword(auth, studentEmailForAdmission(admissionNo), password);
-  const uid = credential.user.uid;
   try {
-    const mapSnap = await get(ref(fdb, 'studentAuth/' + uid));
-    if (!mapSnap.exists()) throw new Error('Student account is not linked to an admission record. Contact the institute.');
-    const map = mapSnap.val();
-    if (String(map.accessStatus || 'active').toLowerCase() === 'denied') throw new Error('ACCESS DENIED by institute. Contact the office.');
-    const studentSnap = await get(ref(fdb, 'students/' + map.studentId));
-    if (!studentSnap.exists()) throw new Error('Student profile not found in cloud. Contact the institute.');
-    const student = studentSnap.val();
-    if (String(student.accessStatus || 'active').toLowerCase() === 'denied') throw new Error('ACCESS DENIED by institute. Contact the office.');
-    const paySnap = await get(ref(fdb, 'studentPayments/' + map.studentId));
-    const payments = paySnap.exists() ? Object.values(paySnap.val() || {}) : [];
-    window.cwccCompleteStudentLogin(student, payments);
-  } catch (error) { await signOut(auth); throw error; }
+    await cwccActivateStudentSession(credential.user.uid);
+  } catch (error) {
+    await signOut(auth);
+    throw error;
+  }
 };
 window.cwccCloudPersist = async function(data) {
   if (!adminCloudActive || !auth.currentUser) throw new Error('Admin cloud session is not active.');
@@ -2347,6 +2382,59 @@ window.cwccCloudPersist = async function(data) {
     set(ref(fdb, 'studentAuth'), authTree)
   ]);
 };
+
+// Restore the user's Firebase role after refreshing or reopening the installed app.
+let cwccLastRestoredUid = null;
+let cwccRestoreInProgress = false;
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    cwccLastRestoredUid = null;
+    adminCloudActive = false;
+    window.cwccIsAdminCloud = false;
+    if (stopAdminCloudListener) {
+      stopAdminCloudListener();
+      stopAdminCloudListener = null;
+    }
+    return;
+  }
+  if (cwccRestoreInProgress || cwccLastRestoredUid === user.uid) return;
+  cwccRestoreInProgress = true;
+  try {
+    await authPersistenceReady;
+    const adminSnap = await get(ref(fdb, 'admins/' + user.uid));
+    if (adminSnap.exists() && adminSnap.val() === true) {
+      await cwccActivateAdminSession();
+      cwccLastRestoredUid = user.uid;
+    } else {
+      const studentMap = await get(ref(fdb, 'studentAuth/' + user.uid));
+      // Teacher/scanner accounts share Firebase Auth but are not ERP portal roles.
+      if (!studentMap.exists()) return;
+      await cwccActivateStudentSession(user.uid);
+      cwccLastRestoredUid = user.uid;
+    }
+  } catch (error) {
+    console.error('Could not restore saved login:', error);
+    try { await signOut(auth); } catch (_) {}
+    const login = document.getElementById('login');
+    const adminApp = document.getElementById('adminApp');
+    const studentView = document.getElementById('studentPortalView');
+    if (login) login.style.display = 'flex';
+    if (adminApp) adminApp.style.display = 'none';
+    if (studentView) studentView.style.display = 'none';
+  } finally {
+    cwccRestoreInProgress = false;
+  }
+});
+window.cwccLogoutCurrentSession = async function() {
+  if (stopAdminCloudListener) {
+    stopAdminCloudListener();
+    stopAdminCloudListener = null;
+  }
+  adminCloudActive = false;
+  window.cwccIsAdminCloud = false;
+  await signOut(auth);
+};
+
 </script>
 <!-- PWA INSTALL SUPPORT: kept outside all ERP JavaScript/template strings -->
 <style>

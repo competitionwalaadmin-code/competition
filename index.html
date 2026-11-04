@@ -487,6 +487,111 @@ table td{color:#35425e}
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
+
+<style id="cwcc-responsive-overrides">
+/* Responsive layout for phones, tablets and desktops */
+html, body { width:100%; max-width:100%; overflow-x:hidden; }
+img, canvas, video, iframe { max-width:100%; }
+input, select, textarea, button { max-width:100%; }
+
+/* Login screen */
+.login {
+  padding: clamp(12px, 3vw, 28px);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-y:auto;
+}
+.loginbox {
+  width: min(480px, calc(100vw - 28px)) !important;
+  max-width: 100%;
+  padding: clamp(18px, 4vw, 34px) !important;
+  margin: auto;
+}
+.loginbox h2 { font-size: clamp(20px, 5vw, 25px) !important; }
+.loginbox input, .loginbox button { min-height: 46px; font-size: 16px; }
+
+/* Desktop/tablet content should shrink instead of forcing a wide page */
+.main { min-width:0; }
+.page, .panel, .grid2, .call-wrap { min-width:0; }
+table { max-width:100%; }
+.panel { overflow-x:auto; }
+.formgrid, .grid2, .call-wrap { min-width:0; }
+
+/* Phone navigation becomes a compact horizontal menu; content uses full width */
+@media (max-width: 700px) {
+  .app { display:block !important; min-height:100vh; }
+  .side {
+    position:sticky !important;
+    top:0 !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    padding:7px 8px !important;
+    display:block !important;
+    overflow:visible !important;
+    z-index:1000 !important;
+  }
+  .brand {
+    font-size:14px !important;
+    line-height:1.1 !important;
+    padding:4px 7px 7px !important;
+  }
+  .brand small { display:block !important; font-size:9px !important; }
+  .nav {
+    display:flex !important;
+    flex-direction:row !important;
+    gap:5px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    padding:2px 0 5px !important;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
+  .nav button {
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex:0 0 auto !important;
+    width:auto !important;
+    min-width:max-content !important;
+    margin:0 !important;
+    padding:9px 11px !important;
+    font-size:12px !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+  }
+  .nav button:before { content:none !important; }
+  .main {
+    margin:0 !important;
+    width:100% !important;
+    max-width:100% !important;
+    padding:12px !important;
+  }
+  .top { gap:8px; flex-wrap:wrap; }
+  .top h1 { font-size:20px !important; }
+  .cards { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:9px !important; }
+  .card { min-width:0; padding:12px !important; }
+  .card .num { font-size:21px !important; overflow-wrap:anywhere; }
+  .grid2, .call-wrap, .formgrid { grid-template-columns:minmax(0,1fr) !important; }
+  .panel { min-width:0 !important; padding:12px !important; }
+  .panel table { min-width:620px; }
+  .panel:has(table) { overflow-x:auto !important; }
+  .toolbar { display:flex; flex-wrap:wrap; gap:7px; }
+  .toolbar > * { min-width:0; }
+  .modalbox { width:calc(100vw - 20px) !important; max-width:calc(100vw - 20px) !important; max-height:90dvh; overflow:auto; }
+}
+@media (max-width: 380px) {
+  .loginbox { width:calc(100vw - 20px) !important; padding:17px !important; }
+  .cards { grid-template-columns:1fr !important; }
+  .main { padding:9px !important; }
+  .nav button { padding:8px 9px !important; font-size:11px !important; }
+}
+</style>
+
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->

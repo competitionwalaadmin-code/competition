@@ -1815,7 +1815,9 @@ function cwccStudentAvatar(student, sizeClass = '') {
   // Only render locally stored, base64 image data; reject arbitrary URLs/markup.
   const safePhoto = /^data:image\/(?:jpeg|png|webp|gif);base64,[a-z0-9+/=]+$/i.test(photo) ? photo : '';
   if (safePhoto) {
-    return `<img class="cwcc-avatar ${sizeClass}" src="${safePhoto}" alt="${name} photo" loading="lazy" onload="if(this.naturalWidth > this.naturalHeight * 1.15){const f=document.createElement('span');f.className='cwcc-avatar ${sizeClass}';f.textContent='${initials}';f.setAttribute('aria-label','Portrait photo not available');this.replaceWith(f)}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cwcc-avatar ${sizeClass}',textContent:'${initials}'}))">`;
+    // Keep the photo selected by the institute, including landscape images.
+    // object-fit: cover crops it neatly into the portrait profile frame.
+    return `<img class="cwcc-avatar ${sizeClass}" src="${safePhoto}" alt="${name} photo" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cwcc-avatar ${sizeClass}',textContent:'${initials}'}))">`;
   }
   return `<span class="cwcc-avatar ${sizeClass}" role="img" aria-label="${name} initials">${initials}</span>`;
 }

@@ -845,6 +845,42 @@ input, select, textarea { min-width:0; }
 }
 @media(max-width:360px){#studentPortalView .cwcc-profile-card{grid-template-columns:1fr!important}#studentPortalView #stProfilePhoto{width:88px!important;height:106px!important}#studentPortalView #stProfilePhoto img,#studentPortalView #stProfilePhoto .cwcc-profile-photo,#studentPortalView #stProfilePhoto .cwcc-profile-fallback{width:88px!important;height:106px!important;min-width:88px!important;max-width:88px!important;min-height:106px!important;max-height:106px!important}}
 </style>
+
+<style id="cwcc-photo-size-final">
+/* Final photo sizing: small admin thumbnails, compact student DP. */
+.cwcc-student-cell{display:flex!important;align-items:center!important;gap:8px!important;min-width:150px!important}
+.cwcc-student-cell .cwcc-avatar,.cwcc-student-cell img.cwcc-avatar{
+  width:48px!important;height:58px!important;min-width:48px!important;max-width:48px!important;
+  min-height:58px!important;max-height:58px!important;flex:0 0 48px!important;
+  display:block!important;object-fit:cover!important;object-position:center!important;
+  border-radius:8px!important;border:1px solid #dbe5fb!important;
+}
+.cwcc-student-cell .cwcc-avatar-sm,.cwcc-student-cell img.cwcc-avatar-sm{
+  width:44px!important;height:54px!important;min-width:44px!important;max-width:44px!important;
+  min-height:54px!important;max-height:54px!important;flex-basis:44px!important;
+}
+#studentTable table{table-layout:auto!important;width:100%!important}
+#studentTable table td{vertical-align:middle!important}
+#studentTable table td:nth-child(2){min-width:150px!important}
+#studentTable table td:nth-child(1),#studentTable table td:nth-child(3),#studentTable table td:nth-child(4),#studentTable table td:nth-child(5),#studentTable table td:nth-child(6),#studentTable table td:nth-child(7),#studentTable table td:nth-child(8),#studentTable table td:nth-child(9){font-size:12px!important;white-space:nowrap!important}
+#studentPortalView .cwcc-profile-card{grid-template-columns:90px minmax(0,1fr)!important;gap:16px!important}
+#studentPortalView #stProfilePhoto{width:90px!important;height:110px!important;min-width:90px!important;max-width:90px!important;overflow:hidden!important}
+#studentPortalView #stProfilePhoto img.cwcc-profile-photo,#studentPortalView #stProfilePhoto .cwcc-profile-photo{
+  width:90px!important;height:110px!important;min-width:90px!important;max-width:90px!important;
+  min-height:110px!important;max-height:110px!important;object-fit:cover!important;object-position:center!important;
+  border-radius:14px!important;display:block!important
+}
+#studentPortalView #stProfilePhoto .cwcc-profile-fallback{width:90px!important;height:110px!important;font-size:28px!important}
+@media(max-width:700px){
+  .cwcc-student-cell .cwcc-avatar,.cwcc-student-cell img.cwcc-avatar{width:40px!important;height:50px!important;min-width:40px!important;max-width:40px!important;min-height:50px!important;max-height:50px!important;flex-basis:40px!important}
+  #studentTable table td:nth-child(2){min-width:130px!important}
+  #studentTable table td:nth-child(n+3){font-size:11px!important}
+  #studentPortalView .cwcc-profile-card{grid-template-columns:64px minmax(0,1fr)!important;gap:11px!important;padding:13px!important}
+  #studentPortalView #stProfilePhoto{width:64px!important;height:80px!important;min-width:64px!important;max-width:64px!important}
+  #studentPortalView #stProfilePhoto img.cwcc-profile-photo,#studentPortalView #stProfilePhoto .cwcc-profile-photo{width:64px!important;height:80px!important;min-width:64px!important;max-width:64px!important;min-height:80px!important;max-height:80px!important;border-radius:10px!important}
+  #studentPortalView #stProfilePhoto .cwcc-profile-fallback{width:64px!important;height:80px!important;font-size:22px!important}
+}
+</style>
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -1815,8 +1851,6 @@ function cwccStudentAvatar(student, sizeClass = '') {
   // Only render locally stored, base64 image data; reject arbitrary URLs/markup.
   const safePhoto = /^data:image\/(?:jpeg|png|webp|gif);base64,[a-z0-9+/=]+$/i.test(photo) ? photo : '';
   if (safePhoto) {
-    // Keep the photo selected by the institute, including landscape images.
-    // object-fit: cover crops it neatly into the portrait profile frame.
     return `<img class="cwcc-avatar ${sizeClass}" src="${safePhoto}" alt="${name} photo" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cwcc-avatar ${sizeClass}',textContent:'${initials}'}))">`;
   }
   return `<span class="cwcc-avatar ${sizeClass}" role="img" aria-label="${name} initials">${initials}</span>`;

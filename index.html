@@ -1154,16 +1154,50 @@ async function loadStorage() {
   }
 }
 
+let cwccCloudSyncTimer = null;
+let cwccCloudSyncBusy = false;
+let cwccCloudSyncQueued = false;
+let cwccLastCloudWriteAt = 0;
+
+function queueCloudSync(immediate = false) {
+  if (!window.cwccCloudPersist || !window.cwccIsAdminCloud) return;
+  cwccCloudSyncQueued = true;
+  clearTimeout(cwccCloudSyncTimer);
+  const run = async () => {
+    if (cwccCloudSyncBusy) return;
+    cwccCloudSyncBusy = true;
+    cwccCloudSyncQueued = false;
+    try {
+      await window.cwccCloudPersist(db);
+    } catch (cloudError) {
+      console.error('Background cloud sync failed:', cloudError);
+      window.cwccCloudSyncStatus = 'error';
+    } finally {
+      cwccCloudSyncBusy = false;
+      if (cwccCloudSyncQueued) queueCloudSync(true);
+    }
+  };
+  if (immediate) {
+    run();
+  } else {
+    cwccCloudSyncTimer = setTimeout(run, 120);
+  }
+}
+
 async function persist() {
   try {
     const idb = await initDatabase();
-    return await new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       const transaction = idb.transaction(STORE_NAME, 'readwrite');
-      transaction.oncomplete = async () => { try { if (window.cwccCloudPersist && window.cwccIsAdminCloud) await window.cwccCloudPersist(db); resolve(true); } catch (cloudError) { console.error('Cloud sync failed:', cloudError); alert('Saved on this device, but cloud sync failed. Do not close this page until internet/Firebase access is restored. ' + cloudError.message); resolve(false); } };
+      transaction.oncomplete = () => resolve();
       transaction.onerror = () => reject(transaction.error || new Error('IndexedDB transaction failed'));
       transaction.onabort = () => reject(transaction.error || new Error('IndexedDB transaction aborted'));
       transaction.objectStore(STORE_NAME).put(db, 'erp_main');
     });
+    // Never make the UI wait for Firebase. Local save completes first; cloud sync
+    // runs in the background so Update/Save/Access actions feel instant.
+    queueCloudSync();
+    return true;
   } catch (err) {
     console.error('Failed to save to IndexedDB:', err);
     alert('Storage save error: ' + err.message);
@@ -1177,7 +1211,10 @@ loadStorage();
 // Safe bridges used by the Firebase module.
 window.cwccReplaceLocalDB = function(remoteData) {
   db = { students: Array.isArray(remoteData?.students) ? remoteData.students : [], payments: Array.isArray(remoteData?.payments) ? remoteData.payments : [] };
-  window.cwccDB = db; renderAll();
+  window.cwccDB = db;
+  // Defer the expensive table rebuild by one frame so Firebase callbacks never
+  // block clicks, modal opening, or typing.
+  requestAnimationFrame(() => renderAll());
 };
 window.cwccCompleteStudentLogin = function(student, studentPayments) {
   db = { students: [student], payments: Array.isArray(studentPayments) ? studentPayments : [] };
@@ -1594,12 +1631,11 @@ async function saveStudent() {
   }
 
   if (window.cwccSyncStudent) {
-    try {
-      await window.cwccSyncStudent(st);
-    } catch (error) {
-      console.error('Firebase student sync:', error);
-      alert('Admission number ' + admissionNo + ' was saved on this device, but cloud sync failed. Do not admit from another device until Firebase access is fixed and this student is synced. Error: ' + (error.message || error));
-    }
+    // persist() already queues the complete cloud snapshot. Keep the UI independent
+    // of a second Firebase round trip for this same student record.
+    Promise.resolve(window.cwccSyncStudent(st)).catch(error => {
+      console.error('Firebase student background sync:', error);
+    });
   }
 
   closeModal('admissionModal');
@@ -1942,12 +1978,9 @@ async function setStudentAccess(id, nextStatus) {
   }
 
   if (typeof window.cwccSyncStudent === 'function') {
-    try {
-      await window.cwccSyncStudent(student);
-    } catch (error) {
-      console.error('Firebase access-status sync failed:', error);
-      alert('Local status saved, but Firebase sync failed. Please check your connection and sync students again.\\n' + error.message);
-    }
+    Promise.resolve(window.cwccSyncStudent(student)).catch(error => {
+      console.error('Firebase access-status background sync failed:', error);
+    });
   }
 
   if (loggedInStudent && loggedInStudent.id === id && deny) {
@@ -2631,8 +2664,8 @@ function renderAll() {
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script defer src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getDatabase,ref,get,set,update,remove,runTransaction,onValue} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
@@ -2977,33 +3010,44 @@ async function cwccActivateAdminSession() {
     await signOut(auth);
     throw new Error('This account is not authorized as an ERP administrator.');
   }
+
   adminCloudActive = true;
   window.cwccIsAdminCloud = true;
-  if (stopAdminCloudListener) stopAdminCloudListener();
-  stopAdminCloudListener = onValue(ref(fdb, 'erpCloud/data'), snap => {
-    if (snap.exists()) window.cwccReplaceLocalDB(snap.val());
-  }, err => console.error('Cloud live-sync error:', err));
-  const cloud = await get(ref(fdb, 'erpCloud/data'));
-  if (!cloud.exists()) {
-    const local = window.cwccDB || {students:[],payments:[]};
-    if (!Array.isArray(local.students) || local.students.length === 0) {
-      await signOut(auth);
-      adminCloudActive = false;
-      window.cwccIsAdminCloud = false;
-      throw new Error('Cloud database is empty and this device has no student records. Sign in on the computer containing the original ERP data first.');
-    }
-    await window.cwccCloudPersist(local);
-    alert('First cloud migration completed from this computer. Keep the original backup safely.');
-  } else {
-    window.cwccReplaceLocalDB(cloud.val());
-  }
+
+  // Open the ERP immediately. Cloud hydration happens in the background.
   const login = document.getElementById('login');
   const adminApp = document.getElementById('adminApp');
   const studentView = document.getElementById('studentPortalView');
   if (login) login.style.display = 'none';
   if (adminApp) adminApp.style.display = 'flex';
   if (studentView) studentView.style.display = 'none';
+  renderAll();
+
+  if (stopAdminCloudListener) stopAdminCloudListener();
+  const cloudRef = ref(fdb, 'erpCloud/data');
+  let firstCloudSnapshot = true;
+  stopAdminCloudListener = onValue(cloudRef, snap => {
+    const value = snap.val();
+    if (!snap.exists()) {
+      // Only migrate when Firebase has no cloud dataset. Never overwrite an
+      // existing cloud database from a stale browser automatically.
+      if (firstCloudSnapshot && Array.isArray(window.cwccDB?.students) && window.cwccDB.students.length) {
+        queueCloudSync(true);
+      }
+      firstCloudSnapshot = false;
+      return;
+    }
+    firstCloudSnapshot = false;
+    const remoteUpdatedAt = Number(value?.updatedAt || 0);
+    if (remoteUpdatedAt && remoteUpdatedAt <= cwccLastCloudWriteAt) return;
+    window.cwccReplaceLocalDB(value);
+  }, err => console.error('Cloud live-sync error:', err));
+
+  // Do not await the initial cloud read. The listener hydrates the ERP when the
+  // snapshot arrives, while the interface remains clickable immediately.
+  get(cloudRef).catch(error => console.error('Initial cloud load failed:', error));
 }
+
 window.cwccAdminLogin = async function(email, password) {
   await authPersistenceReady;
   await signInWithEmailAndPassword(auth, email, password);
@@ -3042,9 +3086,11 @@ window.cwccCloudPersist = async function(data) {
   const students = Array.isArray(data.students) ? data.students : [];
   const payments = Array.isArray(data.payments) ? data.payments : [];
   const studentTree = {}; const paymentTree = {}; const authTree = {};
+  const updatedAt = Date.now();
+
   for (const st of students) {
     if (!st || !st.id) continue;
-    studentTree[st.id] = {...st, updatedAt: Date.now()};
+    studentTree[st.id] = {...st, updatedAt};
     if (st.authUid) authTree[st.authUid] = {studentId: st.id, accessStatus: st.accessStatus || 'active'};
   }
   for (const p of payments) {
@@ -3052,12 +3098,17 @@ window.cwccCloudPersist = async function(data) {
     if (!paymentTree[p.studentId]) paymentTree[p.studentId] = {};
     paymentTree[p.studentId][p.id] = p;
   }
-  await Promise.all([
-    set(ref(fdb, 'erpCloud/data'), {students, payments, updatedAt: Date.now()}),
-    set(ref(fdb, 'students'), studentTree),
-    set(ref(fdb, 'studentPayments'), paymentTree),
-    set(ref(fdb, 'studentAuth'), authTree)
-  ]);
+
+  // One multi-location Firebase write instead of four separate full writes.
+  // This dramatically reduces round trips and keeps the existing data model intact.
+  await update(ref(fdb), {
+    'erpCloud/data': {students, payments, updatedAt},
+    'students': studentTree,
+    'studentPayments': paymentTree,
+    'studentAuth': authTree
+  });
+  cwccLastCloudWriteAt = updatedAt;
+  window.cwccCloudSyncStatus = 'saved';
 };
 
 // Restore the user's Firebase role after refreshing or reopening the installed app.

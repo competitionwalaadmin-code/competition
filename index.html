@@ -913,7 +913,14 @@ input, select, textarea { min-width:0; }
   #studentPortalView #stProfilePhoto .cwcc-profile-fallback{width:64px!important;height:80px!important;font-size:22px!important}
 }
 </style>
-</head><body>
+<style id="cwcc-phase4-css">
+.cwcc-phase4-bell{position:relative;border:1px solid #dbe4ef;background:#fff;width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:18px;display:grid;place-items:center;box-shadow:0 3px 12px rgba(15,23,42,.06)}
+.cwcc-phase4-badge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#ef4444;color:#fff;font-size:10px;font-weight:900;display:grid;place-items:center;border:2px solid #fff}
+.cwcc-online{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#ecfdf5;color:#047857;font-size:11px;font-weight:900;border:1px solid #bbf7d0}.cwcc-online.offline{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+.cwcc-phase4-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}.cwcc-phase4-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:15px;box-shadow:0 5px 18px rgba(15,23,42,.05)}.cwcc-phase4-card small{display:block;color:#64748b;font-weight:800;font-size:10px;text-transform:uppercase;letter-spacing:.08em}.cwcc-phase4-card b{display:block;font-size:23px;margin-top:6px;color:#0f172a}.cwcc-phase4-list{display:grid;gap:8px}.cwcc-insight{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc}.cwcc-insight .ico{width:32px;height:32px;border-radius:10px;background:#e8eefc;display:grid;place-items:center;flex:0 0 auto}.cwcc-insight b{font-size:12px}.cwcc-insight small{display:block;color:#64748b;margin-top:2px;line-height:1.4}.cwcc-report-tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}.cwcc-report-tools .btn{width:100%}.cwcc-notify-panel{position:fixed;right:20px;top:78px;width:min(390px,calc(100vw - 28px));max-height:70vh;overflow:auto;background:#fff;border:1px solid #dbe4ef;border-radius:18px;box-shadow:0 20px 60px rgba(15,23,42,.2);z-index:9999;padding:14px;display:none}.cwcc-notify-panel.show{display:block}.cwcc-notify-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.cwcc-notify-item{padding:11px;border:1px solid #e2e8f0;border-radius:12px;margin:7px 0;background:#f8fafc;cursor:pointer}.cwcc-notify-item b{font-size:12px}.cwcc-notify-item small{display:block;color:#64748b;margin-top:3px}.cwcc-empty4{text-align:center;padding:24px;color:#64748b;font-size:13px}.cwcc-report-note{padding:10px 12px;border-radius:12px;background:#eff6ff;color:#1e40af;font-size:12px;margin-top:10px}
+@media(max-width:1050px){.cwcc-phase4-grid{grid-template-columns:repeat(2,1fr)}.cwcc-report-tools{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.cwcc-phase4-grid{grid-template-columns:1fr 1fr}.cwcc-report-tools{grid-template-columns:1fr}.cwcc-notify-panel{right:10px;top:68px}}
+</style></head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
 <div class="login" id="login">
@@ -1019,7 +1026,7 @@ input, select, textarea { min-width:0; }
 </div>
 
 <!-- MAIN ADMIN ERP APPLICATION -->
-<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('finance',this)">💰 Finance Center</button><button onclick="show('analytics',this)">📈 Analytics & Activity</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🧾 Admission Receipt</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="cwcc-top-search"><div class="cwcc-search-wrap"><input id="cwccGlobalSearch" placeholder="Search student, admission no, mobile..." autocomplete="off" oninput="cwccGlobalSearch(this.value)" onkeydown="cwccSearchKey(event)"><div id="cwccSearchResults" class="cwcc-results"></div></div><span class="cwcc-kbd">Ctrl K</span></div><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button><button class="btn secondary" onclick="show('finance')">Open Finance Center</button><button class="btn secondary" onclick="show('analytics')">📈 Analytics & Activity</button></div></div></section><section id="students" class="page"><div class="panel">
+<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('finance',this)">💰 Finance Center</button><button onclick="show('analytics',this)">📈 Analytics & Activity</button><button onclick="show('operations',this)">🚀 Operations Center</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🧾 Admission Receipt</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="cwcc-top-search"><div class="cwcc-search-wrap"><input id="cwccGlobalSearch" placeholder="Search student, admission no, mobile..." autocomplete="off" oninput="cwccGlobalSearch(this.value)" onkeydown="cwccSearchKey(event)"><div id="cwccSearchResults" class="cwcc-results"></div></div><span class="cwcc-kbd">Ctrl K</span></div><span id="cwccNetworkStatus" class="cwcc-online">● Online</span><button class="cwcc-phase4-bell" onclick="toggleCWCCNotifications()" aria-label="Notifications">🔔<span id="cwccNotificationBadge" class="cwcc-phase4-badge">0</span></button><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button><button class="btn secondary" onclick="show('finance')">Open Finance Center</button><button class="btn secondary" onclick="show('analytics')">📈 Analytics & Activity</button></div></div></section><section id="students" class="page"><div class="panel">
   <div class="toolbar" style="justify-content:space-between">
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button type="button" class="btn" id="studentsAvailableTab" onclick="setStudentListTab('active')">🟢 Available Students</button>
@@ -1062,7 +1069,7 @@ input, select, textarea { min-width:0; }
   <div class="cwcc-finance-grid2"><div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>Today's Collection</b><span id="cwccTodayCount"></span></div><div id="cwccTodayPayments"></div></div><div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>Top Outstanding</b><button class="btn secondary" onclick="show('dues')">View All</button></div><div id="cwccTopDues"></div></div></div>
   <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>Collection by Payment Mode</b></div><div id="cwccModeBreakdown"></div></div>
 </div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
-Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purpose</label><input id="callPurpose" value="Module Examination" oninput="updateCallPreview()"></div><div class="call-actions"><button class="btn green" onclick="generateCallLetter()">🖨 Generate Call Letter</button><button class="btn" onclick="printCall()">👁 View / Print</button><button class="btn red" onclick="downloadCallPDF()">📄 Download PDF</button></div></div></div><div class="call-preview-panel"><div class="preview-head">👁️ Call Letter Preview</div><div class="preview-body"><div id="callPreview"></div></div></div></div></section><section id="reports" class="page"><div class="cards"><div class="card blue"><div class="label">TOTAL COURSE FEE</div><div class="num" id="rTotal">₹0</div></div><div class="card green"><div class="label">TOTAL PAID</div><div class="num" id="rPaid">₹0</div></div><div class="card red"><div class="label">TOTAL BALANCE</div><div class="num" id="rBalance">₹0</div></div><div class="card orange"><div class="label">TOTAL PAYMENTS</div><div class="num" id="rPayments">0</div></div></div></section><section id="attendance" class="page"><div class="panel"><div class="panel" style="margin-bottom:16px;background:#f8fbff"><h3>🔐 Teacher-only QR Attendance</h3><p style="font-size:13px;color:#64748b">Sign in with an authorized teacher Firebase account. Students scanning their own ID QR will NOT mark attendance.</p><div class="formgrid"><div><label>Teacher Email</label><input id="teacherEmail" type="email" placeholder="teacher email"></div><div><label>Teacher Password</label><input id="teacherPassword" type="password" placeholder="teacher password"></div><div style="display:flex;align-items:end;gap:8px"><button class="btn green" onclick="teacherSignIn()">Teacher Login</button><button class="btn secondary" onclick="teacherSignOut()">Logout</button></div></div><div id="teacherAuthStatus" style="margin-top:10px;font-size:13px;font-weight:700">Not signed in</div><div class="call-actions"><button class="btn" onclick="startTeacherScanner()">📷 Start Teacher Scanner</button><button class="btn secondary" onclick="stopTeacherScanner()">Stop Scanner</button></div><div id="teacherQrScanner" style="max-width:420px;margin-top:12px"></div><div id="teacherScanResult" style="margin-top:10px;font-weight:700"></div></div><div class="toolbar"><input id="attendanceSearch" placeholder="Search name / admission no..." oninput="renderAttendanceStudents()"><button class="btn green" onclick="syncAllStudentsToFirebase()">☁️ Sync Students</button><button class="btn" onclick="loadTodayAttendance()">🔄 Refresh Today</button><button class="btn secondary" onclick="renderAttendanceHistory()">📈 Student Attendance Scores</button></div><div id="attendanceHistory" class="panel" style="margin-bottom:15px;display:none"></div><div id="attendanceStats" class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:15px"></div><div id="attendanceStudentTable"></div></div></section>
+Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purpose</label><input id="callPurpose" value="Module Examination" oninput="updateCallPreview()"></div><div class="call-actions"><button class="btn green" onclick="generateCallLetter()">🖨 Generate Call Letter</button><button class="btn" onclick="printCall()">👁 View / Print</button><button class="btn red" onclick="downloadCallPDF()">📄 Download PDF</button></div></div></div><div class="call-preview-panel"><div class="preview-head">👁️ Call Letter Preview</div><div class="preview-body"><div id="callPreview"></div></div></div></div></section><section id="reports" class="page"><div class="cards"><div class="card blue"><div class="label">TOTAL COURSE FEE</div><div class="num" id="rTotal">₹0</div></div><div class="card green"><div class="label">TOTAL PAID</div><div class="num" id="rPaid">₹0</div></div><div class="card red"><div class="label">TOTAL BALANCE</div><div class="num" id="rBalance">₹0</div></div><div class="card orange"><div class="label">TOTAL PAYMENTS</div><div class="num" id="rPayments">0</div></div></div><div class="panel" style="margin-top:14px"><div class="cwcc-section-head"><b>📊 Reports Studio</b><span style="font-size:11px;color:#64748b">Export live data without changing Firebase records.</span></div><div class="cwcc-report-tools"><button class="btn" onclick="cwccExportCSV('students')">⬇ Students CSV</button><button class="btn green" onclick="cwccExportCSV('payments')">⬇ Payments CSV</button><button class="btn secondary" onclick="cwccExportCSV('dues')">⬇ Due List CSV</button><button class="btn secondary" onclick="cwccPrintExecutiveSummary()">🖨 Executive Summary</button></div><div class="cwcc-report-note">Exports are generated locally from the data already loaded in this browser. No external service is used.</div></div></section><section id="attendance" class="page"><div class="panel"><div class="panel" style="margin-bottom:16px;background:#f8fbff"><h3>🔐 Teacher-only QR Attendance</h3><p style="font-size:13px;color:#64748b">Sign in with an authorized teacher Firebase account. Students scanning their own ID QR will NOT mark attendance.</p><div class="formgrid"><div><label>Teacher Email</label><input id="teacherEmail" type="email" placeholder="teacher email"></div><div><label>Teacher Password</label><input id="teacherPassword" type="password" placeholder="teacher password"></div><div style="display:flex;align-items:end;gap:8px"><button class="btn green" onclick="teacherSignIn()">Teacher Login</button><button class="btn secondary" onclick="teacherSignOut()">Logout</button></div></div><div id="teacherAuthStatus" style="margin-top:10px;font-size:13px;font-weight:700">Not signed in</div><div class="call-actions"><button class="btn" onclick="startTeacherScanner()">📷 Start Teacher Scanner</button><button class="btn secondary" onclick="stopTeacherScanner()">Stop Scanner</button></div><div id="teacherQrScanner" style="max-width:420px;margin-top:12px"></div><div id="teacherScanResult" style="margin-top:10px;font-weight:700"></div></div><div class="toolbar"><input id="attendanceSearch" placeholder="Search name / admission no..." oninput="renderAttendanceStudents()"><button class="btn green" onclick="syncAllStudentsToFirebase()">☁️ Sync Students</button><button class="btn" onclick="loadTodayAttendance()">🔄 Refresh Today</button><button class="btn secondary" onclick="renderAttendanceHistory()">📈 Student Attendance Scores</button></div><div id="attendanceHistory" class="panel" style="margin-bottom:15px;display:none"></div><div id="attendanceStats" class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:15px"></div><div id="attendanceStudentTable"></div></div></section>
 
 
 <section id="analytics" class="page">
@@ -1080,6 +1087,23 @@ Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purp
     <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>📝 Admin Activity</b><span id="cwccActivityCount"></span></div><div id="cwccActivityList" class="cwcc-activity-list"></div></div>
   </div>
 </section>
+
+<section id="operations" class="page">
+  <div class="panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h3>🚀 Operations Center</h3><p style="margin:0;color:#64748b;font-size:12px">Phase 4 — smart daily control, notifications and action-ready insights.</p></div><button class="btn secondary" onclick="renderPhase4Operations()">↻ Refresh</button></div>
+    <div id="cwccPhase4Stats" class="cwcc-phase4-grid" style="margin-top:14px"></div>
+    <div class="grid2">
+      <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>🧠 Smart Insights</b></div><div id="cwccSmartInsights" class="cwcc-phase4-list"></div></div>
+      <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>⚡ Priority Actions</b></div><div id="cwccPriorityActions" class="cwcc-phase4-list"></div></div>
+    </div>
+    <div class="panel cwcc-inner-panel" style="margin-top:14px"><div class="cwcc-section-head"><b>🔔 Notifications</b><button class="btn secondary" onclick="toggleCWCCNotifications()">Open Panel</button></div><div id="cwccOperationsNotifications" class="cwcc-phase4-list"></div></div>
+  </div>
+</section>
+
+<div id="cwccNotificationPanel" class="cwcc-notify-panel" onclick="event.stopPropagation()">
+  <div class="cwcc-notify-head"><b>🔔 Notifications</b><button class="btn secondary" style="padding:6px 9px" onclick="toggleCWCCNotifications(false)">✕</button></div>
+  <div id="cwccNotificationList"></div>
+</div>
 
 <!-- ADMISSION RECEIPT TAB: STUDENT ADMISSION RECEIPT & DETAILS ON A4 -->
 <section id="others" class="page">
@@ -1523,6 +1547,7 @@ function show(id, btn) {
     attendance: 'QR Attendance',
     finance: 'Finance Center',
     analytics: 'Analytics & Activity',
+    operations: 'Operations Center',
     others: 'Admission Receipt'
   }[id] || 'Dashboard';
   if (btn) {
@@ -1534,6 +1559,9 @@ function show(id, btn) {
   }
   if (id === 'analytics') {
     renderPhase3Analytics();
+  }
+  if (id === 'operations') {
+    renderPhase4Operations();
   }
   renderAll();
 }
@@ -2342,6 +2370,7 @@ const cwccCommandActions = [
   ['Due Center','View outstanding fees','⚠️',()=>show('dues')],
   ['Finance Center','Collection and outstanding dashboard','💰',()=>show('finance')],
   ['Analytics & Activity','Business intelligence and admin activity','📈',()=>show('analytics')],
+  ['Operations Center','Smart insights, notifications and daily control','🚀',()=>show('operations')],
   ['Receipts','Open payment receipts','🧾',()=>show('receipts')],
   ['Admission Receipt','Print an admission receipt','📄',()=>show('others')],
   ['QR Attendance','Open teacher attendance','📷',()=>show('attendance')],
@@ -2894,6 +2923,74 @@ function printDemandBill() {
   }, 150);
 }
 
+function cwccPhase4NotificationsData(){
+  const students=Array.isArray(db.students)?db.students:[], payments=Array.isArray(db.payments)?db.payments:[];
+  const todayStr=today(), now=new Date();
+  const due=students.filter(s=>balance(s)>0);
+  const overdue=due.filter(s=>!s.due || String(s.due)<todayStr);
+  const dueToday=due.filter(s=>String(s.due||'')===todayStr);
+  const next7=new Date(now.getTime()+7*86400000); next7.setHours(23,59,59,999);
+  const due7=due.filter(s=>{if(!s.due)return false;const d=new Date(s.due+'T23:59:59');return d>=new Date(todayStr+'T00:00:00')&&d<=next7;});
+  const recentAdmissions=students.filter(s=>String(s.date||'')>=todayStr).length;
+  const todayCollection=payments.filter(p=>p.date===todayStr).reduce((a,p)=>a+(Number(p.amount)||0),0);
+  const list=[];
+  if(overdue.length) list.push({icon:'🔴',title:`${overdue.length} student${overdue.length===1?'':'s'} overdue`,detail:`${money(overdue.reduce((a,s)=>a+balance(s),0))} outstanding`,action:()=>show('dues')});
+  if(dueToday.length) list.push({icon:'🟠',title:`${dueToday.length} due today`,detail:'Review and send reminders',action:()=>show('dues')});
+  if(due7.length) list.push({icon:'🟡',title:`${due7.length} installment${due7.length===1?'':'s'} due within 7 days`,detail:'Plan collection follow-ups',action:()=>show('dues')});
+  if(recentAdmissions) list.push({icon:'🆕',title:`${recentAdmissions} new admission${recentAdmissions===1?'':'s'} today`,detail:'Review today’s admissions',action:()=>show('students')});
+  if(todayCollection) list.push({icon:'💰',title:`${money(todayCollection)} collected today`,detail:`${payments.filter(p=>p.date===todayStr).length} payment entries`,action:()=>show('finance')});
+  if(!list.length) list.push({icon:'✅',title:'Everything looks clear',detail:'No urgent operational alerts right now.',action:()=>show('dashboard')});
+  return list.slice(0,8);
+}
+function renderPhase4Notifications(){
+  const items=cwccPhase4NotificationsData();
+  const badge=document.getElementById('cwccNotificationBadge'); if(badge) badge.textContent=items.filter(x=>x.icon!=='✅').length;
+  const box=document.getElementById('cwccNotificationList'); if(box) box.innerHTML=items.map((n,i)=>`<div class="cwcc-notify-item" onclick="cwccPhase4NotificationsData()[${i}].action()"><b>${n.icon} ${escapeHTML(n.title)}</b><small>${escapeHTML(n.detail)}</small></div>`).join('');
+  const op=document.getElementById('cwccOperationsNotifications'); if(op) op.innerHTML=items.map((n,i)=>`<div class="cwcc-insight" onclick="cwccPhase4NotificationsData()[${i}].action()" style="cursor:pointer"><div class="ico">${n.icon}</div><div><b>${escapeHTML(n.title)}</b><small>${escapeHTML(n.detail)}</small></div></div>`).join('');
+}
+function toggleCWCCNotifications(force){
+  const p=document.getElementById('cwccNotificationPanel'); if(!p)return;
+  const showPanel=typeof force==='boolean'?force:!p.classList.contains('show');
+  if(showPanel) renderPhase4Notifications();
+  p.classList.toggle('show',showPanel);
+}
+function renderPhase4Operations(){
+  const students=Array.isArray(db.students)?db.students:[], payments=Array.isArray(db.payments)?db.payments:[];
+  const todayStr=today(), due=students.filter(s=>balance(s)>0), overdue=due.filter(s=>!s.due||String(s.due)<todayStr);
+  const todayPay=payments.filter(p=>p.date===todayStr), todayAmt=todayPay.reduce((a,p)=>a+(Number(p.amount)||0),0);
+  const weekStart=new Date(); weekStart.setHours(0,0,0,0); weekStart.setDate(weekStart.getDate()-6);
+  const weekAdmissions=students.filter(s=>{const d=new Date((s.date||'')+'T00:00:00');return !isNaN(d)&&d>=weekStart;}).length;
+  const stats=[['STUDENTS',students.length],['TODAY COLLECTION',money(todayAmt)],['OUTSTANDING',money(due.reduce((a,s)=>a+balance(s),0))],['OVERDUE STUDENTS',overdue.length]];
+  const box=document.getElementById('cwccPhase4Stats'); if(box) box.innerHTML=stats.map(x=>`<div class="cwcc-phase4-card"><small>${x[0]}</small><b>${x[1]}</b></div>`).join('');
+  const insights=[];
+  if(overdue.length) insights.push(['🔴','Collection attention needed',`${overdue.length} students are overdue with ${money(overdue.reduce((a,s)=>a+balance(s),0))} outstanding.`,()=>show('dues')]);
+  if(todayAmt===0) insights.push(['💡','No collection recorded today','If payments were received, verify that today’s payment entries are saved.',()=>show('finance')]);
+  if(weekAdmissions) insights.push(['🆕','Admissions momentum',`${weekAdmissions} admissions recorded in the last 7 days.`,()=>show('students')]);
+  if(students.length>=1){const avg=students.reduce((a,s)=>a+(Number(s.net)||0),0)/students.length;insights.push(['📚','Average course value',`${money(avg)} average net course fee across ${students.length} students.`,()=>show('analytics')]);}
+  if(!insights.length) insights.push(['✅','System healthy','No immediate action is required.',()=>show('dashboard')]);
+  const ib=document.getElementById('cwccSmartInsights'); if(ib) ib.innerHTML=insights.map(x=>`<div class="cwcc-insight" onclick="(${x[3].toString()})()" style="cursor:pointer"><div class="ico">${x[0]}</div><div><b>${escapeHTML(x[1])}</b><small>${escapeHTML(x[2])}</small></div></div>`).join('');
+  const actions=[['💰','Review today’s payments',()=>show('finance')],['🚨','Open overdue students',()=>show('dues')],['📈','Open analytics',()=>show('analytics')],['👨‍🎓','Open students',()=>show('students')]];
+  const ab=document.getElementById('cwccPriorityActions'); if(ab) ab.innerHTML=actions.map(x=>`<div class="cwcc-insight" onclick="(${x[2].toString()})()" style="cursor:pointer"><div class="ico">${x[0]}</div><div><b>${x[1]}</b><small>Open this workspace now</small></div></div>`).join('');
+  renderPhase4Notifications();
+}
+function cwccCSVCell(v){return `"${String(v??'').replace(/"/g,'""')}"`;}
+function cwccDownloadCSV(filename, headers, rows){
+  const csv=[headers, ...rows].map(r=>r.map(cwccCSVCell).join(',')).join('\n');
+  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500);
+}
+function cwccExportCSV(type){
+  if(type==='students') cwccDownloadCSV('CWCC_Students.csv',['Admission No','Name','Father','Mobile','Course','Batch','Admission Date','Net Fee','Paid','Balance','Status'],db.students.map(s=>[s.admissionNo,s.name,s.father,s.mobile,s.course,s.batch,s.date,s.net||0,db.payments.filter(p=>p.studentId===s.id).reduce((a,p)=>a+(Number(p.amount)||0),0),balance(s),s.accessStatus||'active']));
+  else if(type==='payments') cwccDownloadCSV('CWCC_Payments.csv',['Receipt','Date','Admission No','Student','Amount','Mode'],db.payments.map(p=>{const s=db.students.find(x=>x.id===p.studentId)||{};return [p.receipt,p.date,s.admissionNo,s.name,p.amount,p.mode]}));
+  else cwccDownloadCSV('CWCC_Due_List.csv',['Admission No','Name','Course','Batch','Balance','Due Date'],db.students.filter(s=>balance(s)>0).map(s=>[s.admissionNo,s.name,s.course,s.batch,balance(s),s.due||'']));
+}
+function cwccPrintExecutiveSummary(){
+  const students=db.students||[], payments=db.payments||[], due=students.filter(s=>balance(s)>0), todayAmt=payments.filter(p=>p.date===today()).reduce((a,p)=>a+(Number(p.amount)||0),0);
+  const w=window.open('','_blank'); if(!w)return alert('Please allow pop-ups for the executive summary.');
+  w.document.write(`<!doctype html><html><head><title>CWCC Executive Summary</title><style>body{font-family:Arial,sans-serif;margin:38px;color:#172033}h1{color:#173f7a;margin-bottom:4px}h2{margin-top:28px;border-bottom:2px solid #173f7a;padding-bottom:6px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{border:1px solid #ddd;padding:15px;border-radius:10px}.card b{display:block;font-size:22px;margin-top:6px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#eef4ff}@media print{button{display:none}}</style></head><body><h1>COMPETITION WALA</h1><div>Executive Operations Summary • ${today()}</div><div class="grid" style="margin-top:22px"><div class="card">Students<b>${students.length}</b></div><div class="card">Today Collection<b>${money(todayAmt)}</b></div><div class="card">Outstanding<b>${money(due.reduce((a,s)=>a+balance(s),0))}</b></div><div class="card">Payments<b>${payments.length}</b></div></div><h2>Priority Due Students</h2><table><tr><th>Admission</th><th>Student</th><th>Course</th><th>Balance</th><th>Due</th></tr>${due.sort((a,b)=>balance(b)-balance(a)).slice(0,20).map(s=>`<tr><td>${escapeHTML(s.admissionNo||'')}</td><td>${escapeHTML(s.name||'')}</td><td>${escapeHTML(s.course||'')}</td><td>${money(balance(s))}</td><td>${escapeHTML(s.due||'—')}</td></tr>`).join('')}</table><script>window.onload=()=>setTimeout(()=>window.print(),250)<\/script></body></html>`);w.document.close();
+}
+function cwccSetNetworkStatus(){const el=document.getElementById('cwccNetworkStatus');if(!el)return;const on=navigator.onLine!==false;el.textContent=on?'● Online':'● Offline';el.classList.toggle('offline',!on);}
+window.addEventListener('online',cwccSetNetworkStatus);window.addEventListener('offline',cwccSetNetworkStatus);setTimeout(cwccSetNetworkStatus,0);
+
 function renderAll() {
   let total = db.students.reduce((a, s) => a + s.net, 0),
     tp = db.payments.reduce((a, p) => a + p.amount, 0),
@@ -2913,6 +3010,8 @@ function renderAll() {
   renderReceipts();
   renderFinanceCenter();
   if (document.getElementById('analytics')?.classList.contains('active')) renderPhase3Analytics();
+  if (document.getElementById('operations')?.classList.contains('active')) renderPhase4Operations();
+  renderPhase4Notifications();
   renderCallSelect();
   if (document.getElementById('others')?.classList.contains('active')) {
     initAdmissionCertTab();

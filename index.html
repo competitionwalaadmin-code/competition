@@ -1019,7 +1019,7 @@ input, select, textarea { min-width:0; }
 </div>
 
 <!-- MAIN ADMIN ERP APPLICATION -->
-<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('finance',this)">💰 Finance Center</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🧾 Admission Receipt</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="cwcc-top-search"><div class="cwcc-search-wrap"><input id="cwccGlobalSearch" placeholder="Search student, admission no, mobile..." autocomplete="off" oninput="cwccGlobalSearch(this.value)" onkeydown="cwccSearchKey(event)"><div id="cwccSearchResults" class="cwcc-results"></div></div><span class="cwcc-kbd">Ctrl K</span></div><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button><button class="btn secondary" onclick="show('finance')">Open Finance Center</button></div></div></section><section id="students" class="page"><div class="panel">
+<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('finance',this)">💰 Finance Center</button><button onclick="show('analytics',this)">📈 Analytics & Activity</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🧾 Admission Receipt</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="cwcc-top-search"><div class="cwcc-search-wrap"><input id="cwccGlobalSearch" placeholder="Search student, admission no, mobile..." autocomplete="off" oninput="cwccGlobalSearch(this.value)" onkeydown="cwccSearchKey(event)"><div id="cwccSearchResults" class="cwcc-results"></div></div><span class="cwcc-kbd">Ctrl K</span></div><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button><button class="btn secondary" onclick="show('finance')">Open Finance Center</button><button class="btn secondary" onclick="show('analytics')">📈 Analytics & Activity</button></div></div></section><section id="students" class="page"><div class="panel">
   <div class="toolbar" style="justify-content:space-between">
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button type="button" class="btn" id="studentsAvailableTab" onclick="setStudentListTab('active')">🟢 Available Students</button>
@@ -1063,6 +1063,23 @@ input, select, textarea { min-width:0; }
   <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>Collection by Payment Mode</b></div><div id="cwccModeBreakdown"></div></div>
 </div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
 Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purpose</label><input id="callPurpose" value="Module Examination" oninput="updateCallPreview()"></div><div class="call-actions"><button class="btn green" onclick="generateCallLetter()">🖨 Generate Call Letter</button><button class="btn" onclick="printCall()">👁 View / Print</button><button class="btn red" onclick="downloadCallPDF()">📄 Download PDF</button></div></div></div><div class="call-preview-panel"><div class="preview-head">👁️ Call Letter Preview</div><div class="preview-body"><div id="callPreview"></div></div></div></div></section><section id="reports" class="page"><div class="cards"><div class="card blue"><div class="label">TOTAL COURSE FEE</div><div class="num" id="rTotal">₹0</div></div><div class="card green"><div class="label">TOTAL PAID</div><div class="num" id="rPaid">₹0</div></div><div class="card red"><div class="label">TOTAL BALANCE</div><div class="num" id="rBalance">₹0</div></div><div class="card orange"><div class="label">TOTAL PAYMENTS</div><div class="num" id="rPayments">0</div></div></div></section><section id="attendance" class="page"><div class="panel"><div class="panel" style="margin-bottom:16px;background:#f8fbff"><h3>🔐 Teacher-only QR Attendance</h3><p style="font-size:13px;color:#64748b">Sign in with an authorized teacher Firebase account. Students scanning their own ID QR will NOT mark attendance.</p><div class="formgrid"><div><label>Teacher Email</label><input id="teacherEmail" type="email" placeholder="teacher email"></div><div><label>Teacher Password</label><input id="teacherPassword" type="password" placeholder="teacher password"></div><div style="display:flex;align-items:end;gap:8px"><button class="btn green" onclick="teacherSignIn()">Teacher Login</button><button class="btn secondary" onclick="teacherSignOut()">Logout</button></div></div><div id="teacherAuthStatus" style="margin-top:10px;font-size:13px;font-weight:700">Not signed in</div><div class="call-actions"><button class="btn" onclick="startTeacherScanner()">📷 Start Teacher Scanner</button><button class="btn secondary" onclick="stopTeacherScanner()">Stop Scanner</button></div><div id="teacherQrScanner" style="max-width:420px;margin-top:12px"></div><div id="teacherScanResult" style="margin-top:10px;font-weight:700"></div></div><div class="toolbar"><input id="attendanceSearch" placeholder="Search name / admission no..." oninput="renderAttendanceStudents()"><button class="btn green" onclick="syncAllStudentsToFirebase()">☁️ Sync Students</button><button class="btn" onclick="loadTodayAttendance()">🔄 Refresh Today</button><button class="btn secondary" onclick="renderAttendanceHistory()">📈 Student Attendance Scores</button></div><div id="attendanceHistory" class="panel" style="margin-bottom:15px;display:none"></div><div id="attendanceStats" class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:15px"></div><div id="attendanceStudentTable"></div></div></section>
+
+
+<section id="analytics" class="page">
+  <div class="panel">
+    <div class="cwcc-phase3-head"><div><h3>📈 Analytics & Activity Center</h3><p>Institute performance, collection trends and a live operational audit trail.</p></div><button class="btn secondary" onclick="renderPhase3Analytics()">↻ Refresh</button></div>
+    <div id="cwccAnalyticsStats" class="cwcc-analytics-stats"></div>
+    <div class="cwcc-analytics-grid">
+      <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>📊 7-Day Collection</b><span id="cwcc7DayTotal"></span></div><div id="cwccCollectionChart" class="cwcc-bars"></div></div>
+      <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>🎓 Student Mix by Course</b></div><div id="cwccCourseChart" class="cwcc-bars"></div></div>
+    </div>
+    <div class="cwcc-analytics-grid">
+      <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>🕐 Batch Strength</b></div><div id="cwccBatchChart" class="cwcc-bars compact"></div></div>
+      <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>💳 Collection by Mode</b></div><div id="cwccAnalyticsModes" class="cwcc-modebar"></div></div>
+    </div>
+    <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>📝 Admin Activity</b><span id="cwccActivityCount"></span></div><div id="cwccActivityList" class="cwcc-activity-list"></div></div>
+  </div>
+</section>
 
 <!-- ADMISSION RECEIPT TAB: STUDENT ADMISSION RECEIPT & DETAILS ON A4 -->
 <section id="others" class="page">
@@ -1158,6 +1175,18 @@ Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purp
   </div>
 </div>
 
+<style>
+.cwcc-phase3-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.cwcc-phase3-head h3{margin-bottom:3px}.cwcc-phase3-head p{margin:0;color:#64748b;font-size:12px}.cwcc-analytics-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:18px}.cwcc-analytics-card{border:1px solid #e2e8f0;border-radius:16px;padding:14px;background:#fff;box-shadow:0 5px 18px rgba(15,23,42,.05)}.cwcc-analytics-card small{display:block;font-size:9px;font-weight:900;letter-spacing:.08em;color:#64748b}.cwcc-analytics-card b{display:block;font-size:22px;color:#102a5c;margin-top:6px}.cwcc-analytics-card span{font-size:10px;color:#64748b}.cwcc-analytics-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:14px}.cwcc-bars{display:flex;align-items:flex-end;gap:10px;height:210px;padding:12px 4px 2px}.cwcc-bars.compact{height:auto;display:flex;flex-direction:column;align-items:stretch}.cwcc-bar-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:5px}.cwcc-bar-value{font-size:9px;font-weight:900;color:#123c7a;white-space:nowrap}.cwcc-bar{width:min(38px,70%);min-height:3px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#3867f5,#123c7a);transition:height .2s ease}.cwcc-bar-label{font-size:9px;color:#64748b;font-weight:800;text-align:center;white-space:nowrap}.compact .cwcc-bar-item{height:auto;display:grid;grid-template-columns:90px 1fr 70px;align-items:center;gap:8px}.compact .cwcc-bar{height:9px!important;width:100%;min-height:9px;border-radius:999px}.compact .cwcc-bar-label{text-align:left}.cwcc-activity-list{display:flex;flex-direction:column}.cwcc-activity-row{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #eef2f7}.cwcc-activity-row:last-child{border-bottom:0}.cwcc-activity-dot{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#eef4ff;flex:none}.cwcc-activity-row b{font-size:12px;color:#172554}.cwcc-activity-row small{display:block;color:#64748b;font-size:10px;margin-top:2px}.cwcc-activity-row time{margin-left:auto;color:#94a3b8;font-size:9px;white-space:nowrap}.cwcc-empty{padding:28px;text-align:center;color:#64748b;font-size:12px}
+@media(max-width:1000px){.cwcc-analytics-stats{grid-template-columns:repeat(3,1fr)}.cwcc-analytics-grid{grid-template-columns:1fr}}@media(max-width:600px){.cwcc-analytics-stats{grid-template-columns:1fr 1fr}.cwcc-analytics-card b{font-size:19px}.cwcc-bars{height:180px;gap:5px}.compact .cwcc-bar-item{grid-template-columns:70px 1fr 60px}.cwcc-activity-row time{display:none}}
+</style>
+<style>
+.cwcc-finance-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+.cwcc-fin-card{border:1px solid #e2e8f0;border-radius:16px;padding:16px;background:#fff;box-shadow:0 5px 18px rgba(15,23,42,.05)}
+.cwcc-fin-card small,.cwcc-mini-stats small{display:block;font-size:10px;font-weight:900;letter-spacing:.08em;color:#64748b}.cwcc-fin-card b{display:block;font-size:24px;margin-top:7px;color:#102a5c}.cwcc-fin-card span{font-size:11px;color:#64748b}
+.cwcc-finance-grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}.cwcc-inner-panel{margin:0!important}.cwcc-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;color:#172554}.cwcc-pay-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #eef2f7;font-size:12px}.cwcc-pay-row:last-child{border-bottom:0}.cwcc-pay-row b{color:#0f2f68}.cwcc-mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}.cwcc-mini-stats>div{background:#f8fbff;border:1px solid #e3ebf5;border-radius:12px;padding:11px}.cwcc-mini-stats b{display:block;font-size:18px;color:#123c7a;margin-top:4px}.cwcc-due-filters{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:8px;margin-top:16px}.cwcc-due-filters input,.cwcc-due-filters select{min-width:0}.cwcc-status{display:inline-block;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:900;letter-spacing:.03em}.cwcc-status.danger{background:#fee2e2;color:#b91c1c}.cwcc-status.warn{background:#fef3c7;color:#92400e}.cwcc-status.ok{background:#dcfce7;color:#166534}.cwcc-modebar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.cwcc-modebar>div{background:#f8fafc;border-radius:12px;padding:12px}.cwcc-modebar b{display:block;font-size:16px;color:#123c7a;margin-top:4px}
+@media(max-width:900px){.cwcc-finance-grid{grid-template-columns:repeat(2,1fr)}.cwcc-finance-grid2{grid-template-columns:1fr}.cwcc-due-filters{grid-template-columns:1fr 1fr}.cwcc-modebar{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.cwcc-finance-grid{grid-template-columns:1fr}.cwcc-due-filters{grid-template-columns:1fr}.cwcc-mini-stats{grid-template-columns:1fr}.cwcc-modebar{grid-template-columns:1fr}.cwcc-fin-card b{font-size:21px}}
+</style>
 <script>
 // ==========================================
 // 1. HIGH-CAPACITY INDEXED-DB STORAGE ENGINE
@@ -1166,7 +1195,7 @@ const DB_NAME = 'CWCC_ERP_DATABASE';
 const DB_VERSION = 1;
 const STORE_NAME = 'institute_store';
 
-let db = { students: [], payments: [] };
+let db = { students: [], payments: [], activities: [] };
 window.cwccDB = db;
 
 function initDatabase() {
@@ -1262,14 +1291,14 @@ loadStorage();
 
 // Safe bridges used by the Firebase module.
 window.cwccReplaceLocalDB = function(remoteData) {
-  db = { students: Array.isArray(remoteData?.students) ? remoteData.students : [], payments: Array.isArray(remoteData?.payments) ? remoteData.payments : [] };
+  db = { students: Array.isArray(remoteData?.students) ? remoteData.students : [], payments: Array.isArray(remoteData?.payments) ? remoteData.payments : [], activities: Array.isArray(remoteData?.activities) ? remoteData.activities : (Array.isArray(db?.activities) ? db.activities : []) };
   window.cwccDB = db;
   // Defer the expensive table rebuild by one frame so Firebase callbacks never
   // block clicks, modal opening, or typing.
   requestAnimationFrame(() => renderAll());
 };
 window.cwccCompleteStudentLogin = function(student, studentPayments) {
-  db = { students: [student], payments: Array.isArray(studentPayments) ? studentPayments : [] };
+  db = { students: [student], payments: Array.isArray(studentPayments) ? studentPayments : [], activities: [] };
   window.cwccDB = db; loggedInStudent = student;
   document.getElementById('login').style.display = 'none';
   document.getElementById('adminApp').style.display = 'none';
@@ -1277,6 +1306,17 @@ window.cwccCompleteStudentLogin = function(student, studentPayments) {
   renderStudentWorkspace();
 };
 
+function cwccLogActivity(type, title, detail='') {
+  if (!db.activities) db.activities = [];
+  db.activities.push({ id: (crypto.randomUUID ? crypto.randomUUID() : 'act-' + Date.now()), type, title, detail, at: new Date().toISOString() });
+  if (db.activities.length > 250) db.activities = db.activities.slice(-250);
+  window.cwccDB = db;
+  // Activity logging must never block the user's action.
+  persist();
+}
+function cwccActivityTime(iso) {
+  try { return new Date(iso).toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }); } catch (_) { return ''; }
+}
 const money = n => '₹' + Number(n || 0).toLocaleString('en-IN');
 const today = () => new Date().toISOString().slice(0, 10);
 document.getElementById('sDate').value = today();
@@ -1482,6 +1522,7 @@ function show(id, btn) {
     reports: 'Reports',
     attendance: 'QR Attendance',
     finance: 'Finance Center',
+    analytics: 'Analytics & Activity',
     others: 'Admission Receipt'
   }[id] || 'Dashboard';
   if (btn) {
@@ -1490,6 +1531,9 @@ function show(id, btn) {
   }
   if (id === 'others') {
     initAdmissionCertTab();
+  }
+  if (id === 'analytics') {
+    renderPhase3Analytics();
   }
   renderAll();
 }
@@ -1704,6 +1748,7 @@ async function saveStudent() {
   document.querySelector('#admissionModal .modalhead h2').textContent = 'New Student Admission';
   document.querySelector('#admissionModal .modalbox > .btn').textContent = 'Save Admission';
   renderAll();
+  cwccLogActivity(wasEditing ? 'update' : 'admission', wasEditing ? 'Student updated' : 'New student admitted', `${st.name} • ${st.admissionNo} • ${st.course}`);
   if (wasEditing) {
     alert('Student details updated: ' + st.admissionNo);
   } else {
@@ -1804,17 +1849,33 @@ function printStudentIDCard() {
       <div class="row"><b>Admitted:</b> ${esc(st.date || '-')}</div>
     </div></div></div>
     ${qrSrc ? `<div class="qr"><img src="${qrSrc}" alt="Student attendance QR"></div>` : ''}<div class="bottom"><span class="num">${esc(st.admissionNo || 'CWCC STUDENT')}</span><span class="sign">AUTHORISED SIGNATURE</span></div>
-  </div><script>window.onload=()=>setTimeout(()=>window.print(),350);<\/script>
+  </div></body></html>`);
+  w.document.close();
+}
+window.printStudentIDCard = printStudentIDCard;
 
-<style>
-.cwcc-finance-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
-.cwcc-fin-card{border:1px solid #e2e8f0;border-radius:16px;padding:16px;background:#fff;box-shadow:0 5px 18px rgba(15,23,42,.05)}
-.cwcc-fin-card small,.cwcc-mini-stats small{display:block;font-size:10px;font-weight:900;letter-spacing:.08em;color:#64748b}.cwcc-fin-card b{display:block;font-size:24px;margin-top:7px;color:#102a5c}.cwcc-fin-card span{font-size:11px;color:#64748b}
-.cwcc-finance-grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}.cwcc-inner-panel{margin:0!important}.cwcc-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;color:#172554}.cwcc-pay-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #eef2f7;font-size:12px}.cwcc-pay-row:last-child{border-bottom:0}.cwcc-pay-row b{color:#0f2f68}.cwcc-mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}.cwcc-mini-stats>div{background:#f8fbff;border:1px solid #e3ebf5;border-radius:12px;padding:11px}.cwcc-mini-stats b{display:block;font-size:18px;color:#123c7a;margin-top:4px}.cwcc-due-filters{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:8px;margin-top:16px}.cwcc-due-filters input,.cwcc-due-filters select{min-width:0}.cwcc-status{display:inline-block;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:900;letter-spacing:.03em}.cwcc-status.danger{background:#fee2e2;color:#b91c1c}.cwcc-status.warn{background:#fef3c7;color:#92400e}.cwcc-status.ok{background:#dcfce7;color:#166534}.cwcc-modebar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.cwcc-modebar>div{background:#f8fafc;border-radius:12px;padding:12px}.cwcc-modebar b{display:block;font-size:16px;color:#123c7a;margin-top:4px}
-@media(max-width:900px){.cwcc-finance-grid{grid-template-columns:repeat(2,1fr)}.cwcc-finance-grid2{grid-template-columns:1fr}.cwcc-due-filters{grid-template-columns:1fr 1fr}.cwcc-modebar{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.cwcc-finance-grid{grid-template-columns:1fr}.cwcc-due-filters{grid-template-columns:1fr}.cwcc-mini-stats{grid-template-columns:1fr}.cwcc-modebar{grid-template-columns:1fr}.cwcc-fin-card b{font-size:21px}}
-</style>
-<script>
+
+
+function renderPhase3Analytics(){
+  const stats=document.getElementById('cwccAnalyticsStats'); if(!stats) return;
+  const students=Array.isArray(db.students)?db.students:[], payments=Array.isArray(db.payments)?db.payments:[], activities=Array.isArray(db.activities)?db.activities:[];
+  const total=payments.reduce((a,p)=>a+(Number(p.amount)||0),0), outstanding=students.reduce((a,s)=>a+balance(s),0);
+  const active=students.filter(s=>String(s.accessStatus||'active').toLowerCase()!=='denied').length;
+  const todayKey=today(), todayCount=payments.filter(p=>p.date===todayKey).length;
+  const month=todayKey.slice(0,7), monthTotal=payments.filter(p=>String(p.date||'').startsWith(month)).reduce((a,p)=>a+(Number(p.amount)||0),0);
+  stats.innerHTML=`<div class="cwcc-analytics-card"><small>STUDENTS</small><b>${students.length}</b><span>${active} active</span></div><div class="cwcc-analytics-card"><small>TOTAL COLLECTION</small><b>${money(total)}</b><span>${payments.length} payments</span></div><div class="cwcc-analytics-card"><small>THIS MONTH</small><b>${money(monthTotal)}</b><span>${month}</span></div><div class="cwcc-analytics-card"><small>OUTSTANDING</small><b style="color:#dc2626">${money(outstanding)}</b><span>${students.filter(s=>balance(s)>0).length} students</span></div><div class="cwcc-analytics-card"><small>TODAY ACTIVITY</small><b>${todayCount}</b><span>payments today</span></div>`;
+  const days=[]; for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const key=d.toISOString().slice(0,10);const amt=payments.filter(p=>p.date===key).reduce((a,p)=>a+(Number(p.amount)||0),0);days.push({key,amt,label:i===0?'Today':d.toLocaleDateString('en-IN',{weekday:'short'}),date:d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'})});}
+  const max=Math.max(1,...days.map(x=>x.amt)); document.getElementById('cwcc7DayTotal').textContent=money(days.reduce((a,x)=>a+x.amt,0));
+  document.getElementById('cwccCollectionChart').innerHTML=days.map(x=>`<div class="cwcc-bar-item"><div class="cwcc-bar-value">${money(x.amt)}</div><div class="cwcc-bar" style="height:${Math.max(3,Math.round(x.amt/max*150))}px"></div><div class="cwcc-bar-label">${x.label}<br>${x.date}</div></div>`).join('');
+  const courses={}; students.forEach(s=>{const k=s.course||'Other';courses[k]=(courses[k]||0)+1}); const courseMax=Math.max(1,...Object.values(courses));
+  document.getElementById('cwccCourseChart').innerHTML=Object.entries(courses).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="cwcc-bar-item"><div class="cwcc-bar-value">${v} students</div><div class="cwcc-bar" style="height:${Math.max(3,Math.round(v/courseMax*150))}px"></div><div class="cwcc-bar-label">${escapeHTML(k)}</div></div>`).join('')||'<div class="cwcc-empty">No student data yet.</div>';
+  const batches={}; students.forEach(s=>{const k=s.batch||'Unassigned';batches[k]=(batches[k]||0)+1}); const batchMax=Math.max(1,...Object.values(batches));
+  document.getElementById('cwccBatchChart').innerHTML=Object.entries(batches).sort((a,b)=>b[1]-a[1]).slice(0,12).map(([k,v])=>`<div class="cwcc-bar-item"><div class="cwcc-bar-label">${escapeHTML(k)}</div><div class="cwcc-bar" style="width:${Math.max(2,Math.round(v/batchMax*100))}%"></div><div class="cwcc-bar-value">${v}</div></div>`).join('')||'<div class="cwcc-empty">No batch data yet.</div>';
+  const modes=['Cash','UPI','Bank Transfer','Card']; document.getElementById('cwccAnalyticsModes').innerHTML=modes.map(m=>{const amt=payments.filter(p=>p.mode===m).reduce((a,p)=>a+(Number(p.amount)||0),0);return `<div><small>${m.toUpperCase()}</small><b>${money(amt)}</b><span>${payments.filter(p=>p.mode===m).length} payment${payments.filter(p=>p.mode===m).length===1?'':'s'}</span></div>`}).join('');
+  const icons={admission:'🆕',update:'✏️',payment:'💰','payment-update':'🔄',delete:'🗑️'}; const recent=activities.slice().reverse().slice(0,20); document.getElementById('cwccActivityCount').textContent=`${activities.length} logged`;
+  document.getElementById('cwccActivityList').innerHTML=recent.map(a=>`<div class="cwcc-activity-row"><div class="cwcc-activity-dot">${icons[a.type]||'•'}</div><div><b>${escapeHTML(a.title||'Activity')}</b><small>${escapeHTML(a.detail||'')}</small></div><time>${cwccActivityTime(a.at)}</time></div>`).join('')||'<div class="cwcc-empty">No activity recorded yet.</div>';
+}
+
 function cwccWhatsAppDue(id){
   const s=db.students.find(x=>x.id===id); if(!s) return;
   const phone=String(s.mobile||'').replace(/\D/g,''); if(!phone) return alert('No mobile number saved for this student.');
@@ -1847,11 +1908,6 @@ function renderFinanceCenter(){
   const modes=['Cash','UPI','Bank Transfer','Card'];
   document.getElementById('cwccModeBreakdown').innerHTML='<div class="cwcc-modebar">'+modes.map(m=>{const amt=db.payments.filter(p=>p.mode===m).reduce((a,p)=>a+(Number(p.amount)||0),0);const count=db.payments.filter(p=>p.mode===m).length;return `<div><small>${m.toUpperCase()}</small><b>${money(amt)}</b><span>${count} payment${count===1?'':'s'}</span></div>`}).join('')+'</div>';
 }
-</script>
-</body></html>`);
-  w.document.close();
-}
-window.printStudentIDCard = printStudentIDCard;
 
 function paid(st) { return db.payments.filter(p => p.studentId === st.id).reduce((a, p) => a + p.amount, 0); }
 function balance(st) { return Math.max(0, st.net - paid(st)); }
@@ -1881,6 +1937,7 @@ async function savePayment() {
     document.querySelector('#paymentModal .modalhead h2').textContent = 'Receive Fee Payment';
     document.querySelector('#paymentModal .modalbox > .btn').textContent = 'Save Payment & Generate Receipt';
     renderAll();
+    cwccLogActivity('payment-update', 'Payment updated', `${st.name} • ${money(amount)} • ${db.payments[index]?.mode || ''}`);
     showReceipt(updatedId);
     alert('Payment entry updated successfully.');
     return;
@@ -1899,6 +1956,7 @@ async function savePayment() {
   db.payments.push(p);
   await persist();
   closeModal('paymentModal');
+  cwccLogActivity('payment', 'Payment received', `${st.name} • ${money(amount)} • ${p.mode} • ${p.receipt}`);
   showReceipt(p.id);
   renderAll();
 }
@@ -2225,6 +2283,7 @@ async function deleteStudent(id) {
     logoutStudent();
   }
 
+  cwccLogActivity('delete', 'Student deleted', `${student.name} • ${student.admissionNo}`);
   renderAll();
   renderStudents();
   alert(`Student ${student.name} (${student.admissionNo}) has been deleted.`);
@@ -2282,6 +2341,7 @@ const cwccCommandActions = [
   ['Receive Fee','Record a student payment','💰',()=>openPayment()],
   ['Due Center','View outstanding fees','⚠️',()=>show('dues')],
   ['Finance Center','Collection and outstanding dashboard','💰',()=>show('finance')],
+  ['Analytics & Activity','Business intelligence and admin activity','📈',()=>show('analytics')],
   ['Receipts','Open payment receipts','🧾',()=>show('receipts')],
   ['Admission Receipt','Print an admission receipt','📄',()=>show('others')],
   ['QR Attendance','Open teacher attendance','📷',()=>show('attendance')],
@@ -2852,6 +2912,7 @@ function renderAll() {
   renderDue();
   renderReceipts();
   renderFinanceCenter();
+  if (document.getElementById('analytics')?.classList.contains('active')) renderPhase3Analytics();
   renderCallSelect();
   if (document.getElementById('others')?.classList.contains('active')) {
     initAdmissionCertTab();
@@ -3293,6 +3354,7 @@ window.cwccCloudPersist = async function(data) {
   if (!adminCloudActive || !auth.currentUser) throw new Error('Admin cloud session is not active.');
   const students = Array.isArray(data.students) ? data.students : [];
   const payments = Array.isArray(data.payments) ? data.payments : [];
+  const activities = Array.isArray(data.activities) ? data.activities.slice(-250) : [];
   const studentTree = {}; const paymentTree = {}; const authTree = {};
   const updatedAt = Date.now();
 
@@ -3310,7 +3372,7 @@ window.cwccCloudPersist = async function(data) {
   // One multi-location Firebase write instead of four separate full writes.
   // This dramatically reduces round trips and keeps the existing data model intact.
   await update(ref(fdb), {
-    'erpCloud/data': {students, payments, updatedAt},
+    'erpCloud/data': {students, payments, activities, updatedAt},
     'students': studentTree,
     'studentPayments': paymentTree,
     'studentAuth': authTree

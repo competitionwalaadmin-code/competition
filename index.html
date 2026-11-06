@@ -212,9 +212,9 @@ table td{color:#35425e}
   background: #fff;
   width: 100%;
   max-width: 210mm;
-  min-height: 297mm;
+  min-height: 277mm;
   margin: 0 auto;
-  padding: 15mm;
+  padding: 12mm 13mm;
   box-sizing: border-box;
   border: 1px solid #cbd5e1;
   box-shadow: 0 4px 20px rgba(0,0,0,.08);
@@ -225,13 +225,13 @@ table td{color:#35425e}
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 3px solid #123c7a;
-  padding-bottom: 12px;
-  margin-bottom: 15px;
+  border-bottom: 2px solid #123c7a;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
 }
 .ac-logo {
-  width: 75px;
-  height: 75px;
+  width: 68px;
+  height: 68px;
   object-fit: contain;
 }
 .ac-brand {
@@ -239,44 +239,55 @@ table td{color:#35425e}
   flex: 1;
 }
 .ac-brand h1 {
-  font-size: 24px;
+  font-size: 22px;
   margin: 0;
   color: #123c7a;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  font-weight: 800;
 }
 .ac-brand h2 {
-  font-size: 15px;
-  margin: 4px 0 2px;
+  font-size: 12px;
+  margin: 4px 0 3px;
   color: #1f2937;
+  letter-spacing: .5px;
 }
 .ac-brand p {
-  font-size: 10px;
+  font-size: 9px;
   margin: 2px 0;
   color: #4b5563;
 }
 .ac-title {
   text-align: center;
-  background: #ffd400;
-  color: #111;
-  padding: 6px;
-  font-size: 14px;
+  background: #123c7a;
+  color: #fff;
+  padding: 9px 12px 8px;
+  font-size: 15px;
   font-weight: 900;
-  letter-spacing: 1px;
-  border-radius: 4px;
-  margin: 15px 0;
+  letter-spacing: 1.2px;
+  border-radius: 2px;
+  margin: 12px 0;
+  text-align: center;
+}
+.ac-title small {
+  display: block;
+  margin-top: 3px;
+  font-size: 8px;
+  letter-spacing: 1.8px;
+  font-weight: 700;
+  opacity: .9;
 }
 .ac-meta {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   font-weight: 700;
 }
 .ac-grid {
   display: grid;
   grid-template-columns: 1fr 130px;
-  gap: 15px;
-  margin-bottom: 15px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 .ac-table {
   width: 100%;
@@ -285,7 +296,7 @@ table td{color:#35425e}
 }
 .ac-table th, .ac-table td {
   border: 1px solid #cbd5e1;
-  padding: 9px 11px;
+  padding: 7px 10px;
   text-align: left;
 }
 .ac-table th {
@@ -302,22 +313,32 @@ table td{color:#35425e}
   background: #f8fafc;
 }
 .ac-fee-section {
-  margin-top: 15px;
+  margin-top: 12px;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   overflow: hidden;
 }
 .ac-footer-notes {
-  margin-top: 25px;
-  font-size: 11px;
+  margin-top: 20px;
+  font-size: 10px;
   line-height: 1.6;
   color: #374151;
+}
+.ac-document-footer {
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 1px solid #dbe3ef;
+  text-align: center;
+  font-size: 8.5px;
+  color: #64748b;
+  letter-spacing: .2px;
 }
 .ac-signatures {
   display: flex;
   justify-content: space-between;
-  margin-top: 50px;
-  font-size: 11px;
+  margin-top: auto;
+  padding-top: 58px;
+  font-size: 10px;
 }
 .ac-sign-box {
   text-align: center;
@@ -330,7 +351,7 @@ table td{color:#35425e}
   body { background: #fff !important; }
   .side, .top, .no-print { display: none !important; }
   .main { margin: 0 !important; width: 100% !important; padding: 0 !important; }
-  .admission-cert-page { border: 0; box-shadow: none; width: 100%; max-width: none; margin: 0; padding: 10mm; }
+  .admission-cert-page { border: 0; box-shadow: none; width: 100%; max-width: none; min-height: 277mm; margin: 0; padding: 6mm 8mm; }
   @page { size: A4 portrait; margin: 10mm; }
 }
 
@@ -987,7 +1008,7 @@ input, select, textarea { min-width:0; }
 </div>
 
 <!-- MAIN ADMIN ERP APPLICATION -->
-<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openAdmission()">📝 New Admission</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🏷️ Other</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel">
+<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🧾 Admission Receipt</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button></div></div></section><section id="students" class="page"><div class="panel">
   <div class="toolbar" style="justify-content:space-between">
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button type="button" class="btn" id="studentsAvailableTab" onclick="setStudentListTab('active')">🟢 Available Students</button>
@@ -1023,11 +1044,11 @@ input, select, textarea { min-width:0; }
 </div></section><section id="dues" class="page"><div class="panel"><h3>Pending / Outstanding Fee</h3><div id="dueTable"></div></div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
 Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purpose</label><input id="callPurpose" value="Module Examination" oninput="updateCallPreview()"></div><div class="call-actions"><button class="btn green" onclick="generateCallLetter()">🖨 Generate Call Letter</button><button class="btn" onclick="printCall()">👁 View / Print</button><button class="btn red" onclick="downloadCallPDF()">📄 Download PDF</button></div></div></div><div class="call-preview-panel"><div class="preview-head">👁️ Call Letter Preview</div><div class="preview-body"><div id="callPreview"></div></div></div></div></section><section id="reports" class="page"><div class="cards"><div class="card blue"><div class="label">TOTAL COURSE FEE</div><div class="num" id="rTotal">₹0</div></div><div class="card green"><div class="label">TOTAL PAID</div><div class="num" id="rPaid">₹0</div></div><div class="card red"><div class="label">TOTAL BALANCE</div><div class="num" id="rBalance">₹0</div></div><div class="card orange"><div class="label">TOTAL PAYMENTS</div><div class="num" id="rPayments">0</div></div></div></section><section id="attendance" class="page"><div class="panel"><div class="panel" style="margin-bottom:16px;background:#f8fbff"><h3>🔐 Teacher-only QR Attendance</h3><p style="font-size:13px;color:#64748b">Sign in with an authorized teacher Firebase account. Students scanning their own ID QR will NOT mark attendance.</p><div class="formgrid"><div><label>Teacher Email</label><input id="teacherEmail" type="email" placeholder="teacher email"></div><div><label>Teacher Password</label><input id="teacherPassword" type="password" placeholder="teacher password"></div><div style="display:flex;align-items:end;gap:8px"><button class="btn green" onclick="teacherSignIn()">Teacher Login</button><button class="btn secondary" onclick="teacherSignOut()">Logout</button></div></div><div id="teacherAuthStatus" style="margin-top:10px;font-size:13px;font-weight:700">Not signed in</div><div class="call-actions"><button class="btn" onclick="startTeacherScanner()">📷 Start Teacher Scanner</button><button class="btn secondary" onclick="stopTeacherScanner()">Stop Scanner</button></div><div id="teacherQrScanner" style="max-width:420px;margin-top:12px"></div><div id="teacherScanResult" style="margin-top:10px;font-weight:700"></div></div><div class="toolbar"><input id="attendanceSearch" placeholder="Search name / admission no..." oninput="renderAttendanceStudents()"><button class="btn green" onclick="syncAllStudentsToFirebase()">☁️ Sync Students</button><button class="btn" onclick="loadTodayAttendance()">🔄 Refresh Today</button><button class="btn secondary" onclick="renderAttendanceHistory()">📈 Student Attendance Scores</button></div><div id="attendanceHistory" class="panel" style="margin-bottom:15px;display:none"></div><div id="attendanceStats" class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:15px"></div><div id="attendanceStudentTable"></div></div></section>
 
-<!-- OTHER TAB: STUDENT ADMISSION CERTIFICATE & DETAILS ON A4 -->
+<!-- ADMISSION RECEIPT TAB: STUDENT ADMISSION RECEIPT & DETAILS ON A4 -->
 <section id="others" class="page">
   <div class="panel">
-    <h3>📄 Student Admission Receipt & Certificate (A4 Print)</h3>
-    <p style="font-size:13px;color:#64748b;margin-bottom:15px">Select a student to inspect all their official details as formatted for certificate and admission receipt printing on an A4 page.</p>
+    <h3>🧾 Student Admission Receipt (A4 Print)</h3>
+    <p style="font-size:13px;color:#64748b;margin-bottom:15px">Select a student to review the official admission and fee details formatted for A4 printing.</p>
     <div class="toolbar" style="margin-bottom:18px">
       <select id="otherStudentSelect" style="max-width:350px" onchange="updateAdmissionCertPreview()"></select>
       <button class="btn green" onclick="printAdmissionCertificate()">🖨️ Print Admission Receipt (A4)</button>
@@ -1429,7 +1450,7 @@ function show(id, btn) {
     calls: 'Call Letters',
     reports: 'Reports',
     attendance: 'QR Attendance',
-    others: 'Other / Admission Receipts'
+    others: 'Admission Receipt'
   }[id] || 'Dashboard';
   if (btn) {
     document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
@@ -2354,7 +2375,7 @@ function admissionCertHTML(st) {
         <p>Indira Nagar, Patna - 800001 | Helpline: +91 9876543210</p>
       </div>
     </div>
-    <div class="ac-title">STUDENT ADMISSION CERTIFICATE & FEE RECEIPT</div>
+    <div class="ac-title"><span>STUDENT ADMISSION & FEE RECEIPT</span><small>OFFICIAL INSTITUTE RECORD</small></div>
     <div class="ac-meta">
       <span>Admission No: <b>${escapeHTML(st.admissionNo)}</b></span>
       <span>Date of Admission: <b>${escapeHTML(st.date || today())}</b></span>
@@ -2388,6 +2409,7 @@ function admissionCertHTML(st) {
         <li>This certificate confirms official registration and details as recorded on the student's certificate.</li>
       </ol>
     </div>
+    <div class="ac-document-footer">This document is computer-generated for official institute record. Please retain it for future reference.</div>
     <div class="ac-signatures">
       <div class="ac-sign-box">Student Signature</div>
       <div class="ac-sign-box">Authorized Signatory<br>Competition Wala Computer Classes</div>

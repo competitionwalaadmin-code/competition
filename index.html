@@ -1715,7 +1715,8 @@ function sp2RenderAll(){const s=loggedInStudent;if(!s)return;document.getElement
 function renderStudentWorkspace() {
   const s = loggedInStudent;
   if (!s) return;
-  document.getElementById('stProfileGreeting').textContent = `${s.name} (Admission: ${s.admissionNo}) • Batch: ${s.batch || 'Regular'}`;
+  const greetingEl = document.getElementById('stProfileGreeting');
+  if (greetingEl) greetingEl.textContent = `${s.name} (Admission: ${s.admissionNo}) • Batch: ${s.batch || 'Regular'}`;
   const profilePhoto = document.getElementById('stProfilePhoto');
   if (profilePhoto) profilePhoto.innerHTML = s.photo
     ? cwccStudentAvatar(s,'cwcc-profile-photo')

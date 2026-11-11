@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Competition Wala Computer Classes - ERP & Student Portal</title><style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Student Portal 7.0 • Competition Wala Computer Classes - ERP & Student Portal</title><style>
 :root{--nav:#111827;--blue:#2563eb;--cyan:#06b6d4;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
 .app{display:flex;min-height:100vh}.side{width:245px;background:linear-gradient(180deg,#111827,#172554);color:#fff;padding:20px 14px;position:fixed;inset:0 auto 0 0;z-index:10}
 .brand{font-weight:800;font-size:18px;line-height:1.2;padding:8px 10px 22px}.brand small{display:block;font-size:11px;color:#93c5fd;margin-top:6px}
@@ -1044,6 +1044,34 @@ input, select, textarea { min-width:0; }
 #studentPortalView .sp62-id-tip{margin-top:12px;padding:12px 14px;border:1px dashed #cbd8ec;border-radius:14px;background:#f8fbff;color:#5f708e;font-size:11px;line-height:1.55}
 @media(max-width:700px){#studentPortalView .sp62-id-main{grid-template-columns:82px minmax(0,1fr);gap:12px;padding:15px}.sp62-photo{width:82px!important;height:102px!important;border-radius:13px!important}.sp62-photo-fallback{font-size:27px!important}.sp62-name{font-size:19px!important}.sp62-role{margin-bottom:10px!important;font-size:8px!important}.sp62-fields{gap:6px!important}.sp62-field{padding:7px 8px!important}.sp62-field small{font-size:7px!important}.sp62-field b{font-size:10px!important}.sp62-qr{grid-column:1/-1;justify-self:center;width:88px!important;height:88px!important}.sp62-qr canvas,.sp62-qr img{width:74px!important;height:74px!important}.sp62-qr-note{display:none}.sp62-actions{grid-template-columns:1fr 1fr!important}.sp62-actions .primary{grid-column:1/-1}.sp62-id-head{padding:13px 14px!important}.sp62-id-foot{padding:10px 14px!important;font-size:8px!important}}
 </style>
+
+<style id="cwcc-student-7-css">
+#studentPortalView .sp7-focus{display:grid;grid-template-columns:1.35fr .85fr;gap:14px;margin-bottom:16px}
+#studentPortalView .sp7-card{background:#fff;border:1px solid #e5eaf2;border-radius:20px;padding:18px;box-shadow:0 10px 28px rgba(20,33,61,.045)}
+#studentPortalView .sp7-focus-main{position:relative;overflow:hidden;background:linear-gradient(135deg,#102d64,#2563eb);color:#fff;border:0;min-height:160px}
+#studentPortalView .sp7-focus-main:after{content:"";position:absolute;width:180px;height:180px;border:34px solid rgba(255,255,255,.07);border-radius:50%;right:-80px;top:-90px}
+#studentPortalView .sp7-focus-main>*{position:relative;z-index:1}
+#studentPortalView .sp7-kicker{font-size:9px;font-weight:900;letter-spacing:.15em;color:#bfdbfe}
+#studentPortalView .sp7-focus-main h2{margin:7px 0 5px;color:#fff;font-size:22px}
+#studentPortalView .sp7-focus-main p{margin:0;color:#dbeafe;font-size:11px;line-height:1.55;max-width:620px}
+#studentPortalView .sp7-focus-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+#studentPortalView .sp7-pill-btn{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12);color:#fff;border-radius:11px;padding:9px 11px;font-size:10px;font-weight:900;cursor:pointer}
+#studentPortalView .sp7-today{display:flex;align-items:flex-start;gap:11px;padding:12px 0;border-bottom:1px solid #edf1f7}.sp7-today:last-child{border-bottom:0}
+#studentPortalView .sp7-today-icon{width:38px;height:38px;border-radius:12px;background:#eef4ff;display:grid;place-items:center;font-size:18px;flex:none}
+#studentPortalView .sp7-today b{display:block;color:#172554;font-size:12px}.sp7-today small{display:block;color:#71809a;font-size:10px;margin-top:3px;line-height:1.45}
+#studentPortalView .sp7-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+#studentPortalView .sp7-section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:11px}.sp7-section-title h3{margin:0;color:#172554;font-size:15px}.sp7-section-title span{font-size:9px;color:#71809a;font-weight:800}
+#studentPortalView .sp7-wallet{display:grid;grid-template-columns:72px 1fr auto;gap:13px;align-items:center;background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;border:0}
+#studentPortalView .sp7-wallet-icon{width:60px;height:60px;border-radius:17px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:28px}
+#studentPortalView .sp7-wallet h3{margin:0;color:#fff;font-size:16px}.sp7-wallet p{margin:4px 0 0;color:#d1fae5;font-size:10px}.sp7-wallet strong{font-size:18px;color:#fff}
+#studentPortalView .sp7-continue{display:grid;grid-template-columns:48px 1fr auto;gap:11px;align-items:center;padding:10px;border:1px solid #e7edf5;border-radius:13px;background:#fbfdff;cursor:pointer;width:100%;text-align:left}
+#studentPortalView .sp7-continue-icon{width:48px;height:48px;border-radius:13px;background:#eef4ff;display:grid;place-items:center;font-size:21px}
+#studentPortalView .sp7-continue b{display:block;color:#172554;font-size:12px}.sp7-continue small{display:block;color:#71809a;font-size:9px;margin-top:3px}.sp7-progress-mini{height:6px;background:#e8eef7;border-radius:99px;overflow:hidden;margin-top:7px}.sp7-progress-mini i{display:block;height:100%;background:#2563eb;border-radius:99px}
+#studentPortalView .sp7-feed-row{padding:11px 0;border-bottom:1px solid #edf1f7;display:flex;gap:10px}.sp7-feed-row:last-child{border-bottom:0}.sp7-feed-dot{width:9px;height:9px;border-radius:50%;background:#2563eb;margin-top:5px;flex:none}.sp7-feed-row b{font-size:11px;color:#172554}.sp7-feed-row small{display:block;color:#71809a;font-size:9px;margin-top:3px;line-height:1.45}
+#studentPortalView .sp7-wallet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 16px}.sp7-wallet-stat{border:1px solid #e4eaf3;border-radius:14px;padding:13px;background:#fff}.sp7-wallet-stat small{display:block;color:#71809a;font-size:9px;font-weight:900;text-transform:uppercase}.sp7-wallet-stat b{display:block;margin-top:5px;color:#172554;font-size:18px}
+#studentPortalView .sp7-record{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #edf1f7}.sp7-record:last-child{border-bottom:0}.sp7-record b{font-size:12px;color:#172554}.sp7-record small{display:block;color:#71809a;font-size:9px;margin-top:3px}
+@media(max-width:760px){#studentPortalView .sp7-focus,#studentPortalView .sp7-home-grid{grid-template-columns:1fr}.sp7-wallet{grid-template-columns:60px 1fr!important}.sp7-wallet>strong{grid-column:2}.sp7-wallet-grid{grid-template-columns:1fr 1fr!important}}
+</style>
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -1086,7 +1114,7 @@ input, select, textarea { min-width:0; }
 <!-- DEDICATED STUDENT PORTAL INTERFACE -->
 <div id="studentPortalView" style="display:none">
   <div class="sp6-topbar">
-    <div class="sp6-brand"><img class="sp6-logo" src="competition-wala-logo.webp" alt="Competition Wala"><div><b>Competition Wala</b><small>STUDENT CAMPUS</small></div></div>
+    <div class="sp6-brand"><img class="sp6-logo" src="competition-wala-logo.webp" alt="Competition Wala"><div><b>Competition Wala</b><small>STUDENT CAMPUS • PORTAL 7.0</small></div></div>
     <div class="sp6-top-actions"><button class="sp6-icon-btn" onclick="sp6OpenMore()" aria-label="More">⋯</button><button class="btn secondary" onclick="changeStudentPassword()">🔐 Password</button><button class="btn red" onclick="logoutStudent()">🚪</button></div>
   </div>
   <div class="sp6-content">
@@ -1102,6 +1130,31 @@ input, select, textarea { min-width:0; }
       <div class="sp6-stat"><small>Next Fee</small><b id="sp6Fee">—</b></div>
       <div class="sp6-stat"><small>Progress</small><b id="sp6Progress">—%</b></div>
       <div class="sp6-stat"><small>Course</small><b id="sp6Course">—</b></div>
+    </div>
+    <div class="sp7-focus">
+      <div class="sp7-card sp7-focus-main">
+        <span class="sp7-kicker">TODAY AT COMPETITION WALA</span>
+        <h2 id="sp7FocusTitle">Your campus, ready for you.</h2>
+        <p id="sp7FocusText">Your next class, learning activity, alerts and payment status will appear here automatically.</p>
+        <div class="sp7-focus-row">
+          <button class="sp7-pill-btn" onclick="sp6Open('hub')">📅 View Schedule</button>
+          <button class="sp7-pill-btn" onclick="sp6Open('learning')">📚 Continue Learning</button>
+          <button class="sp7-pill-btn" onclick="sp6Open('idcard')">🪪 Show Digital ID</button>
+        </div>
+      </div>
+      <div class="sp7-card">
+        <div class="sp7-section-title"><h3>⏰ Today</h3><span id="sp7TodayLabel">YOUR DAY</span></div>
+        <div id="sp7TodayList"><div class="sp7-today"><div class="sp7-today-icon">✨</div><div><b>Preparing your campus</b><small>We’ll show your schedule and tasks here.</small></div></div></div>
+      </div>
+    </div>
+    <div class="sp7-home-grid">
+      <div class="sp7-card">
+        <div class="sp7-section-title"><h3>▶ Continue Learning</h3><span>LAST ACTIVITY</span></div>
+        <div id="sp7ContinueLearning"><div class="sp7-continue"><div class="sp7-continue-icon">📚</div><div><b>Explore your course materials</b><small>Open My Learning to start studying.</small></div><span>›</span></div></div>
+      </div>
+      <div class="sp7-card sp7-wallet">
+        <div class="sp7-wallet-icon">🎓</div><div><h3>Academic Wallet</h3><p>ID • Results • Certificates • Achievements</p></div><strong id="sp7WalletCount">Open ›</strong>
+      </div>
     </div>
     <div class="sp6-section sp6-home-only">
       <div class="sp6-section-head"><h3>Quick access</h3><span>Everything important, one tap away</span></div>
@@ -1137,6 +1190,7 @@ input, select, textarea { min-width:0; }
     <button class="sp2-tab" onclick="sp2Open('hub',this)">🚀 Campus Hub</button>
     <button class="sp2-tab" onclick="sp2Open('idcard',this)">🪪 Digital ID</button>
     <button class="sp2-tab" onclick="sp2Open('support',this)">💬 Support</button>
+    <button class="sp2-tab" onclick="sp2Open('wallet',this)">🎓 Wallet</button>
     <button class="sp2-tab" onclick="sp2Open('fees',this)">💰 Fees</button>
     <button class="sp2-tab" onclick="sp2Open('more',this)">☰ More</button>
   </div>
@@ -1198,8 +1252,17 @@ input, select, textarea { min-width:0; }
     <div class="sp4-hero"><div><span class="sp4-kicker">COURSE COMPLETION</span><h2>🎓 Certificate Center</h2><p>View certificate records published by the institute.</p></div></div>
     <div class="sp2-panel"><div id="sp4CertificateList"></div></div>
   </div>
-  <div id="sp2Hub" class="sp2-view"><div class="sp4-hero"><div><span class="sp4-kicker">STUDENT COMMAND CENTER</span><h2>🚀 Campus Hub</h2><p>Your daily academic workspace — schedule, tasks, achievements and quick actions in one place.</p></div><div class="sp4-live">● PORTAL 5</div></div><div class="sp5-kpis" id="sp5Kpis"></div><div class="sp5-grid"><div class="sp5-card"><h3>📅 My Schedule</h3><div id="sp5Schedule"></div></div><div class="sp5-card"><h3>✅ My Tasks & Assignments</h3><div id="sp5Tasks"></div></div></div><div class="sp5-grid" style="margin-top:14px"><div class="sp5-card"><h3>🏆 Achievements</h3><div id="sp5Achievements"></div></div><div class="sp5-card"><h3>⚡ Quick Actions</h3><div class="sp5-action"><button class="btn" onclick="viewMyIDCard()">🪪 Open ID Card</button><button class="btn secondary" onclick="sp2Open('tests',document.querySelectorAll('.sp2-tab')[3])">📝 Take Practice</button><button class="btn green" onclick="sp2Open('attendance',document.querySelectorAll('.sp2-tab')[1])">📊 Attendance</button><button class="btn secondary" onclick="sp2Open('fees',document.querySelectorAll('.sp2-tab')[12])">💰 Fees</button></div></div></div></div>
+  <div id="sp2Hub" class="sp2-view"><div class="sp4-hero"><div><span class="sp4-kicker">STUDENT COMMAND CENTER</span><h2>🚀 Campus Hub</h2><p>Your daily academic workspace — schedule, tasks, achievements and quick actions in one place.</p></div><div class="sp4-live">● PORTAL 5</div></div><div class="sp5-kpis" id="sp5Kpis"></div><div class="sp5-grid"><div class="sp5-card"><h3>📅 My Schedule</h3><div id="sp5Schedule"></div></div><div class="sp5-card"><h3>✅ My Tasks & Assignments</h3><div id="sp5Tasks"></div></div></div><div class="sp5-grid" style="margin-top:14px"><div class="sp5-card"><h3>🏆 Achievements</h3><div id="sp5Achievements"></div></div><div class="sp5-card"><h3>⚡ Quick Actions</h3><div class="sp5-action"><button class="btn" onclick="viewMyIDCard()">🪪 Open ID Card</button><button class="btn secondary" onclick="sp2Open('tests',document.querySelectorAll('.sp2-tab')[3])">📝 Take Practice</button><button class="btn green" onclick="sp2Open('attendance',document.querySelectorAll('.sp2-tab')[1])">📊 Attendance</button><button class="btn secondary" onclick="sp2Open('fees',document.querySelectorAll('.sp2-tab')[12])">💰 Fees</button><button class="btn secondary" onclick="sp6Open('wallet')">🎓 Wallet</button></div></div></div></div>
   <div id="sp2Idcard" class="sp2-view"><div class="sp4-hero"><div><span class="sp4-kicker">DIGITAL CAMPUS ID</span><h2>🪪 My Virtual Student ID</h2><p>Your verified student identity card — always available on your phone.</p></div><div class="sp4-live">● VERIFIED ID</div></div><div id="sp5IdCard" class="sp62-id-wrap"></div></div>
+  <div id="sp2Wallet" class="sp2-view">
+    <div class="sp4-hero"><div><span class="sp4-kicker">YOUR ACADEMIC WALLET</span><h2>🎓 Digital Academic Wallet</h2><p>Keep your student identity, results, certificates and achievements together.</p></div><div class="sp4-live">● PRIVATE</div></div>
+    <div class="sp7-wallet-grid" id="sp7WalletStats"></div>
+    <div class="sp2-grid">
+      <div class="sp2-panel"><h3>🪪 Student Identity</h3><div id="sp7WalletIdentity"></div></div>
+      <div class="sp2-panel"><h3>🏆 Achievements</h3><div id="sp7WalletAchievements"></div></div>
+    </div>
+    <div class="sp2-panel" style="margin-top:14px"><h3>📜 Academic Records</h3><div id="sp7WalletRecords"></div></div>
+  </div>
   <div id="sp2Support" class="sp2-view"><div class="sp4-hero"><div><span class="sp4-kicker">STUDENT HELP DESK</span><h2>💬 Ask Teacher / Support</h2><p>Find institute contact information and get help with common student issues.</p></div></div><div class="sp5-grid"><div class="sp5-card"><h3>📞 Institute Support</h3><div id="sp5SupportInfo"></div></div><div class="sp5-card"><h3>🆘 Common Help</h3><div id="sp5HelpList"></div></div></div></div>
   <div id="sp2Fees" class="sp2-view">
     <div class="sp2-grid"><div class="sp2-panel"><h3>💰 My Fee Summary</h3><div id="sp2FeeSummary"></div></div><div class="sp2-panel"><h3>🧾 Payment History</h3><div id="sp2Payments" class="sp2-table-wrap"></div></div></div>
@@ -1211,6 +1274,7 @@ input, select, textarea { min-width:0; }
       <button class="sp6-more-item sp62-more-id" onclick="sp6Open('idcard')"><b>🪪 My Digital ID</b><small>Open your virtual student card anytime</small></button>
       <button class="sp6-more-item" onclick="sp6Open('notifications')"><b>🔔 Notifications</b><small>Important account alerts</small></button>
       <button class="sp6-more-item" onclick="sp6Open('certificate')"><b>🎓 Certificates</b><small>Published completion records</small></button>
+      <button class="sp6-more-item" onclick="sp6Open('wallet')"><b>🎓 Academic Wallet</b><small>ID, results & achievements</small></button>
       <button class="sp6-more-item" onclick="sp6Open('support')"><b>💬 Student Support</b><small>Ask teacher / resolve issues</small></button>
       <button class="sp6-more-item" onclick="viewMyReceipts()"><b>🧾 Fee Receipts</b><small>View your payment receipts</small></button>
       <button class="sp6-more-item" onclick="changeStudentPassword()"><b>🔐 Account Security</b><small>Change your portal password</small></button>
@@ -1722,7 +1786,7 @@ const sp2PracticeTests = [
     ['Which device connects networks?',['Router','Scanner','Monitor','Keyboard'],0]
   ]}
 ];
-function sp2Open(view,btn){document.querySelectorAll('#studentPortalView .sp2-view').forEach(x=>x.classList.remove('active'));const el=document.getElementById('sp2'+view.charAt(0).toUpperCase()+view.slice(1));if(el)el.classList.add('active');document.querySelectorAll('#studentPortalView .sp2-tab').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(view==='attendance')sp2RenderAttendance();if(view==='learning')sp2RenderLearning();if(view==='tests')sp2RenderTests();if(view==='progress')sp3RenderProgress();if(view==='updates')sp4RenderUpdates();if(view==='results')sp4RenderResults();if(view==='notifications')sp4RenderNotifications();if(view==='certificate')sp4RenderCertificates();if(view==='hub')sp5RenderHub();if(view==='idcard')sp5RenderID();if(view==='support')sp5RenderSupport();if(view==='fees')sp2RenderFees();}
+function sp2Open(view,btn){document.querySelectorAll('#studentPortalView .sp2-view').forEach(x=>x.classList.remove('active'));const el=document.getElementById('sp2'+view.charAt(0).toUpperCase()+view.slice(1));if(el)el.classList.add('active');document.querySelectorAll('#studentPortalView .sp2-tab').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(view==='attendance')sp2RenderAttendance();if(view==='learning')sp2RenderLearning();if(view==='tests')sp2RenderTests();if(view==='progress')sp3RenderProgress();if(view==='updates')sp4RenderUpdates();if(view==='results')sp4RenderResults();if(view==='notifications')sp4RenderNotifications();if(view==='certificate')sp4RenderCertificates();if(view==='hub')sp5RenderHub();if(view==='idcard')sp5RenderID();if(view==='support')sp5RenderSupport();if(view==='wallet')sp7RenderWallet();if(view==='fees')sp2RenderFees();}
 function sp2RenderNotices(){const box=document.getElementById('sp2Notices');if(!box)return;box.innerHTML=sp2NoticesDB.map(n=>`<div class="sp2-notice"><b>📌 ${escapeHTML(n.title)}</b><small>${escapeHTML(n.text)}</small></div>`).join('');}
 function sp2RenderLearning(){const s=loggedInStudent;if(!s)return;const course=String(s.course||'').toUpperCase();const modules=[...studyMaterialsDB];const relevant=course.includes('DCA')?modules.filter(m=>['M1','M2','M3','M4','M5'].includes(m.module)):modules;document.getElementById('sp2Modules').innerHTML=relevant.map((m,i)=>{const pct=Math.min(95,25+(i%4)*15);return `<div class="sp2-module"><div class="sp2-module-icon">${m.module==='M3'?'🖥️':m.module==='M4'?'🎨':m.module==='M5'?'🧾':m.module==='M6'?'💻':m.module==='TYPING'?'⌨️':'📘'}</div><div><b>${escapeHTML(m.title)}</b><small>${escapeHTML(m.file)} • ${escapeHTML(m.size)}</small><div class="sp2-progress"><i style="width:${pct}%"></i></div></div><span class="sp2-status">Available</span></div>`}).join('');}
 function sp2RenderTests(){const box=document.getElementById('sp2TestList');if(!box)return;box.innerHTML=sp2PracticeTests.map(t=>`<div class="sp2-test"><h4>📝 ${escapeHTML(t.title)}</h4><p>${t.questions.length} questions • ${t.minutes} minutes • Practice only</p><button class="btn" onclick="sp2StartQuiz('${t.id}')">Start Practice</button></div>`).join('');document.getElementById('sp2QuizArea').innerHTML='';}
@@ -4059,6 +4123,24 @@ color:#fff;font:700 14px Arial,sans-serif;box-shadow:0 8px 24px #10244b44;cursor
 
 
 /* ===== Student App 6.0: modern campus shell ===== */
+
+/* ===== Student App 7.0: smart campus experience ===== */
+function sp7Today(){return new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'});}
+function sp7LastMaterial(){try{return JSON.parse(localStorage.getItem('cwccLastMaterial_'+String(loggedInStudent?.admissionNo||loggedInStudent?.id||'student'))||'null')}catch{return null}}
+function sp7SetLastMaterial(m){try{localStorage.setItem('cwccLastMaterial_'+String(loggedInStudent?.admissionNo||loggedInStudent?.id||'student'),JSON.stringify(m))}catch{}}
+function sp7RenderContinue(){const box=document.getElementById('sp7ContinueLearning');if(!box)return;const last=sp7LastMaterial();if(last){const pct=Math.min(90,35+(Number(last.index||0)%5)*10);box.innerHTML=`<button class="sp7-continue" onclick="sp6Open('learning')"><div class="sp7-continue-icon">${last.icon||'📚'}</div><div><b>${escapeHTML(last.title||'Continue learning')}</b><small>${escapeHTML(last.module||'Course material')} • Last opened ${escapeHTML(last.when||'recently')}</small><div class="sp7-progress-mini"><i style="width:${pct}%"></i></div></div><span>›</span></button>`;return}const m=(studyMaterialsDB||[])[0];if(m){box.innerHTML=`<button class="sp7-continue" onclick="sp7OpenMaterial('${escapeHTML(m.title)}','${escapeHTML(m.module)}')"><div class="sp7-continue-icon">📚</div><div><b>${escapeHTML(m.title)}</b><small>${escapeHTML(m.module)} • Start your first lesson</small></div><span>›</span></button>`;}}
+function sp7OpenMaterial(title,module){const found=(studyMaterialsDB||[]).find(x=>String(x.title)===String(title)&&String(x.module)===String(module));if(found){sp7SetLastMaterial({title:found.title,module:found.module,icon:found.module==='M3'?'🖥️':found.module==='M4'?'🎨':found.module==='M5'?'🧾':found.module==='M6'?'💻':'📘',when:'now',index:studyMaterialsDB.indexOf(found)});}sp6Open('learning');setTimeout(()=>{const q=document.getElementById('stMaterialSearch');if(q){q.value=title;filterStudentMaterials();}},80);}
+async function sp7RenderToday(){const box=document.getElementById('sp7TodayList');if(!box)return;document.getElementById('sp7TodayLabel')?.replaceChildren(document.createTextNode(sp7Today().toUpperCase()));let data={};try{data=await sp4Load(['schedule','studentSchedule','timetable','studentPortal/schedule','tasks','assignments','studentTasks','studentPortal/tasks','notifications','studentNotifications','studentPortal/notifications']);}catch(e){}const schedules=sp4SafeArray(data.schedule).concat(sp4SafeArray(data.timetable)).filter(sp4StudentMatch);const tasks=sp4SafeArray(data.tasks).concat(sp4SafeArray(data.assignments)).filter(sp4StudentMatch);const alerts=sp4SafeArray(data.notifications).concat(sp4SafeArray(data.studentNotifications)).filter(sp4StudentMatch);const items=[];const today=new Date();const day=today.toLocaleDateString('en-US',{weekday:'long'});const ds=today.toISOString().slice(0,10);const todayClasses=schedules.filter(x=>String(x.date||'').slice(0,10)===ds||String(x.day||'').toLowerCase()===day.toLowerCase()).slice(0,2);todayClasses.forEach(x=>items.push({icon:'📅',title:x.title||x.subject||x.name||'Class',text:[x.time||x.startTime,x.teacher||x.faculty,x.room||x.mode].filter(Boolean).join(' • ')}));const pending=tasks.filter(x=>String(x.status||'pending').toLowerCase()!=='completed').slice(0,1);pending.forEach(x=>items.push({icon:'✅',title:x.title||x.name||'Assignment',text:'Due '+(x.dueDate||x.deadline||'date not set')}));if(alerts.length)items.push({icon:'🔔',title:alerts[0].title||alerts[0].subject||'New campus alert',text:alerts[0].message||alerts[0].text||'Check your notifications'});if(!items.length)items.push({icon:'✨',title:'You are all set',text:'No class, assignment or urgent alert is scheduled for today.'});box.innerHTML=items.slice(0,4).map(x=>`<div class="sp7-today"><div class="sp7-today-icon">${x.icon}</div><div><b>${escapeHTML(x.title)}</b><small>${escapeHTML(x.text)}</small></div></div>`).join('');}
+async function sp7RenderWallet(){const s=loggedInStudent;if(!s)return;const stats=document.getElementById('sp7WalletStats'),identity=document.getElementById('sp7WalletIdentity'),achBox=document.getElementById('sp7WalletAchievements'),records=document.getElementById('sp7WalletRecords');if(!stats||!identity)return;let data={};try{data=await sp4Load(['results','studentResults','examResults','studentPortal/results','certificates','studentCertificates','studentPortal/certificates','achievements','studentAchievements','studentPortal/achievements']);}catch(e){}const results=sp4SafeArray(data.results).filter(sp4StudentMatch);const certs=sp4SafeArray(data.certificates).filter(sp4StudentMatch);const ach=sp4SafeArray(data.achievements).filter(sp4StudentMatch);stats.innerHTML=`<div class="sp7-wallet-stat"><small>Identity</small><b>Verified</b></div><div class="sp7-wallet-stat"><small>Results</small><b>${results.length}</b></div><div class="sp7-wallet-stat"><small>Certificates</small><b>${certs.length}</b></div>`;identity.innerHTML=`<div class="sp7-record"><div><b>${escapeHTML(s.name||'Student')}</b><small>Admission No. ${escapeHTML(s.admissionNo||'—')} • ${escapeHTML(s.course||'Course')}</small></div><button class="btn" onclick="sp6Open('idcard')">🪪 Open ID</button></div><div class="sp7-record"><div><b>🎓 ${escapeHTML(s.batch||'Regular Batch')}</b><small>${escapeHTML(s.mobile||s.phone||'Mobile not available')}</small></div><span class="badge paid">ACTIVE</span></div>`;achBox.innerHTML=ach.length?ach.slice(0,8).map(x=>`<div class="sp7-record"><div><b>🏆 ${escapeHTML(x.title||x.name||'Achievement')}</b><small>${escapeHTML(x.description||x.text||'Achievement published by institute')} • ${sp4Date(x.date||x.createdAt)}</small></div></div>`).join(''):'<div class="sp4-empty">Achievements will appear here as your institute publishes them.</div>';records.innerHTML=results.length?results.slice(0,10).map(x=>`<div class="sp7-record"><div><b>${escapeHTML(x.examName||x.title||x.name||'Institute Examination')}</b><small>${escapeHTML(x.subject||x.course||'')} • ${sp4Date(x.examDate||x.date||x.createdAt)}</small></div><span class="sp4-pill">${escapeHTML(x.grade||x.result||((x.percentage??x.percent??x.pct)!=null?Math.round(Number(x.percentage??x.percent??x.pct))+'%':'Published'))}</span></div>`).join(''):'<div class="sp4-empty">Official academic records will appear here when published.</div>';}
+function sp7Refresh(){sp7RenderContinue();sp7RenderToday();sp7RenderWallet();const count=document.getElementById('sp7WalletCount');if(count)count.textContent='Open ›';}
+const __sp7OldFilter=window.filterStudentMaterials||filterStudentMaterials;
+filterStudentMaterials=function(){__sp7OldFilter();const q=document.getElementById('stMaterialSearch')?.value||'';if(q&&loggedInStudent){const m=(studyMaterialsDB||[]).find(x=>String(x.title).toLowerCase().includes(q.toLowerCase()));if(m)sp7SetLastMaterial({title:m.title,module:m.module,icon:m.module==='M3'?'🖥️':m.module==='M4'?'🎨':m.module==='M5'?'🧾':m.module==='M6'?'💻':'📘',when:'just now',index:studyMaterialsDB.indexOf(m)});}};
+const __sp7OldOpen=sp6Open;
+sp6Open=function(view){if(view==='wallet'){document.querySelector('#studentPortalView .sp6-home-shell')?.style.setProperty('display','none');document.querySelectorAll('#studentPortalView .sp2-view').forEach(x=>x.classList.remove('active'));document.getElementById('sp2Wallet')?.classList.add('active');document.querySelectorAll('#studentPortalView .sp6-nav-btn').forEach(x=>x.classList.remove('active'));document.querySelector('.sp6-nav-btn:last-child')?.classList.add('active');sp7RenderWallet();return;}__sp7OldOpen(view);if(view==='overview')setTimeout(sp7Refresh,40);if(view==='hub')setTimeout(sp7RenderToday,60);if(view==='learning')setTimeout(sp7RenderContinue,60);};
+window.sp7RenderWallet=sp7RenderWallet;window.sp7OpenMaterial=sp7OpenMaterial;
+const __sp7OldPrepare=window.sp6Prepare||sp6Prepare;
+sp6Prepare=function(){__sp7OldPrepare();setTimeout(sp7Refresh,120);};
+
 function sp6Open(view){
   const map={home:'overview',learn:'learning'};
   view=map[view]||view;

@@ -1072,6 +1072,23 @@ input, select, textarea { min-width:0; }
 #studentPortalView .sp7-record{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #edf1f7}.sp7-record:last-child{border-bottom:0}.sp7-record b{font-size:12px;color:#172554}.sp7-record small{display:block;color:#71809a;font-size:9px;margin-top:3px}
 @media(max-width:760px){#studentPortalView .sp7-focus,#studentPortalView .sp7-home-grid{grid-template-columns:1fr}.sp7-wallet{grid-template-columns:60px 1fr!important}.sp7-wallet>strong{grid-column:2}.sp7-wallet-grid{grid-template-columns:1fr 1fr!important}}
 </style>
+
+<style id="cwcc-student-8-css">
+#studentPortalView .sp8-live{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-bottom:16px}
+#studentPortalView .sp8-card{background:#fff;border:1px solid #e4eaf3;border-radius:20px;padding:18px;box-shadow:0 10px 28px rgba(20,33,61,.045);min-width:0}
+#studentPortalView .sp8-card h3{margin:0;color:#172554;font-size:15px}.sp8-muted{color:#71809a;font-size:10px;line-height:1.5}
+#studentPortalView .sp8-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0b2450,#2563eb 70%,#4f7cff);color:#fff;border:0;min-height:190px}
+#studentPortalView .sp8-hero:after{content:"";position:absolute;width:210px;height:210px;border:34px solid rgba(255,255,255,.07);border-radius:50%;right:-95px;top:-110px}.sp8-hero>*{position:relative;z-index:1}
+#studentPortalView .sp8-kicker{font-size:8px;letter-spacing:.16em;font-weight:900;color:#bfdbfe}.sp8-hero h2{margin:7px 0 5px;color:#fff;font-size:23px}.sp8-hero p{margin:0;color:#dbeafe;font-size:11px;line-height:1.55}
+#studentPortalView .sp8-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.sp8-btn{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12);color:#fff;border-radius:11px;padding:9px 11px;font-size:10px;font-weight:900;cursor:pointer}
+#studentPortalView .sp8-list{margin-top:9px}.sp8-row{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid #edf1f7}.sp8-row:last-child{border-bottom:0}.sp8-ico{width:36px;height:36px;border-radius:11px;background:#eef4ff;display:grid;place-items:center;flex:none;font-size:17px}.sp8-row b{display:block;color:#172554;font-size:11px}.sp8-row small{display:block;color:#71809a;font-size:9px;line-height:1.45;margin-top:3px}
+#studentPortalView .sp8-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:0 0 14px}.sp8-stat{background:#fff;border:1px solid #e4eaf3;border-radius:15px;padding:13px}.sp8-stat small{display:block;color:#71809a;font-size:8px;text-transform:uppercase;font-weight:900;letter-spacing:.06em}.sp8-stat b{display:block;margin-top:5px;color:#172554;font-size:18px}
+#studentPortalView .sp8-assistant{display:grid;grid-template-columns:1fr auto;gap:9px;margin-top:10px}.sp8-assistant input{width:100%;min-height:44px;border:1px solid #dfe6f1;border-radius:12px;padding:10px 12px;background:#fbfcff;font-size:13px}.sp8-assistant button{border:0;border-radius:12px;background:#2563eb;color:#fff;font-weight:900;padding:0 15px;cursor:pointer}.sp8-answer{margin-top:10px;padding:12px 13px;border-radius:13px;background:#f5f8ff;border:1px solid #dce7fb;color:#344b70;font-size:11px;line-height:1.55;min-height:44px}
+#studentPortalView .sp8-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}.sp8-day{border:1px solid #e5eaf2;border-radius:12px;padding:9px 5px;text-align:center;background:#fff}.sp8-day.today{border-color:#2563eb;background:#eef4ff}.sp8-day small{display:block;color:#71809a;font-size:8px;font-weight:900}.sp8-day b{display:block;color:#172554;font-size:15px;margin-top:4px}.sp8-day i{display:block;font-style:normal;font-size:8px;color:#2563eb;margin-top:4px;min-height:11px}
+#studentPortalView .sp8-streak{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid #fed7aa}.sp8-fire{font-size:29px}.sp8-streak b{display:block;color:#9a3412;font-size:18px}.sp8-streak small{display:block;color:#9a3412;font-size:9px;margin-top:2px}
+@media(max-width:760px){#studentPortalView .sp8-live{grid-template-columns:1fr}.sp8-stats{grid-template-columns:repeat(2,1fr)!important}.sp8-week{gap:4px!important}.sp8-day{padding:8px 3px}.sp8-day b{font-size:13px}.sp8-assistant{grid-template-columns:1fr}.sp8-assistant button{min-height:44px}}
+</style>
+
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -1114,7 +1131,7 @@ input, select, textarea { min-width:0; }
 <!-- DEDICATED STUDENT PORTAL INTERFACE -->
 <div id="studentPortalView" style="display:none">
   <div class="sp6-topbar">
-    <div class="sp6-brand"><img class="sp6-logo" src="competition-wala-logo.webp" alt="Competition Wala"><div><b>Competition Wala</b><small>STUDENT CAMPUS • PORTAL 7.0</small></div></div>
+    <div class="sp6-brand"><img class="sp6-logo" src="competition-wala-logo.webp" alt="Competition Wala"><div><b>Competition Wala</b><small>STUDENT CAMPUS • PORTAL 8.0</small></div></div>
     <div class="sp6-top-actions"><button class="sp6-icon-btn" onclick="sp6OpenMore()" aria-label="More">⋯</button><button class="btn secondary" onclick="changeStudentPassword()">🔐 Password</button><button class="btn red" onclick="logoutStudent()">🚪</button></div>
   </div>
   <div class="sp6-content">
@@ -1267,10 +1284,38 @@ input, select, textarea { min-width:0; }
   <div id="sp2Fees" class="sp2-view">
     <div class="sp2-grid"><div class="sp2-panel"><h3>💰 My Fee Summary</h3><div id="sp2FeeSummary"></div></div><div class="sp2-panel"><h3>🧾 Payment History</h3><div id="sp2Payments" class="sp2-table-wrap"></div></div></div>
   </div>
+
+  <div id="sp2Live" class="sp2-view">
+    <div class="sp8-live">
+      <div class="sp8-card sp8-hero">
+        <span class="sp8-kicker">LIVE CAMPUS • PORTAL 8.0</span>
+        <h2>🚀 Your campus, in one place</h2>
+        <p>Classes, tasks, alerts, learning streaks and your academic activity — organized around what matters today.</p>
+        <div class="sp8-actions">
+          <button class="sp8-btn" onclick="sp6Open('hub')">📅 Schedule</button>
+          <button class="sp8-btn" onclick="sp6Open('learning')">📚 Learn</button>
+          <button class="sp8-btn" onclick="sp6Open('tests')">📝 Tests</button>
+          <button class="sp8-btn" onclick="sp6Open('idcard')">🪪 Digital ID</button>
+        </div>
+      </div>
+      <div class="sp8-card">
+        <h3>🤖 Ask CWCC</h3>
+        <div class="sp8-muted">Ask about your attendance, fee, next class, tests or course.</div>
+        <div class="sp8-assistant"><input id="sp8Ask" placeholder="e.g. What is my attendance?" onkeydown="if(event.key==='Enter')sp8AskCWCC()"><button onclick="sp8AskCWCC()">Ask</button></div>
+        <div id="sp8Answer" class="sp8-answer">Try: “next class”, “my fee”, “attendance”, or “tests”.</div>
+      </div>
+    </div>
+    <div class="sp8-stats" id="sp8Stats"></div>
+    <div class="sp8-live">
+      <div class="sp8-card"><h3>📆 This Week</h3><div id="sp8Week" class="sp8-week"></div><div id="sp8WeekList" class="sp8-list"></div></div>
+      <div class="sp8-card"><h3>🔥 Learning Streak</h3><div id="sp8Streak" style="margin-top:10px"></div><h3 style="margin-top:16px">🔔 Live Alerts</h3><div id="sp8Alerts" class="sp8-list"></div></div>
+    </div>
+  </div>
   <div id="sp2More" class="sp2-view">
     <div class="sp6-section-head"><h3>More student services</h3><span>Keep the home screen simple</span></div>
     <div class="sp6-more-grid">
       <button class="sp6-more-item" onclick="sp6Open('hub')"><b>🚀 Campus Hub</b><small>Schedule, assignments & achievements</small></button>
+      <button class="sp6-more-item" onclick="sp6Open('live')"><b>🌐 Campus Live</b><small>Smart campus dashboard & Ask CWCC</small></button>
       <button class="sp6-more-item sp62-more-id" onclick="sp6Open('idcard')"><b>🪪 My Digital ID</b><small>Open your virtual student card anytime</small></button>
       <button class="sp6-more-item" onclick="sp6Open('notifications')"><b>🔔 Notifications</b><small>Important account alerts</small></button>
       <button class="sp6-more-item" onclick="sp6Open('certificate')"><b>🎓 Certificates</b><small>Published completion records</small></button>
@@ -2337,7 +2382,27 @@ function printStudentIDCard() {
       <div class="row"><b>Admitted:</b> ${esc(st.date || '-')}</div>
     </div></div></div>
     ${qrSrc ? `<div class="qr"><img src="${qrSrc}" alt="Student attendance QR"></div>` : ''}<div class="bottom"><span class="num">${esc(st.admissionNo || 'CWCC STUDENT')}</span><span class="sign">AUTHORISED SIGNATURE</span></div>
-  </div></body></html>`);
+  </div>
+<script id="cwcc-student-8-js">
+(function(){
+function esc(v){return typeof escapeHTML==='function'?escapeHTML(String(v??'')):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function arr(v){return typeof sp4SafeArray==='function'?sp4SafeArray(v):(Array.isArray(v)?v:[]);}
+function match(x){return typeof sp4StudentMatch==='function'?sp4StudentMatch(x):true;}
+function dateKey(d){return new Date(d).toISOString().slice(0,10)}
+async function load(){let data={};try{data=await sp4Load(['schedule','timetable','studentSchedule','tasks','assignments','studentTasks','notifications','studentNotifications','results','studentResults']);}catch(e){}
+const schedules=arr(data.schedule).concat(arr(data.timetable),arr(data.studentSchedule)).filter(match);const tasks=arr(data.tasks).concat(arr(data.assignments),arr(data.studentTasks)).filter(match);const alerts=arr(data.notifications).concat(arr(data.studentNotifications)).filter(match);
+renderStats(schedules,tasks,alerts);renderWeek(schedules,tasks);renderAlerts(alerts);renderStreak();
+}
+function renderStats(schedules,tasks,alerts){const box=document.getElementById('sp8Stats');if(!box)return;const pending=tasks.filter(x=>String(x.status||'pending').toLowerCase()!=='completed').length;const unread=alerts.filter(x=>!x.read&&!x.seen).length;let att='—';try{const el=document.getElementById('sp6Attendance');if(el)att=el.textContent||'—';}catch{}let fee='—';try{fee=document.getElementById('sp6Fee')?.textContent||'—';}catch{}box.innerHTML=`<div class="sp8-stat"><small>Attendance</small><b>${esc(att)}</b></div><div class="sp8-stat"><small>Pending Tasks</small><b>${pending}</b></div><div class="sp8-stat"><small>Alerts</small><b>${unread||alerts.length}</b></div><div class="sp8-stat"><small>Next Fee</small><b>${esc(fee)}</b></div>`;}
+function renderWeek(schedules,tasks){const w=document.getElementById('sp8Week'),list=document.getElementById('sp8WeekList');if(!w)return;const now=new Date();const start=new Date(now);start.setHours(0,0,0,0);start.setDate(start.getDate()-((start.getDay()+6)%7));let html='';for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const key=dateKey(d);const has=schedules.some(x=>String(x.date||'').slice(0,10)===key)||tasks.some(x=>String(x.dueDate||x.deadline||'').slice(0,10)===key);html+=`<div class="sp8-day ${key===dateKey(now)?'today':''}"><small>${d.toLocaleDateString('en-IN',{weekday:'short'})}</small><b>${d.getDate()}</b><i>${has?'●':' '}</i></div>`}w.innerHTML=html;const items=[];schedules.filter(x=>String(x.date||'').slice(0,10)>=dateKey(start)).slice(0,4).forEach(x=>items.push({i:'📅',t:x.title||x.subject||x.name||'Class',s:[x.date,x.time||x.startTime,x.teacher||x.faculty].filter(Boolean).join(' • ')}));tasks.filter(x=>String(x.status||'pending').toLowerCase()!=='completed').slice(0,3).forEach(x=>items.push({i:'✅',t:x.title||x.name||'Assignment',s:'Due '+(x.dueDate||x.deadline||'date not set')}));list.innerHTML=items.length?items.slice(0,5).map(x=>`<div class="sp8-row"><div class="sp8-ico">${x.i}</div><div><b>${esc(x.t)}</b><small>${esc(x.s)}</small></div></div>`).join(''):'<div class="sp8-muted" style="padding:10px 0">No scheduled items found. Your week is clear.</div>';}
+function renderAlerts(alerts){const box=document.getElementById('sp8Alerts');if(!box)return;box.innerHTML=alerts.length?alerts.slice(0,4).map(x=>`<div class="sp8-row"><div class="sp8-ico">🔔</div><div><b>${esc(x.title||x.subject||'Campus update')}</b><small>${esc(x.message||x.text||'Open Notifications for details.')}</small></div></div>`).join(''):'<div class="sp8-muted" style="padding:10px 0">No new campus alerts.</div>';}
+function renderStreak(){const box=document.getElementById('sp8Streak');if(!box)return;const key='cwccLearningStreak_'+String(loggedInStudent?.admissionNo||loggedInStudent?.id||'student');let d={};try{d=JSON.parse(localStorage.getItem(key)||'{}')}catch{}const today=dateKey(new Date());const last=d.last||'';let streak=Number(d.streak||0);if(last===today){}else{const y=new Date();y.setDate(y.getDate()-1);if(last===dateKey(y))streak++;else streak=1;d={last:today,streak};try{localStorage.setItem(key,JSON.stringify(d))}catch{}}box.innerHTML=`<div class="sp8-streak"><div class="sp8-fire">🔥</div><div><b>${streak}-day streak</b><small>Keep learning every day to build your streak.</small></div></div>`;}
+window.sp8Refresh=load;window.sp8AskCWCC=function(){const q=(document.getElementById('sp8Ask')?.value||'').toLowerCase().trim();const out=document.getElementById('sp8Answer');if(!out)return;const s=loggedInStudent||{};let answer='I can help with attendance, fees, tests, your next class, learning and your digital ID.';if(/attendance|present|absent/.test(q))answer=`Your current attendance shown in the portal is <b>${esc(document.getElementById('sp6Attendance')?.textContent||'—')}</b>. Open Attendance for the detailed record.`;else if(/fee|fees|payment|emi|due/.test(q))answer=`Your next fee shown in the portal is <b>${esc(document.getElementById('sp6Fee')?.textContent||'—')}</b>. Open Fees for your payment history.`;else if(/test|exam|quiz/.test(q))answer='Open <b>Test Center</b> to see available practice and assigned tests.';else if(/class|schedule|timetable|next/.test(q))answer='Open <b>Campus Hub</b> or Campus Live to see your available schedule. If no schedule has been published, the portal will tell you.';else if(/id|card/.test(q))answer='Your verified <b>Virtual Student ID</b> is always available under Digital ID.';else if(/course|batch|admission/.test(q))answer=`You are enrolled in <b>${esc(s.course||'your course')}</b>, batch <b>${esc(s.batch||'your batch')}</b>. Admission: <b>${esc(s.admissionNo||'—')}</b>.`;out.innerHTML=answer;};
+const oldOpen=window.sp6Open||function(){};window.sp6Open=function(view){if(view==='live'){document.querySelector('#studentPortalView .sp6-home-shell')?.style.setProperty('display','none');document.querySelectorAll('#studentPortalView .sp2-view').forEach(x=>x.classList.remove('active'));document.getElementById('sp2Live')?.classList.add('active');document.querySelectorAll('#studentPortalView .sp6-nav-btn').forEach(x=>x.classList.remove('active'));sp8Refresh();return;}oldOpen(view);if(view==='overview')setTimeout(sp8Refresh,80);};
+const oldPrepare=window.sp6Prepare||function(){};window.sp6Prepare=function(){oldPrepare();setTimeout(sp8Refresh,180);};
+})();
+</script>
+</body></html>`);
   w.document.close();
 }
 window.printStudentIDCard = printStudentIDCard;

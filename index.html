@@ -1012,6 +1012,38 @@ input, select, textarea { min-width:0; }
 @media(max-width:760px){#studentPortalView{padding-bottom:84px!important}#studentPortalView .sp6-content{padding-top:14px}.sp6-topbar{padding:11px 12px!important}.sp6-logo{width:38px!important;height:38px!important}.sp6-top-actions .btn{display:none}.sp6-stats{grid-template-columns:repeat(2,1fr)!important}.sp6-actions{grid-template-columns:repeat(2,1fr)!important}.sp6-more-grid{grid-template-columns:repeat(2,1fr)!important}.sp6-action{padding:13px}.sp6-action i{width:35px;height:35px}.sp6-bottom{grid-template-columns:repeat(6,1fr)!important}.sp6-nav-btn{font-size:8px}.sp6-nav-btn span{font-size:18px}}
 @media(max-width:380px){.sp6-stats{gap:7px!important}.sp6-stat{padding:11px}.sp6-stat b{font-size:16px}.sp6-action{padding:11px}.sp6-more-grid{grid-template-columns:1fr 1fr!important}}
 </style>
+<style>
+/* ===== Student Portal 6.2: always-available virtual student ID ===== */
+#studentPortalView .sp62-id-wrap{max-width:760px;margin:0 auto}
+#studentPortalView .sp62-id-card{position:relative;overflow:hidden;border-radius:26px;background:linear-gradient(135deg,#071b3d 0%,#123f8c 52%,#2563eb 100%);color:#fff;box-shadow:0 20px 55px rgba(15,47,104,.24);border:1px solid rgba(255,255,255,.16)}
+#studentPortalView .sp62-id-card:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-100px;top:-120px;background:rgba(255,255,255,.09)}
+#studentPortalView .sp62-id-card:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;left:-115px;bottom:-110px;background:rgba(255,255,255,.06)}
+#studentPortalView .sp62-id-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 19px;border-bottom:1px solid rgba(255,255,255,.16)}
+#studentPortalView .sp62-brandline{display:flex;align-items:center;gap:10px;min-width:0}
+#studentPortalView .sp62-logo{width:42px;height:42px;border-radius:50%;object-fit:contain;background:#fff;padding:3px}
+#studentPortalView .sp62-brandline b{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase}
+#studentPortalView .sp62-brandline small{display:block;margin-top:3px;color:#bfdbfe;font-size:9px;letter-spacing:.12em;font-weight:800}
+#studentPortalView .sp62-valid{padding:7px 10px;border-radius:999px;background:rgba(34,197,94,.16);border:1px solid rgba(134,239,172,.35);color:#bbf7d0;font-size:9px;font-weight:900;white-space:nowrap}
+#studentPortalView .sp62-id-main{position:relative;z-index:1;display:grid;grid-template-columns:128px minmax(0,1fr) 96px;gap:18px;align-items:center;padding:22px 19px}
+#studentPortalView .sp62-photo{width:128px;height:154px;border-radius:17px;overflow:hidden;background:linear-gradient(145deg,#dbeafe,#eff6ff);display:flex;align-items:center;justify-content:center;border:3px solid rgba(255,255,255,.82);box-shadow:0 8px 25px rgba(0,0,0,.14)}
+#studentPortalView .sp62-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
+#studentPortalView .sp62-photo-fallback{font-size:38px;font-weight:950;color:#1d4ed8}
+#studentPortalView .sp62-name{margin:0;color:#fff;font-size:25px;line-height:1.18;font-weight:900;overflow-wrap:anywhere}
+#studentPortalView .sp62-role{margin:5px 0 15px;color:#bfdbfe;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+#studentPortalView .sp62-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#studentPortalView .sp62-field{padding:9px 10px;border:1px solid rgba(255,255,255,.15);border-radius:11px;background:rgba(255,255,255,.08);min-width:0}
+#studentPortalView .sp62-field small{display:block;color:#bfdbfe;font-size:8px;font-weight:850;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px}
+#studentPortalView .sp62-field b{display:block;color:#fff;font-size:11px;line-height:1.35;overflow-wrap:anywhere}
+#studentPortalView .sp62-qr{width:96px;height:96px;border-radius:13px;background:#fff;padding:7px;display:flex;align-items:center;justify-content:center;justify-self:end}
+#studentPortalView .sp62-qr canvas,#studentPortalView .sp62-qr img{width:82px!important;height:82px!important;display:block}
+#studentPortalView .sp62-qr-note{margin-top:7px;text-align:center;color:#dbeafe;font-size:8px;line-height:1.35;font-weight:800}
+#studentPortalView .sp62-id-foot{position:relative;z-index:1;display:flex;justify-content:space-between;gap:10px;padding:12px 19px;border-top:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.08);font-size:9px;color:#dbeafe}
+#studentPortalView .sp62-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}
+#studentPortalView .sp62-action{border:1px solid #dce5f1;background:#fff;color:#24436f;border-radius:13px;padding:12px;font-weight:850;cursor:pointer;min-height:46px}
+#studentPortalView .sp62-action.primary{background:#2563eb;color:#fff;border-color:#2563eb}
+#studentPortalView .sp62-id-tip{margin-top:12px;padding:12px 14px;border:1px dashed #cbd8ec;border-radius:14px;background:#f8fbff;color:#5f708e;font-size:11px;line-height:1.55}
+@media(max-width:700px){#studentPortalView .sp62-id-main{grid-template-columns:82px minmax(0,1fr);gap:12px;padding:15px}.sp62-photo{width:82px!important;height:102px!important;border-radius:13px!important}.sp62-photo-fallback{font-size:27px!important}.sp62-name{font-size:19px!important}.sp62-role{margin-bottom:10px!important;font-size:8px!important}.sp62-fields{gap:6px!important}.sp62-field{padding:7px 8px!important}.sp62-field small{font-size:7px!important}.sp62-field b{font-size:10px!important}.sp62-qr{grid-column:1/-1;justify-self:center;width:88px!important;height:88px!important}.sp62-qr canvas,.sp62-qr img{width:74px!important;height:74px!important}.sp62-qr-note{display:none}.sp62-actions{grid-template-columns:1fr 1fr!important}.sp62-actions .primary{grid-column:1/-1}.sp62-id-head{padding:13px 14px!important}.sp62-id-foot{padding:10px 14px!important;font-size:8px!important}}
+</style>
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -1078,6 +1110,7 @@ input, select, textarea { min-width:0; }
         <button class="sp6-action" onclick="sp6Open('attendance')"><i>📊</i><b>Attendance</b><small>Check your attendance</small></button>
         <button class="sp6-action" onclick="sp6Open('tests')"><i>📝</i><b>Test Center</b><small>Practice & assigned tests</small></button>
         <button class="sp6-action" onclick="sp6Open('progress')"><i>🏆</i><b>My Progress</b><small>Track your performance</small></button>
+        <button class="sp6-action sp62-home-id" onclick="sp6Open('idcard')"><i>🪪</i><b>My Digital ID</b><small>Show your student ID</small></button>
         <button class="sp6-action" onclick="sp6Open('fees')"><i>💰</i><b>Fees</b><small>Payment status & history</small></button>
         <button class="sp6-action" onclick="sp6Open('results')"><i>📊</i><b>Results</b><small>Official exam results</small></button>
         <button class="sp6-action" onclick="sp6Open('updates')"><i>📢</i><b>Institute Updates</b><small>Notices & announcements</small></button>
@@ -1166,7 +1199,7 @@ input, select, textarea { min-width:0; }
     <div class="sp2-panel"><div id="sp4CertificateList"></div></div>
   </div>
   <div id="sp2Hub" class="sp2-view"><div class="sp4-hero"><div><span class="sp4-kicker">STUDENT COMMAND CENTER</span><h2>🚀 Campus Hub</h2><p>Your daily academic workspace — schedule, tasks, achievements and quick actions in one place.</p></div><div class="sp4-live">● PORTAL 5</div></div><div class="sp5-kpis" id="sp5Kpis"></div><div class="sp5-grid"><div class="sp5-card"><h3>📅 My Schedule</h3><div id="sp5Schedule"></div></div><div class="sp5-card"><h3>✅ My Tasks & Assignments</h3><div id="sp5Tasks"></div></div></div><div class="sp5-grid" style="margin-top:14px"><div class="sp5-card"><h3>🏆 Achievements</h3><div id="sp5Achievements"></div></div><div class="sp5-card"><h3>⚡ Quick Actions</h3><div class="sp5-action"><button class="btn" onclick="viewMyIDCard()">🪪 Open ID Card</button><button class="btn secondary" onclick="sp2Open('tests',document.querySelectorAll('.sp2-tab')[3])">📝 Take Practice</button><button class="btn green" onclick="sp2Open('attendance',document.querySelectorAll('.sp2-tab')[1])">📊 Attendance</button><button class="btn secondary" onclick="sp2Open('fees',document.querySelectorAll('.sp2-tab')[12])">💰 Fees</button></div></div></div></div>
-  <div id="sp2Idcard" class="sp2-view"><div class="sp4-hero"><div><span class="sp4-kicker">DIGITAL CAMPUS ID</span><h2>🪪 My Digital ID</h2><p>Keep your student identity details ready on your phone.</p></div></div><div id="sp5IdCard"></div></div>
+  <div id="sp2Idcard" class="sp2-view"><div class="sp4-hero"><div><span class="sp4-kicker">DIGITAL CAMPUS ID</span><h2>🪪 My Virtual Student ID</h2><p>Your verified student identity card — always available on your phone.</p></div><div class="sp4-live">● VERIFIED ID</div></div><div id="sp5IdCard" class="sp62-id-wrap"></div></div>
   <div id="sp2Support" class="sp2-view"><div class="sp4-hero"><div><span class="sp4-kicker">STUDENT HELP DESK</span><h2>💬 Ask Teacher / Support</h2><p>Find institute contact information and get help with common student issues.</p></div></div><div class="sp5-grid"><div class="sp5-card"><h3>📞 Institute Support</h3><div id="sp5SupportInfo"></div></div><div class="sp5-card"><h3>🆘 Common Help</h3><div id="sp5HelpList"></div></div></div></div>
   <div id="sp2Fees" class="sp2-view">
     <div class="sp2-grid"><div class="sp2-panel"><h3>💰 My Fee Summary</h3><div id="sp2FeeSummary"></div></div><div class="sp2-panel"><h3>🧾 Payment History</h3><div id="sp2Payments" class="sp2-table-wrap"></div></div></div>
@@ -1175,6 +1208,7 @@ input, select, textarea { min-width:0; }
     <div class="sp6-section-head"><h3>More student services</h3><span>Keep the home screen simple</span></div>
     <div class="sp6-more-grid">
       <button class="sp6-more-item" onclick="sp6Open('hub')"><b>🚀 Campus Hub</b><small>Schedule, assignments & achievements</small></button>
+      <button class="sp6-more-item sp62-more-id" onclick="sp6Open('idcard')"><b>🪪 My Digital ID</b><small>Open your virtual student card anytime</small></button>
       <button class="sp6-more-item" onclick="sp6Open('notifications')"><b>🔔 Notifications</b><small>Important account alerts</small></button>
       <button class="sp6-more-item" onclick="sp6Open('certificate')"><b>🎓 Certificates</b><small>Published completion records</small></button>
       <button class="sp6-more-item" onclick="sp6Open('support')"><b>💬 Student Support</b><small>Ask teacher / resolve issues</small></button>
@@ -1707,7 +1741,58 @@ async function sp4RenderCertificates(){const box=document.getElementById('sp4Cer
 function sp5StudentData(){return loggedInStudent||{};}
 function sp5RenderHub(){const s=sp5StudentData(),k=document.getElementById('sp5Kpis'),sc=document.getElementById('sp5Schedule'),ta=document.getElementById('sp5Tasks'),ac=document.getElementById('sp5Achievements');if(!s||!k)return;k.innerHTML=`<div class="sp5-kpi"><small>Course</small><b>${escapeHTML(s.course||'—')}</b></div><div class="sp5-kpi"><small>Batch</small><b>${escapeHTML(s.batch||'Regular')}</b></div><div class="sp5-kpi"><small>Admission</small><b>${escapeHTML(s.admissionNo||'—')}</b></div><div class="sp5-kpi"><small>Status</small><b>${String(s.accessStatus||'active').toLowerCase()==='active'?'Active':'Restricted'}</b></div>`;sp5LoadCampus(['schedule','studentSchedule','timetable','studentPortal/schedule','tasks','assignments','studentTasks','studentPortal/tasks','achievements','studentAchievements','studentPortal/achievements']).then(data=>{const schedule=sp4SafeArray(data.schedule).filter(sp4StudentMatch).slice(0,10),tasks=sp4SafeArray(data.tasks).filter(sp4StudentMatch).slice(0,10),ach=sp4SafeArray(data.achievements).filter(sp4StudentMatch).slice(0,10);sc.innerHTML=schedule.length?schedule.map(x=>`<div class="sp5-item"><div><b>📅 ${escapeHTML(x.title||x.subject||x.name||'Class')}</b><small>${escapeHTML(x.day||x.date||'')} ${escapeHTML(x.time||x.startTime||'')} • ${escapeHTML(x.teacher||x.faculty||'Institute')}</small></div><span class="sp5-badge">${escapeHTML(x.room||x.mode||'Class')}</span></div>`).join(''):'<div class="sp4-empty">No timetable has been published yet.</div>';ta.innerHTML=tasks.length?tasks.map(x=>`<div class="sp5-item"><div><b>✅ ${escapeHTML(x.title||x.name||'Assignment')}</b><small>Due: ${escapeHTML(x.dueDate||x.deadline||'—')} • ${escapeHTML(x.subject||x.course||'')}</small></div><span class="sp5-badge">${escapeHTML(x.status||'Pending')}</span></div>`).join(''):'<div class="sp4-empty">No assignments or tasks have been published yet.</div>';ac.innerHTML=ach.length?ach.map(x=>`<div class="sp5-item"><div><b>🏆 ${escapeHTML(x.title||x.name||'Achievement')}</b><small>${escapeHTML(x.description||x.text||'Great work!')} • ${sp4Date(x.date||x.createdAt)}</small></div><span class="sp5-badge">${escapeHTML(x.type||'Achievement')}</span></div>`).join(''):'<div class="sp4-empty">Your achievements will appear here as the institute publishes them.</div>';}).catch(()=>{});}
 async function sp5LoadCampus(paths){try{return await sp4Load(paths)}catch(e){console.error('Portal 5 read:',e);return {}}}
-function sp5RenderID(){const s=sp5StudentData(),box=document.getElementById('sp5IdCard');if(!box||!s)return;const photo=s.photo||s.photoUrl||s.profilePhoto||s.image||'';box.innerHTML=`<div class="sp5-id"><div class="sp5-id-photo">${photo?`<img src="${escapeHTML(photo)}" alt="Student photo">`:'👤'}</div><div><div style="font-size:9px;font-weight:900;letter-spacing:.14em;color:#bfdbfe">COMPETITION WALA COMPUTER CLASSES</div><h2>${escapeHTML(s.name||'Student')}</h2><p>Admission No: <b>${escapeHTML(s.admissionNo||'—')}</b></p><p>Course: ${escapeHTML(s.course||'—')}</p><p>Batch: ${escapeHTML(s.batch||'Regular')}</p><p>Mobile: ${escapeHTML(s.mobile||s.phone||'—')}</p><p>Valid Status: ${String(s.accessStatus||'active').toLowerCase()==='active'?'ACTIVE':'RESTRICTED'}</p></div></div><div class="sp5-card" style="margin-top:14px"><h3>🔐 Identity Information</h3><p style="font-size:12px;color:#64748b;line-height:1.6;margin:0">This digital ID is generated from your current student record. If any information is incorrect, contact the institute support desk instead of creating a second account.</p><div style="margin-top:12px"><button class="btn secondary" onclick="viewMyIDCard()">🪪 Open Printable ID Card</button></div></div>`;}
+function sp5RenderID(){
+  const s=sp5StudentData(),box=document.getElementById('sp5IdCard');
+  if(!box||!s)return;
+  const photo=s.photo||s.photoUrl||s.profilePhoto||s.image||'';
+  const status=String(s.accessStatus||'active').toLowerCase()==='active';
+  const admission=s.admissionNo||s.admissionNumber||'—';
+  const course=s.course||'—';
+  const batch=s.batch||'Regular';
+  const mobile=s.mobile||s.phone||'—';
+  const validText=status?'ACTIVE':'RESTRICTED';
+  box.innerHTML=`
+    <div class="sp62-id-card">
+      <div class="sp62-id-head">
+        <div class="sp62-brandline"><img class="sp62-logo" src="competition-wala-logo.webp" alt="Competition Wala"><div><b>Competition Wala Computer Classes</b><small>Verified Student Identity Card</small></div></div>
+        <div class="sp62-valid">● ${validText}</div>
+      </div>
+      <div class="sp62-id-main">
+        <div class="sp62-photo">${photo?`<img src="${escapeHTML(photo)}" alt="${escapeHTML(s.name||'Student')} photo">`:`<div class="sp62-photo-fallback">${escapeHTML(cwccStudentInitials(s.name||'Student'))}</div>`}</div>
+        <div style="min-width:0">
+          <h2 class="sp62-name">${escapeHTML(s.name||'Student')}</h2>
+          <div class="sp62-role">STUDENT • ${escapeHTML(course)}</div>
+          <div class="sp62-fields">
+            <div class="sp62-field"><small>Admission No.</small><b>${escapeHTML(admission)}</b></div>
+            <div class="sp62-field"><small>Batch</small><b>${escapeHTML(batch)}</b></div>
+            <div class="sp62-field"><small>Mobile</small><b>${escapeHTML(mobile)}</b></div>
+            <div class="sp62-field"><small>Portal Status</small><b>${validText}</b></div>
+          </div>
+        </div>
+        <div><div id="sp62Qr" class="sp62-qr"><span style="color:#64748b;font-size:9px;text-align:center">Loading QR</span></div><div class="sp62-qr-note">Scan for student verification</div></div>
+      </div>
+      <div class="sp62-id-foot"><span>Issued by Competition Wala Computer Classes</span><span>Digital ID • ${escapeHTML(admission)}</span></div>
+    </div>
+    <div class="sp62-actions">
+      <button class="sp62-action primary" onclick="sp62Fullscreen()">⛶ Open Full Screen</button>
+      <button class="sp62-action" onclick="viewMyIDCard()">🖨️ Printable ID</button>
+      <button class="sp62-action" onclick="sp6Open('home')">🏠 Back Home</button>
+    </div>
+    <div class="sp62-id-tip">💡 <b>Carry it digitally:</b> show this card at the institute when you need to confirm your student identity. The virtual card is available to every logged-in student, even when no profile photo is stored.</div>`;
+  setTimeout(()=>{
+    const qr=document.getElementById('sp62Qr');
+    if(!qr)return;
+    qr.innerHTML='';
+    if(window.QRCode){
+      try{new QRCode(qr,{text:studentAttendanceURL(s.id),width:82,height:82,correctLevel:QRCode.CorrectLevel.H});}catch(e){qr.innerHTML='<span style="color:#64748b;font-size:9px;text-align:center">ID: '+escapeHTML(admission)+'</span>';}
+    }else{qr.innerHTML='<span style="color:#64748b;font-size:9px;text-align:center">ID: '+escapeHTML(admission)+'</span>';}
+  },80);
+}
+function sp62Fullscreen(){
+  const card=document.querySelector('#sp5IdCard .sp62-id-card');
+  if(!card)return;
+  if(card.requestFullscreen){card.requestFullscreen().catch(()=>{});}
+}
 function sp5RenderSupport(){const s=sp5StudentData(),i=document.getElementById('sp5SupportInfo'),h=document.getElementById('sp5HelpList');if(!i||!s)return;i.innerHTML=`<div class="sp5-item"><div><b>🏫 Institute</b><small>Competition Wala Computer Classes</small></div></div><div class="sp5-item"><div><b>👨‍🏫 Student</b><small>${escapeHTML(s.name||'Student')} • ${escapeHTML(s.admissionNo||'—')}</small></div></div><div class="sp5-item"><div><b>📱 Registered Mobile</b><small>${escapeHTML(s.mobile||s.phone||'Not available')}</small></div></div><div style="margin-top:12px"><button class="btn" onclick="alert('Please contact your institute office/teacher using the registered institute contact number.')">💬 Contact Teacher</button></div>`;h.innerHTML=['📊 Attendance issue','📚 Study material issue','📝 Test/result query','💰 Fee/payment query','🪪 ID card correction'].map(x=>`<div class="sp5-item"><div><b>${x}</b><small>Contact the institute office with your Admission Number for faster help.</small></div></div>`).join('');}
 function sp2RenderFees(){const s=loggedInStudent;if(!s)return;const paidAmt=paid(s),dueAmt=balance(s),ps=(db.payments||[]).filter(p=>p.studentId===s.id).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));document.getElementById('sp2FeeSummary').innerHTML=`<div class="sp2-mini" style="margin-bottom:12px"><div class="sp2-mini-card"><small>Course Fee</small><b>${money(s.totalFee||s.courseFee||0)}</b></div><div class="sp2-mini-card"><small>Paid</small><b style="color:#047857">${money(paidAmt)}</b></div><div class="sp2-mini-card"><small>Balance</small><b style="color:#dc2626">${money(dueAmt)}</b></div><div class="sp2-mini-card"><small>Next Due</small><b>${escapeHTML(s.due||'—')}</b></div></div><button class="btn secondary" onclick="viewMyReceipts()">🧾 View Latest Receipt</button>`;document.getElementById('sp2Payments').innerHTML=ps.length?`<table class="sp2-table"><tr><th>Date</th><th>Receipt</th><th>Amount</th><th>Mode</th></tr>${ps.map(p=>`<tr><td>${escapeHTML(p.date||'—')}</td><td>${escapeHTML(p.receiptNo||p.id||'—')}</td><td>${money(p.amount)}</td><td>${escapeHTML(p.mode||'—')}</td></tr>`).join('')}</table>`:'<div style="padding:18px;color:#64748b">No payments recorded yet.</div>';}
 async function sp2RenderAttendance(){const s=loggedInStudent;if(!s)return;const pctEl=document.getElementById('sp2AttPct'),summary=document.getElementById('sp2AttSummary'),table=document.getElementById('sp2AttTable');pctEl.textContent='Loading';summary.textContent='Loading attendance from Firebase...';try{if(window.cwccLoadStudentAttendance)await window.cwccLoadStudentAttendance(s.id);const data=window.__cwccStudentAttendance||{all:{},dates:[]};const dates=data.dates||[];const present=dates.filter(d=>data.all?.[d]?.[s.id]).length;const pct=dates.length?Math.round(present/dates.length*100):0;pctEl.textContent=pct+'%';document.getElementById('sp2AttRing').style.setProperty('--attdeg',(pct*3.6)+'deg');summary.textContent=`${present} present days across ${dates.length} recorded attendance dates.`;const recent=dates.slice(-10).reverse();table.innerHTML=recent.length?`<table class="sp2-table"><tr><th>Date</th><th>Status</th><th>IN</th><th>OUT</th></tr>${recent.map(d=>{const a=data.all?.[d]?.[s.id];return `<tr><td>${d}</td><td>${a?'<span class="badge paid">PRESENT</span>':'<span class="badge due">NO RECORD</span>'}</td><td>${escapeHTML(a?.inTime||'—')}</td><td>${escapeHTML(a?.outTime||'—')}</td></tr>`}).join('')}</table>`:'<div style="padding:18px;color:#64748b">No attendance records found yet.</div>';}catch(e){pctEl.textContent='—';summary.textContent='Attendance could not be loaded right now.';table.innerHTML=`<div style="padding:18px;color:#b91c1c">${escapeHTML(e.message||String(e))}</div>`;}}
@@ -4023,7 +4108,7 @@ function sp6Prepare(){
   const oldCards=root.querySelector(':scope > .cards'); if(oldCards)oldCards.classList.add('sp6-old-profile');
   sp6RefreshHome();
 }
-window.sp6Open=sp6Open;window.sp6OpenMore=sp6OpenMore;
+window.sp6Open=sp6Open;window.sp6OpenMore=sp6OpenMore;window.sp62Fullscreen=sp62Fullscreen;
 const __cwccOldSp2RenderAll=sp2RenderAll;
 sp2RenderAll=function(){__cwccOldSp2RenderAll();setTimeout(sp6Prepare,0);setTimeout(sp6RefreshHome,50)};
 </script>

@@ -3,55 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0f2a63">
-<link rel="icon" href="icon-192.png">
-<title>Competition Wala • Central Campus</title>
-<style>
-:root{--blue:#2563eb;--navy:#0f2a63;--ink:#172554;--muted:#64748b;--line:#e5eaf2}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(135deg,#08142f 0%,#123b88 55%,#2563eb 100%);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
-.wrap{width:min(960px,100%)}.brand{text-align:center;margin-bottom:26px}.brand img{width:88px;height:88px;object-fit:contain;border-radius:24px;background:#fff;padding:8px;box-shadow:0 20px 50px #0004}.brand h1{font-size:clamp(28px,6vw,46px);margin:14px 0 4px;letter-spacing:-.04em}.brand p{margin:0;color:#dbeafe;font-size:12px}
-.card{background:#fffffffa;color:var(--ink);border-radius:30px;padding:28px;box-shadow:0 35px 90px #0005}.kicker{text-align:center;font-size:10px;font-weight:1000;letter-spacing:.18em;color:#2563eb}.sub{text-align:center;color:var(--muted);font-size:12px;margin:7px 0 24px}
-.options{display:grid;grid-template-columns:1fr 1fr;gap:16px}.option{border:1px solid var(--line);border-radius:22px;padding:22px;text-decoration:none;color:inherit;transition:.2s;background:#fff}.option:hover{transform:translateY(-3px);box-shadow:0 15px 30px #0f172a12;border-color:#bfdbfe}.icon{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;background:#eff6ff;margin-bottom:14px}.option h2{margin:0 0 7px;font-size:20px}.option p{margin:0;color:var(--muted);font-size:11px;line-height:1.6}.go{display:inline-block;margin-top:16px;padding:10px 13px;border-radius:11px;background:#2563eb;color:#fff;font-size:11px;font-weight:900}.admin .icon{background:#f1f5f9}.admin .go{background:#0f2a63}.footer{text-align:center;color:#bfdbfe;font-size:9px;margin-top:18px}
-.lang{display:flex;justify-content:center;gap:8px;margin:0 auto 18px}.lang button{border:1px solid #dbe3ef;background:#fff;border-radius:99px;padding:7px 11px;font-size:10px;font-weight:900;color:#475569}.lang button.active{background:#eff6ff;color:#2563eb;border-color:#93c5fd}
-@media(max-width:650px){.options{grid-template-columns:1fr}.card{padding:20px;border-radius:24px}.option{padding:18px}}
-</style>
+<meta http-equiv="refresh" content="0;url=admin.html">
+<title>Competition Wala Computer Classes - ERP</title>
+<script>location.replace("admin.html");</script>
 </head>
-<body>
-<div class="wrap">
-  <div class="brand">
-    <img src="competition-wala-logo.webp" alt="Competition Wala">
-    <h1>Competition Wala</h1>
-    <p data-en="Computer Classes • Central Campus" data-hi="कंप्यूटर क्लासेस • सेंट्रल कैंपस">Computer Classes • Central Campus</p>
-  </div>
-  <div class="card">
-    <div class="kicker" data-en="ONE WEBSITE • TWO SECURE PORTALS" data-hi="एक वेबसाइट • दो सुरक्षित पोर्टल">ONE WEBSITE • TWO SECURE PORTALS</div>
-    <div class="sub" data-en="Choose where you want to go. Your data stays in the same Firebase system." data-hi="जहाँ जाना है चुनें। आपका डेटा उसी Firebase सिस्टम में सुरक्षित रहेगा।">Choose where you want to go. Your data stays in the same Firebase system.</div>
-    <div class="lang">
-      <button id="en" class="active" onclick="setLang('en')">English</button>
-      <button id="hi" onclick="setLang('hi')">हिन्दी</button>
-    </div>
-    <div class="options">
-      <a class="option" href="student-portal.html">
-        <div class="icon">🎓</div><h2 data-en="Student Campus" data-hi="स्टूडेंट कैंपस">Student Campus</h2>
-        <p data-en="Students can access their own profile, attendance, fees, study materials, tests and digital ID." data-hi="स्टूडेंट अपने प्रोफाइल, उपस्थिति, फीस, स्टडी मटेरियल, टेस्ट और डिजिटल आईडी देख सकते हैं।">Students can access their own profile, attendance, fees, study materials, tests and digital ID.</p>
-        <span class="go" data-en="Enter Student Campus →" data-hi="स्टूडेंट कैंपस में जाएँ →">Enter Student Campus →</span>
-      </a>
-      <a class="option admin" href="admin.html">
-        <div class="icon">🔐</div><h2 data-en="Admin Console" data-hi="एडमिन कंसोल">Admin Console</h2>
-        <p data-en="Staff can manage admissions, students, fees, receipts, attendance, materials, reports and ERP operations." data-hi="स्टाफ एडमिशन, स्टूडेंट, फीस, रसीद, अटेंडेंस, मटेरियल, रिपोर्ट और ERP ऑपरेशन मैनेज कर सकते हैं।">Staff can manage admissions, students, fees, receipts, attendance, materials, reports and ERP operations.</p>
-        <span class="go" data-en="Enter Admin Console →" data-hi="एडमिन कंसोल में जाएँ →">Enter Admin Console →</span>
-      </a>
-    </div>
-  </div>
-  <div class="footer">Competition Wala Computer Classes • Secure Digital Campus</div>
-</div>
-<script>
-function setLang(l){
- localStorage.setItem('cwccGatewayLanguage',l);
- document.querySelectorAll('[data-en]').forEach(e=>e.textContent=e.dataset[l]);
- document.getElementById('en').classList.toggle('active',l==='en');
- document.getElementById('hi').classList.toggle('active',l==='hi');
-}
-setLang(localStorage.getItem('cwccGatewayLanguage')||'en');
-</script>
-</body></html>
+<body>Opening Competition Wala ERP…</body>
+</html>

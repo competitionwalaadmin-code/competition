@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>Competition Wala • Student Campus 9.0</title>
+<style>
+:root{--blue:#2563eb;--blue2:#1d4ed8;--navy:#102a63;--ink:#172554;--muted:#64748b;--line:#e5eaf2;--bg:#f5f7fb;--card:#fff;--green:#16a34a;--red:#dc2626;--amber:#d97706;--shadow:0 10px 28px rgba(15,23,42,.07)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 15% 10%,#60a5fa55,transparent 30%),linear-gradient(135deg,#08142f,#1d4ed8)}
+.login-card{width:min(430px,100%);background:#fff;border-radius:28px;padding:28px;box-shadow:0 30px 80px #0005}
+.logo{width:82px;height:82px;object-fit:contain;border-radius:22px;display:block;margin:0 auto 14px}.login-title{text-align:center;margin:0;font-size:25px}.login-sub{text-align:center;color:var(--muted);font-size:12px;margin:5px 0 20px}
+.lang-pick{background:#f8fafc;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:18px}.lang-pick b{display:block;margin-bottom:11px}.lang-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}.lang-btn{border:1px solid #dbe3ef;background:#fff;border-radius:14px;padding:14px;font-weight:900;color:#334155}.lang-btn.active{background:#eff6ff;border-color:#2563eb;color:#1d4ed8}
+.field{margin:10px 0}.field label{display:block;font-size:11px;font-weight:900;color:#475569;margin-bottom:6px}.field input{width:100%;padding:13px 14px;border:1px solid #d7deea;border-radius:13px;outline:none}.field input:focus{border-color:#2563eb;box-shadow:0 0 0 4px #2563eb18}
+.primary{border:0;background:var(--blue);color:#fff;border-radius:13px;padding:13px 16px;font-weight:900;width:100%;margin-top:8px}.primary:disabled{opacity:.65;cursor:wait}
+.login-note{text-align:center;color:#94a3b8;font-size:10px;line-height:1.5;margin:12px 0 0}
+#app{min-height:100vh;padding-bottom:88px}.topbar{position:sticky;top:0;z-index:30;background:#ffffffed;backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:12px max(16px,calc((100vw - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand img{width:40px;height:40px;border-radius:12px;object-fit:contain}.brand b{display:block;font-size:13px}.brand small{display:block;color:#94a3b8;font-size:9px;font-weight:800;margin-top:2px}
+.top-actions{display:flex;gap:7px}.icon-btn{width:39px;height:39px;border:1px solid var(--line);background:#fff;border-radius:12px}.lang-mini{border:1px solid #dbe3ef;background:#fff;border-radius:12px;padding:8px 10px;font-size:11px;font-weight:900}
+.wrap{width:min(1100px,100%);margin:auto;padding:18px 16px}.hero{background:linear-gradient(135deg,#102a63,#2563eb 75%,#4f7cff);color:#fff;border-radius:25px;padding:23px;position:relative;overflow:hidden;box-shadow:0 16px 35px #2563eb2b}.hero:after{content:"";position:absolute;width:190px;height:190px;border:35px solid #ffffff14;border-radius:50%;right:-85px;top:-90px}.hero>*{position:relative;z-index:1}.eyebrow{font-size:9px;font-weight:900;letter-spacing:.15em;color:#bfdbfe}.hero h1{font-size:clamp(24px,5vw,35px);margin:6px 0}.hero p{margin:0;color:#dbeafe;font-size:12px}.status{display:inline-flex;gap:6px;align-items:center;margin-top:14px;background:#ffffff16;border-radius:99px;padding:7px 10px;font-size:10px;font-weight:900}.dot{width:7px;height:7px;border-radius:50%;background:#86efac}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:var(--shadow)}.stat small{font-size:9px;color:#71809a;font-weight:900;text-transform:uppercase}.stat b{display:block;font-size:19px;margin-top:5px;overflow-wrap:anywhere}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.quick button{border:1px solid var(--line);background:#fff;border-radius:17px;padding:16px 10px;font-weight:900;color:#1e3a8a;box-shadow:var(--shadow)}.quick span{display:block;font-size:22px;margin-bottom:6px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px}.section-title h2{font-size:17px;margin:0}.section-title small{color:#94a3b8}
+.notice{display:flex;gap:12px;align-items:flex-start;padding:13px;border:1px solid var(--line);border-radius:15px;background:#fff;margin:8px 0}.notice-icon{width:38px;height:38px;border-radius:12px;background:#eff6ff;display:grid;place-items:center;flex:none}.notice b{font-size:12px}.notice p{font-size:10px;color:var(--muted);margin:4px 0 0;line-height:1.5}
+.page{display:none}.page.active{display:block}.grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.card h3{margin:0 0 12px;font-size:15px}.empty{text-align:center;padding:28px 15px;color:#94a3b8;border:1px dashed #dbe3ef;border-radius:14px;background:#fafcff;font-size:12px}
+.progress{height:9px;background:#e8eef7;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#2563eb);border-radius:99px}
+.att-big{text-align:center}.att-ring{width:145px;height:145px;border-radius:50%;margin:10px auto 14px;display:grid;place-items:center;background:conic-gradient(#2563eb var(--deg),#e8eef7 0)}.att-ring:after{content:"";position:absolute;width:105px;height:105px;background:#fff;border-radius:50%}.att-ring b{position:relative;z-index:1;font-size:27px}.list-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #edf1f6}.list-row:last-child{border-bottom:0}.list-row b{font-size:12px}.list-row small{display:block;color:#71809a;font-size:10px;margin-top:3px}.pill{font-size:9px;font-weight:900;padding:5px 8px;border-radius:99px;background:#ecfdf5;color:#047857;white-space:nowrap}.pill.due{background:#fff7ed;color:#c2410c}
+.material{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:15px;padding:13px;margin:8px 0;background:#fff}.material-main{min-width:0}.material b{font-size:12px;display:block}.material small{display:block;color:#71809a;font-size:10px;margin-top:4px}.material a{border:0;background:#2563eb;color:#fff;text-decoration:none;padding:8px 10px;border-radius:10px;font-size:10px;font-weight:900;white-space:nowrap}
+.id-card{max-width:430px;margin:auto;background:linear-gradient(150deg,#0f2f70,#2563eb);color:#fff;border-radius:25px;padding:20px;box-shadow:0 20px 45px #2563eb2e}.id-head{display:flex;align-items:center;gap:12px}.id-head img,.id-photo{width:70px;height:86px;border-radius:13px;object-fit:cover;background:#fff}.id-head b{font-size:16px}.id-head small{display:block;color:#dbeafe;font-size:10px;margin-top:3px}.id-info{margin-top:18px;background:#ffffff12;border:1px solid #ffffff1e;border-radius:16px;padding:12px}.id-line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #ffffff1a;font-size:10px}.id-line:last-child{border:0}.id-line span{color:#bfdbfe}.qr{background:#fff;border-radius:14px;padding:8px;width:max-content;margin:16px auto 0}
+.bottom{position:fixed;z-index:40;left:50%;bottom:0;transform:translateX(-50%);width:min(620px,100%);background:#fffffff2;backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 8px max(8px,env(safe-area-inset-bottom));box-shadow:0 -10px 28px #0f172a12}.bottom button{border:0;background:transparent;color:#71809a;border-radius:12px;padding:6px 3px;font-size:9px;font-weight:900}.bottom button span{display:block;font-size:19px;margin-bottom:3px}.bottom button.active{background:#eef4ff;color:#1d4ed8}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 14px;border-radius:12px;font-size:11px;font-weight:800;z-index:100;display:none;max-width:90%}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.wrap{padding:14px}.hero{padding:19px;border-radius:21px}.material{align-items:flex-start}.material a{margin-top:2px}}
+@media(min-width:761px){.bottom{bottom:18px;border:1px solid var(--line);border-radius:18px}.wrap{padding-top:22px}}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-card">
+    <img class="logo" src="competition-wala-logo.webp" alt="Competition Wala">
+    <h1 class="login-title" data-i18n="brand">Competition Wala</h1>
+    <p class="login-sub" data-i18n="loginSub">Your simple digital campus</p>
+
+    <div class="lang-pick">
+      <b data-i18n="chooseLanguage">Choose your language</b>
+      <div class="lang-options">
+        <button class="lang-btn" id="enBtn" onclick="setLanguage('en')">🇬🇧 English</button>
+        <button class="lang-btn" id="hiBtn" onclick="setLanguage('hi')">🇮🇳 हिन्दी</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label data-i18n="admissionLabel">ADMISSION NUMBER</label>
+      <input id="admission" autocomplete="username" placeholder="e.g. CWCC-10001" data-i18n-placeholder="admissionPlaceholder">
+    </div>
+    <div class="field">
+      <label data-i18n="passwordLabel">PASSWORD</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="Student portal password" data-i18n-placeholder="passwordPlaceholder">
+    </div>
+    <button class="primary" id="loginBtn" onclick="loginStudent()" data-i18n="login">Enter Student Campus</button>
+    <p class="login-note" data-i18n="loginNote">Your language choice is remembered on this device. You can change it anytime.</p>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header class="topbar">
+    <div class="brand"><img src="competition-wala-logo.webp" alt=""><div><b>Competition Wala</b><small data-i18n="campus">STUDENT CAMPUS</small></div></div>
+    <div class="top-actions">
+      <button class="lang-mini" id="langMini" onclick="toggleLanguage()">EN</button>
+      <button class="icon-btn" onclick="logoutStudent()" aria-label="Logout">↪</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="eyebrow" data-i18n="digitalCampus">YOUR DIGITAL CAMPUS</div>
+        <h1 id="welcomeName">Welcome 👋</h1>
+        <p id="welcomeMeta">Everything you need for your classes.</p>
+        <span class="status"><i class="dot"></i><span data-i18n="activeAccount">Student account active</span></span>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><small data-i18n="attendance">Attendance</small><b id="statAttendance">—</b></div>
+        <div class="stat"><small data-i18n="nextFee">Next Fee</small><b id="statFee">—</b></div>
+        <div class="stat"><small data-i18n="progress">Progress</small><b id="statProgress">—</b></div>
+        <div class="stat"><small data-i18n="course">Course</small><b id="statCourse">—</b></div>
+      </div>
+
+      <div class="quick">
+        <button onclick="showPage('learn')"><span>📚</span><span data-i18n="study">Study</span></button>
+        <button onclick="showPage('tests')"><span>📝</span><span data-i18n="tests">Tests</span></button>
+        <button onclick="showPage('attendancePage')"><span>📅</span><span data-i18n="classes">Classes</span></button>
+        <button onclick="showPage('progressPage')"><span>📈</span><span data-i18n="myProgress">Progress</span></button>
+      </div>
+
+      <div class="section-title"><h2 data-i18n="today">Today's focus</h2><small id="todayDate"></small></div>
+      <div id="todayBox" class="card"></div>
+
+      <div class="section-title"><h2 data-i18n="updates">Campus updates</h2></div>
+      <div id="updatesBox"></div>
+    </section>
+
+    <section id="learn" class="page">
+      <div class="section-title"><h2 data-i18n="studyMaterials">Study materials</h2><small id="materialCount"></small></div>
+      <div id="materialsBox"></div>
+    </section>
+
+    <section id="tests" class="page">
+      <div class="section-title"><h2 data-i18n="tests">Tests</h2></div>
+      <div class="card">
+        <h3 data-i18n="practiceTests">Practice tests</h3>
+        <p style="font-size:11px;color:#64748b;line-height:1.5" data-i18n="practiceNote">Your existing practice-test area stays separate from official institute results.</p>
+        <div id="testsBox"></div>
+      </div>
+    </section>
+
+    <section id="attendancePage" class="page">
+      <div class="section-title"><h2 data-i18n="attendanceHistory">Attendance</h2></div>
+      <div class="grid2">
+        <div class="card att-big">
+          <h3 data-i18n="attendanceSummary">Attendance summary</h3>
+          <div class="att-ring" id="attRing"><b id="attBig">—%</b></div>
+          <div id="attMeta" style="font-size:11px;color:#64748b"></div>
+        </div>
+        <div class="card">
+          <h3 data-i18n="recentAttendance">Recent attendance</h3>
+          <div id="attList"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="progressPage" class="page">
+      <div class="section-title"><h2 data-i18n="myProgress">My progress</h2></div>
+      <div class="card">
+        <h3 id="progressTitle">Learning progress</h3>
+        <p id="progressText" style="font-size:11px;color:#64748b"></p>
+        <div class="progress"><i id="progressBar" style="width:0%"></i></div>
+      </div>
+      <div class="section-title"><h2 data-i18n="fees">Fees</h2></div>
+      <div class="card">
+        <div class="list-row"><div><b data-i18n="totalFee">Total fee</b></div><strong id="feeTotal">₹0</strong></div>
+        <div class="list-row"><div><b data-i18n="paid">Paid</b></div><strong id="feePaid">₹0</strong></div>
+        <div class="list-row"><div><b data-i18n="due">Due</b></div><strong id="feeDue">₹0</strong></div>
+        <div class="section-title" style="margin-top:14px"><h2 data-i18n="paymentHistory">Payment history</h2></div>
+        <div id="paymentList"></div>
+      </div>
+    </section>
+
+    <section id="morePage" class="page">
+      <div class="section-title"><h2 data-i18n="more">More</h2></div>
+      <div class="id-card">
+        <div class="id-head">
+          <div id="idPhotoWrap"></div>
+          <div><b id="idName">Student</b><small id="idCourse">Course</small><small id="idStatus">ACTIVE</small></div>
+        </div>
+        <div class="id-info">
+          <div class="id-line"><span data-i18n="admissionNo">Admission No.</span><b id="idAdmission">—</b></div>
+          <div class="id-line"><span data-i18n="fatherName">Father</span><b id="idFather">—</b></div>
+          <div class="id-line"><span data-i18n="batch">Batch</span><b id="idBatch">—</b></div>
+          <div class="id-line"><span data-i18n="mobile">Mobile</span><b id="idMobile">—</b></div>
+        </div>
+        <div class="qr" id="qr"></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3 data-i18n="account">Account</h3>
+        <button class="primary" onclick="changePassword()" data-i18n="changePassword">Change password</button>
+        <button class="primary" style="background:#eef2ff;color:#1d4ed8;margin-top:8px" onclick="toggleLanguage()" data-i18n="changeLanguage">Change language</button>
+        <button class="primary" style="background:#fee2e2;color:#b91c1c;margin-top:8px" onclick="logoutStudent()" data-i18n="logout">Sign out</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom">
+    <button data-page="home" onclick="showPage('home')" class="active"><span>⌂</span><label data-i18n="home">Home</label></button>
+    <button data-page="learn" onclick="showPage('learn')"><span>📚</span><label data-i18n="learn">Learn</label></button>
+    <button data-page="tests" onclick="showPage('tests')"><span>📝</span><label data-i18n="tests">Tests</label></button>
+    <button data-page="progressPage" onclick="showPage('progressPage')"><span>📈</span><label data-i18n="myProgress">Progress</label></button>
+    <button data-page="morePage" onclick="showPage('morePage')"><span>☰</span><label data-i18n="more">More</label></button>
+  </nav>
+</div>
+
+<div id="toast"></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getDatabase,ref,get,update} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import {getAuth,signInWithEmailAndPassword,signOut,updatePassword,setPersistence,browserLocalPersistence} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyAz3NvFEDd-AyqXJoU2HLhTLerf3XdY1F8",
+  authDomain:"competition-wala-attendance.firebaseapp.com",
+  databaseURL:"https://competition-wala-attendance-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"competition-wala-attendance",
+  storageBucket:"competition-wala-attendance.firebasestorage.app",
+  messagingSenderId:"178104848004",
+  appId:"1:178104848004:web:ee1e4c9d395c4d7773bcd1"
+};
+const app=initializeApp(firebaseConfig),db=getDatabase(app),auth=getAuth(app);
+await setPersistence(auth,browserLocalPersistence);
+
+const T={
+ en:{
+  brand:"Competition Wala",loginSub:"Your simple digital campus",chooseLanguage:"Choose your language",admissionLabel:"ADMISSION NUMBER",passwordLabel:"PASSWORD",
+  admissionPlaceholder:"e.g. CWCC-10001",passwordPlaceholder:"Student portal password",login:"Enter Student Campus",loginNote:"Your language choice is remembered on this device. You can change it anytime.",
+  campus:"STUDENT CAMPUS",digitalCampus:"YOUR DIGITAL CAMPUS",activeAccount:"Student account active",attendance:"Attendance",nextFee:"Next Fee",progress:"Progress",course:"Course",study:"Study",tests:"Tests",classes:"Classes",myProgress:"Progress",today:"Today's focus",updates:"Campus updates",
+  studyMaterials:"Study materials",practiceTests:"Practice tests",practiceNote:"Your existing practice-test area stays separate from official institute results.",attendanceHistory:"Attendance",attendanceSummary:"Attendance summary",recentAttendance:"Recent attendance",
+  fees:"Fees",totalFee:"Total fee",paid:"Paid",due:"Due",paymentHistory:"Payment history",more:"More",home:"Home",learn:"Learn",account:"Account",changePassword:"Change password",changeLanguage:"Change language",logout:"Sign out",
+  admissionNo:"Admission No.",fatherName:"Father",batch:"Batch",mobile:"Mobile"
+ },
+ hi:{
+  brand:"Competition Wala",loginSub:"आपका आसान डिजिटल कैंपस",chooseLanguage:"अपनी भाषा चुनें",admissionLabel:"एडमिशन नंबर",passwordLabel:"पासवर्ड",
+  admissionPlaceholder:"जैसे CWCC-10001",passwordPlaceholder:"स्टूडेंट पोर्टल पासवर्ड",login:"स्टूडेंट कैंपस में प्रवेश करें",loginNote:"आपकी भाषा इस डिवाइस पर याद रखी जाएगी। आप इसे कभी भी बदल सकते हैं।",
+  campus:"स्टूडेंट कैंपस",digitalCampus:"आपका डिजिटल कैंपस",activeAccount:"स्टूडेंट अकाउंट सक्रिय है",attendance:"उपस्थिति",nextFee:"अगली फीस",progress:"प्रगति",course:"कोर्स",
+  study:"पढ़ाई",tests:"टेस्ट",classes:"क्लास",myProgress:"प्रगति",today:"आज का फोकस",updates:"कैंपस अपडेट",
+  studyMaterials:"स्टडी मटेरियल",practiceTests:"प्रैक्टिस टेस्ट",practiceNote:"प्रैक्टिस टेस्ट और आधिकारिक संस्थान परिणाम अलग रखे गए हैं।",attendanceHistory:"उपस्थिति",
+  attendanceSummary:"उपस्थिति सारांश",recentAttendance:"हाल की उपस्थिति",fees:"फीस",totalFee:"कुल फीस",paid:"जमा",due:"बाकी",paymentHistory:"पेमेंट हिस्ट्री",
+  more:"और",home:"होम",learn:"पढ़ाई",account:"अकाउंट",changePassword:"पासवर्ड बदलें",changeLanguage:"भाषा बदलें",logout:"साइन आउट",
+  admissionNo:"एडमिशन नंबर",fatherName:"पिता",batch:"बैच",mobile:"मोबाइल"
+ }
+};
+let lang=localStorage.getItem("cwccLanguage")||"";
+let student=null,payments=[],attendance=[];
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN");
+const studentEmailForAdmission=v=>{const safe=String(v||"").trim().toLowerCase().replace(/[^a-z0-9.-]/g,"-");if(!safe)throw new Error("Invalid admission number.");return safe+"@students.competitionwala.in";};
+const indiaDate=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+const fmtDate=d=>{try{return new Intl.DateTimeFormat(lang==="hi"?"hi-IN":"en-IN",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(d));}catch{return d||"—"}};
+
+window.setLanguage=function(v){
+ lang=v;localStorage.setItem("cwccLanguage",v);applyLanguage();
+ $("enBtn").classList.toggle("active",v==="en");$("hiBtn").classList.toggle("active",v==="hi");
+ if(student)renderAll();
+};
+window.toggleLanguage=function(){setLanguage(lang==="hi"?"en":"hi");};
+function applyLanguage(){
+ const t=T[lang||"en"];
+ document.documentElement.lang=lang||"en";
+ document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(t[k]!=null)el.textContent=t[k];});
+ document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{const k=el.dataset.i18nPlaceholder;if(t[k]!=null)el.placeholder=t[k];});
+ $("langMini").textContent=(lang||"en").toUpperCase();
+ $("enBtn").classList.toggle("active",lang==="en");$("hiBtn").classList.toggle("active",lang==="hi");
+}
+function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";clearTimeout(window.__toast);window.__toast=setTimeout(()=>$("toast").style.display="none",2500);}
+window.showPage=function(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const target=$(id);if(target)target.classList.add("active");
+ document.querySelectorAll(".bottom button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(id==="learn")loadMaterials();
+};
+
+async function loginStudent(){
+ const admission=$("admission").value.trim(),password=$("password").value;
+ if(!admission||!password)return toast(lang==="hi"?"एडमिशन नंबर और पासवर्ड डालें।":"Enter admission number and password.");
+ const btn=$("loginBtn");btn.disabled=true;btn.textContent=lang==="hi"?"लॉगिन हो रहा है…":"Signing in…";
+ try{
+   const credential=await signInWithEmailAndPassword(auth,studentEmailForAdmission(admission),password);
+   const mapSnap=await get(ref(db,"studentAuth/"+credential.user.uid));
+   if(!mapSnap.exists())throw new Error(lang==="hi"?"स्टूडेंट अकाउंट लिंक नहीं है।":"Student account is not linked.");
+   const map=mapSnap.val();
+   if(String(map.accessStatus||"active").toLowerCase()==="denied")throw new Error(lang==="hi"?"आपका पोर्टल एक्सेस बंद है।":"Portal access is restricted.");
+   const studentSnap=await get(ref(db,"students/"+map.studentId));
+   if(!studentSnap.exists())throw new Error(lang==="hi"?"स्टूडेंट प्रोफाइल नहीं मिली।":"Student profile not found.");
+   student={...studentSnap.val(),id:map.studentId};
+   if(String(student.accessStatus||student.status||"active").toLowerCase()==="denied")throw new Error(lang==="hi"?"आपका पोर्टल एक्सेस बंद है।":"Portal access is restricted.");
+   const paySnap=await get(ref(db,"studentPayments/"+map.studentId));
+   payments=paySnap.exists()?Object.values(paySnap.val()||{}):[];
+   attendance=await loadAttendance(map.studentId);
+   await saveLanguagePreference();
+   $("loginScreen").classList.add("hidden");$("app").classList.remove("hidden");
+   renderAll();
+ }catch(e){console.error(e);toast(e.message||"Login failed.");try{await signOut(auth)}catch{}}
+ finally{btn.disabled=false;applyLanguage();}
+}
+window.loginStudent=loginStudent;
+
+async function saveLanguagePreference(){
+ try{
+   if(student?.id&&student.languagePreference!==lang){
+     await update(ref(db,"students/"+student.id),{languagePreference:lang});
+     student.languagePreference=lang;
+   }
+ }catch(e){console.warn("Language preference not written; local preference remains active.",e);}
+}
+async function changePassword(){
+ const next=prompt(lang==="hi"?"नया पासवर्ड डालें (कम से कम 8 अक्षर):":"Enter a new password (at least 8 characters):");
+ if(next===null)return;
+ if(next.length<8)return toast(lang==="hi"?"पासवर्ड कम से कम 8 अक्षरों का होना चाहिए।":"Password must be at least 8 characters.");
+ try{await updatePassword(auth.currentUser,next);toast(lang==="hi"?"पासवर्ड बदल दिया गया।":"Password changed successfully.");}
+ catch(e){toast(e.message||"Could not change password.");}
+}
+window.changePassword=changePassword;
+async function logoutStudent(){try{await signOut(auth)}catch{}student=null;payments=[];attendance=[];$("app").classList.add("hidden");$("loginScreen").classList.remove("hidden");$("admission").value="";$("password").value="";applyLanguage();}
+window.logoutStudent=logoutStudent;
+
+async function loadAttendance(studentId){
+ const snap=await get(ref(db,"attendance"));if(!snap.exists())return [];
+ const all=snap.val()||{},rows=[];
+ for(const date of Object.keys(all)){
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(date))continue;
+   const row=all[date]?.[studentId];
+   if(row)rows.push({...row,date});
+ }
+ rows.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+ return rows;
+}
+function paidTotal(){return payments.reduce((sum,p)=>sum+Number(p.amount||p.paidAmount||p.totalPaid||0),0);}
+function feeTotal(){return Number(student?.net||student?.totalFee||student?.fee||0);}
+function feeDue(){return Math.max(0,feeTotal()-paidTotal());}
+function attendancePercent(){
+ if(!attendance.length)return 0;
+ const present=attendance.filter(a=>a.inTimestamp||String(a.status||"").toLowerCase()==="present").length;
+ return Math.round(present/attendance.length*100);
+}
+function practiceScore(){
+ try{
+   const key="cwccPracticeHistory_"+(student?.admissionNo||student?.id||"student");
+   const h=JSON.parse(localStorage.getItem(key)||"[]");
+   if(!Array.isArray(h)||!h.length)return null;
+   return Math.round(h.slice(-10).reduce((s,x)=>s+Number(x.percent||x.scorePercent||0),0)/Math.min(h.length,10));
+ }catch{return null}
+}
+function progressPercent(){return Math.round((attendancePercent()*.5)+(practiceScore()??0)*.5);}
+function renderAll(){
+ const name=student?.name||"Student";
+ $("welcomeName").textContent=(lang==="hi"?`नमस्ते, ${name} 👋`:`Welcome, ${name} 👋`);
+ $("welcomeMeta").textContent=lang==="hi"?`${student?.course||"आपका कोर्स"} • ${student?.batch||"Regular बैच"}`:`${student?.course||"Your course"} • ${student?.batch||"Regular batch"}`;
+ $("statAttendance").textContent=attendance.length?attendancePercent()+"%":"—";
+ $("statFee").textContent=feeDue()>0?money(feeDue()):"₹0";
+ $("statProgress").textContent=progressPercent()+"%";
+ $("statCourse").textContent=student?.course||"—";
+ $("todayDate").textContent=fmtDate(new Date());
+ $("todayBox").innerHTML=buildToday();
+ renderUpdates();renderAttendance();renderFees();renderID();renderTests();applyLanguage();
+}
+function buildToday(){
+ const due=feeDue(),a=attendance[0];
+ const items=[];
+ if(a?.date===indiaDate())items.push(lang==="hi"?"आज की उपस्थिति दर्ज है।":"Today's attendance is recorded.");
+ if(due>0)items.push(lang==="hi"?`फीस बाकी है: ${money(due)}`:`Fee due: ${money(due)}`);
+ if(!items.length)items.push(lang==="hi"?"आज पढ़ाई के लिए तैयार रहें।":"You're all set. Focus on today's learning.");
+ return `<div style="font-size:12px;line-height:1.7">${items.map(x=>`• ${esc(x)}`).join("<br>")}</div>`;
+}
+function renderUpdates(){
+ const items=[
+  {i:"📚",t:lang==="hi"?"अपना स्टडी मटेरियल देखें":"Check your study material",d:lang==="hi"?"Learn टैब में उपलब्ध फाइलें खोलें।":"Open available files from the Learn tab."},
+  {i:"📈",t:lang==="hi"?"अपनी प्रगति देखें":"Check your progress",d:lang==="hi"?"Progress में attendance और practice score देखें।":"See attendance and practice score in Progress."}
+ ];
+ $("updatesBox").innerHTML=items.map(x=>`<div class="notice"><div class="notice-icon">${x.i}</div><div><b>${esc(x.t)}</b><p>${esc(x.d)}</p></div></div>`).join("");
+}
+async function loadMaterials(){
+ const box=$("materialsBox");box.innerHTML=`<div class="empty">${lang==="hi"?"मटेरियल लोड हो रहा है…":"Loading materials…"}</div>`;
+ try{
+  const snap=await get(ref(db,"studyMaterials"));
+  const raw=snap.exists()?snap.val():{};
+  let list=Object.entries(raw).map(([id,x])=>({...x,id})).filter(x=>x.url||x.downloadURL||x.fileUrl);
+  list.sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));
+  $("materialCount").textContent=list.length;
+  box.innerHTML=list.length?list.map(x=>`<div class="material"><div class="material-main"><b>${esc(x.title||x.file||"Study Material")}</b><small>${esc(x.module||x.folder||"Other")} • ${esc(x.description||"")}</small></div><a href="${esc(x.url||x.downloadURL||x.fileUrl)}" target="_blank" rel="noopener">${lang==="hi"?"खोलें":"Open"}</a></div>`).join(""):`<div class="empty">${lang==="hi"?"अभी कोई स्टडी मटेरियल उपलब्ध नहीं है।":"No study material is available yet."}</div>`;
+ }catch(e){box.innerHTML=`<div class="empty">${esc(e.message||"Could not load materials.")}</div>`}
+}
+function renderTests(){
+ $("testsBox").innerHTML=`<div class="notice"><div class="notice-icon">📝</div><div><b>${lang==="hi"?"प्रैक्टिस टेस्ट क्षेत्र":"Practice test area"}</b><p>${lang==="hi"?"आपके मौजूदा practice-test workflow को अलग रखा गया है।":"Your existing practice-test workflow remains separate."}</p></div></div>`;
+}
+function renderAttendance(){
+ const pct=attendancePercent();$("attBig").textContent=pct+"%";$("attRing").style.setProperty("--deg",(pct*3.6)+"deg");
+ $("attMeta").textContent=attendance.length?(lang==="hi"?`${attendance.length} रिकॉर्ड मिले`:`${attendance.length} attendance records`):(lang==="hi"?"अभी कोई रिकॉर्ड नहीं":"No attendance records yet");
+ $("attList").innerHTML=attendance.slice(0,10).map(a=>`<div class="list-row"><div><b>${fmtDate(a.date)}</b><small>${esc(a.inTime||a.status||"Recorded")}${a.outTime?" • "+esc(a.outTime):""}</small></div><span class="pill">${a.inTimestamp?"PRESENT":(a.status||"RECORDED")}</span></div>`).join("")||`<div class="empty">${lang==="hi"?"अभी कोई attendance रिकॉर्ड नहीं है।":"No attendance records yet."}</div>`;
+}
+function renderFees(){
+ $("feeTotal").textContent=money(feeTotal());$("feePaid").textContent=money(paidTotal());$("feeDue").textContent=money(feeDue());
+ const list=[...payments].sort((a,b)=>String(b.date||b.createdAt||"").localeCompare(String(a.date||a.createdAt||"")));
+ $("paymentList").innerHTML=list.slice(0,15).map(p=>`<div class="list-row"><div><b>${fmtDate(p.date||p.createdAt)}</b><small>${esc(p.mode||p.paymentMode||p.method||"Payment")}${p.receiptNo?" • "+esc(p.receiptNo):""}</small></div><strong>${money(p.amount||p.paidAmount||p.totalPaid||0)}</strong></div>`).join("")||`<div class="empty">${lang==="hi"?"अभी कोई पेमेंट रिकॉर्ड नहीं है।":"No payment records yet."}</div>`;
+}
+function renderID(){
+ $("idName").textContent=student?.name||"Student";$("idCourse").textContent=student?.course||"Course";$("idAdmission").textContent=student?.admissionNo||"—";$("idFather").textContent=student?.father||"—";$("idBatch").textContent=student?.batch||"—";$("idMobile").textContent=student?.mobile||"—";
+ const photo=student?.photo||"";
+ $("idPhotoWrap").innerHTML=photo?`<img class="id-photo" src="${esc(photo)}" alt="">`:`<div class="id-photo" style="display:grid;place-items:center;color:#1d4ed8;font-weight:1000;font-size:25px">${esc(String(student?.name||"S").split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase())}</div>`;
+ const q=`CWCC|${student?.admissionNo||""}|${student?.id||""}`;
+ $("qr").innerHTML="";
+ const qr=document.createElement("div");qr.textContent=q;qr.style.fontSize="9px";qr.style.color="#172554";qr.style.fontWeight="900";$("qr").appendChild(qr);
+ // Lightweight verification payload; the existing institute QR verification flow can still use admission/student id.
+}
+if(!lang){setLanguage("en")}else applyLanguage();
+</script>
+</body>
+</html>

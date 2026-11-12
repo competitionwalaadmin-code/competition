@@ -357,14 +357,20 @@ async function loadMaterials(){
  try{
   const snap=await get(ref(db,"studyMaterials"));
   const raw=snap.exists()?snap.val():{};
-  let list=Object.entries(raw).map(([id,x])=>({...x,id})).filter(x=>x.url||x.downloadURL||x.fileUrl);
+  let list=Object.entries(raw).map(([id,x])=>({...x,id})).filter(x=>{const u=x.url||x.downloadURL||x.fileUrl; return u && u!=="#" && !String(u).startsWith("javascript:");});
   list.sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));
   $("materialCount").textContent=list.length;
-  box.innerHTML=list.length?list.map(x=>`<div class="material"><div class="material-main"><b>${esc(x.title||x.file||"Study Material")}</b><small>${esc(x.module||x.folder||"Other")} • ${esc(x.description||"")}</small></div><a href="${esc(x.url||x.downloadURL||x.fileUrl)}" target="_blank" rel="noopener">${lang==="hi"?"खोलें":"Open"}</a></div>`).join(""):`<div class="empty">${lang==="hi"?"अभी कोई स्टडी मटेरियल उपलब्ध नहीं है।":"No study material is available yet."}</div>`;
+  box.innerHTML=list.length?list.map(x=>`<div class="material"><div class="material-main"><b>${esc(x.title||x.file||"Study Material")}</b><small>${esc(x.module||x.folder||"Other")} • ${esc(x.description||"")}</small></div><a href="${esc(x.url||x.downloadURL||x.fileUrl)}" target="_blank" rel="noopener">${lang==="hi"?"खोलें":"Open"}</a></div>`).join(""):`<div class="empty">${lang==="hi"?"अभी कोई स्टडी मटेरियल प्रकाशित नहीं किया गया है। शिक्षक/एडमिन उपलब्ध होने पर यहाँ जोड़ेंगे।":"No study material has been published yet. Your teacher/admin will add it here when it is ready."}</div>`;
  }catch(e){box.innerHTML=`<div class="empty">${esc(e.message||"Could not load materials.")}</div>`}
 }
 function renderTests(){
- $("testsBox").innerHTML=`<div class="notice"><div class="notice-icon">📝</div><div><b>${lang==="hi"?"प्रैक्टिस टेस्ट क्षेत्र":"Practice test area"}</b><p>${lang==="hi"?"आपके मौजूदा practice-test workflow को अलग रखा गया है।":"Your existing practice-test workflow remains separate."}</p></div></div>`;
+ const key="cwccPracticeHistory_"+(student?.admissionNo||student?.id||"student");
+ let h=[]; try{h=JSON.parse(localStorage.getItem(key)||"[]")}catch{}
+ if(!Array.isArray(h)||!h.length){
+   $("testsBox").innerHTML=`<div class="empty">${lang==="hi"?"अभी कोई टेस्ट उपलब्ध नहीं है।":"No test is assigned or available right now."}</div>`;
+   return;
+ }
+ $("testsBox").innerHTML=h.slice(-10).reverse().map(x=>`<div class="list-row"><div><b>${esc(x.title||x.testName||"Practice Test")}</b><small>${esc(x.date||"")}</small></div><span class="pill">${Number(x.percent||x.scorePercent||0)}%</span></div>`).join("");
 }
 function renderAttendance(){
  const pct=attendancePercent();$("attBig").textContent=pct+"%";$("attRing").style.setProperty("--deg",(pct*3.6)+"deg");

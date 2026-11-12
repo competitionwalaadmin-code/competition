@@ -1072,6 +1072,37 @@ input, select, textarea { min-width:0; }
 #studentPortalView .sp7-record{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #edf1f7}.sp7-record:last-child{border-bottom:0}.sp7-record b{font-size:12px;color:#172554}.sp7-record small{display:block;color:#71809a;font-size:9px;margin-top:3px}
 @media(max-width:760px){#studentPortalView .sp7-focus,#studentPortalView .sp7-home-grid{grid-template-columns:1fr}.sp7-wallet{grid-template-columns:60px 1fr!important}.sp7-wallet>strong{grid-column:2}.sp7-wallet-grid{grid-template-columns:1fr 1fr!important}}
 </style>
+
+<style id="cwcc-study-materials-css">
+.cwcc-study-admin-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.8fr);gap:18px}
+.cwcc-study-upload-card,.cwcc-study-list-card{background:#fff;border:1px solid #e5eaf3;border-radius:18px;padding:18px;box-shadow:0 10px 28px rgba(24,48,90,.06)}
+.cwcc-study-upload-card h3,.cwcc-study-list-card h3{margin:0 0 6px;color:#172554}
+.cwcc-study-help{font-size:12px;color:#64748b;margin:0 0 16px;line-height:1.55}
+.cwcc-study-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cwcc-study-form .full{grid-column:1/-1}
+.cwcc-study-form label{display:block;font-size:11px;font-weight:800;color:#475569;margin-bottom:6px}
+.cwcc-study-form input,.cwcc-study-form select,.cwcc-study-form textarea{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #d9e1ee;border-radius:10px;background:#fbfcff;outline:0}
+.cwcc-study-form textarea{min-height:80px;resize:vertical}
+.cwcc-file-drop{border:2px dashed #b9c8e5;border-radius:14px;padding:18px;text-align:center;background:#f8fbff;cursor:pointer}
+.cwcc-file-drop:hover{border-color:#3867f5;background:#f3f7ff}
+.cwcc-file-drop b{display:block;color:#1e3a8a}
+.cwcc-file-drop small{display:block;margin-top:5px;color:#64748b}
+.cwcc-study-progress{display:none;margin-top:12px;background:#eef2f7;border-radius:999px;height:9px;overflow:hidden}
+.cwcc-study-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22d3ee,#3867f5);transition:width .2s}
+.cwcc-study-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #edf1f6}
+.cwcc-study-item:last-child{border-bottom:0}
+.cwcc-study-icon{width:42px;height:42px;flex:none;border-radius:12px;background:#eef4ff;display:flex;align-items:center;justify-content:center;font-size:21px}
+.cwcc-study-main{min-width:0;flex:1}
+.cwcc-study-main b{display:block;color:#172554;font-size:13px;overflow-wrap:anywhere}
+.cwcc-study-main small{display:block;color:#64748b;font-size:11px;margin-top:4px;line-height:1.45}
+.cwcc-study-actions{display:flex;gap:6px;flex-wrap:wrap}
+.cwcc-study-actions .btn{padding:7px 9px;font-size:11px}
+.cwcc-study-empty{text-align:center;padding:28px 12px;color:#64748b;border:1px dashed #d7deea;border-radius:12px}
+.cwcc-student-material-note{margin-bottom:12px;padding:10px 12px;border-radius:11px;background:#eef6ff;color:#3155b7;font-size:11px;font-weight:700}
+@media(max-width:850px){.cwcc-study-admin-grid{grid-template-columns:1fr}.cwcc-study-form{grid-template-columns:1fr}.cwcc-study-form .full{grid-column:auto}}
+@media(max-width:560px){.cwcc-study-item{align-items:flex-start}.cwcc-study-actions{flex-direction:column}.cwcc-study-actions .btn{width:100%}}
+</style>
+
 </head><body>
 
 <!-- LOGIN MODAL WITH DUAL-ROLE TAB SWITCHER -->
@@ -1323,6 +1354,7 @@ input, select, textarea { min-width:0; }
         </select>
         <input id="stMaterialSearch" placeholder="Search book, guide, assignment..." oninput="filterStudentMaterials()">
       </div>
+      <div class="cwcc-student-material-note">📚 New files uploaded by the institute appear here automatically. Tap <b>Open / Download</b> to study.</div>
       <div id="studentMaterialsList"></div>
     </div>
 
@@ -1347,7 +1379,7 @@ input, select, textarea { min-width:0; }
 </div>
 
 <!-- MAIN ADMIN ERP APPLICATION -->
-<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('finance',this)">💰 Finance Center</button><button onclick="show('analytics',this)">📈 Analytics & Activity</button><button onclick="show('operations',this)">🚀 Operations Center</button><button onclick="show('security',this)">🛡️ Security Center</button><button onclick="show('automation',this)">🤖 Automation Center</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🧾 Admission Receipt</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="cwcc-top-search"><div class="cwcc-search-wrap"><input id="cwccGlobalSearch" placeholder="Search student, admission no, mobile..." autocomplete="off" oninput="cwccGlobalSearch(this.value)" onkeydown="cwccSearchKey(event)"><div id="cwccSearchResults" class="cwcc-results"></div></div><span class="cwcc-kbd">Ctrl K</span></div><span id="cwccNetworkStatus" class="cwcc-online">● Online</span><button class="cwcc-phase4-bell" onclick="toggleCWCCNotifications()" aria-label="Notifications">🔔<span id="cwccNotificationBadge" class="cwcc-phase4-badge">0</span></button><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button><button class="btn secondary" onclick="show('finance')">Open Finance Center</button><button class="btn secondary" onclick="show('analytics')">📈 Analytics & Activity</button></div></div></section><section id="students" class="page"><div class="panel">
+<div class="app" id="adminApp" style="display:none"><aside class="side"><div class="brand">COMPETITION WALA<small>COMPUTER CLASSES • ERP</small></div><div class="nav"><button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button><button onclick="show('students',this)">👨‍🎓 Students</button><button onclick="openPayment()">💰 Fee Payment</button><button onclick="show('dues',this)">⚠️ EMI Due</button><button onclick="show('finance',this)">💰 Finance Center</button><button onclick="show('analytics',this)">📈 Analytics & Activity</button><button onclick="show('operations',this)">🚀 Operations Center</button><button onclick="show('security',this)">🛡️ Security Center</button><button onclick="show('automation',this)">🤖 Automation Center</button><button onclick="show('receipts',this)">🧾 Receipts</button><button onclick="show('studyMaterials',this)">📚 Study Materials</button><button onclick="show('calls',this)">📞 Call Letters</button><button onclick="show('reports',this)">📊 Reports</button><button onclick="show('attendance',this)">📷 QR ATTENDANCE</button><button onclick="show('others',this)">🧾 Admission Receipt</button><button onclick="backup()">💾 Backup</button><button onclick="logout()">🚪 Logout</button></div></aside><main class="main"><div class="top"><h1 id="title">Dashboard</h1><div class="cwcc-top-search"><div class="cwcc-search-wrap"><input id="cwccGlobalSearch" placeholder="Search student, admission no, mobile..." autocomplete="off" oninput="cwccGlobalSearch(this.value)" onkeydown="cwccSearchKey(event)"><div id="cwccSearchResults" class="cwcc-results"></div></div><span class="cwcc-kbd">Ctrl K</span></div><span id="cwccNetworkStatus" class="cwcc-online">● Online</span><button class="cwcc-phase4-bell" onclick="toggleCWCCNotifications()" aria-label="Notifications">🔔<span id="cwccNotificationBadge" class="cwcc-phase4-badge">0</span></button><div class="user">👤 Admin</div></div><section id="dashboard" class="page active"><div class="cards"><div class="card blue"><div class="label">TOTAL STUDENTS</div><div class="num" id="cStudents">0</div></div><div class="card green"><div class="label">TODAY COLLECTION</div><div class="num" id="cToday">₹0</div></div><div class="card orange"><div class="label">TOTAL OUTSTANDING</div><div class="num" id="cDue">₹0</div></div><div class="card red"><div class="label">DUE STUDENTS</div><div class="num" id="cDueStudents">0</div></div></div><div class="grid2"><div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div><div class="panel"><h3>Quick Actions</h3><button class="btn" onclick="openAdmission()">+ New Admission</button><button class="btn green" onclick="openPayment()">+ Receive Fee</button><button class="btn secondary" onclick="show('dues')">View Due List</button><button class="btn secondary" onclick="show('finance')">Open Finance Center</button><button class="btn secondary" onclick="show('analytics')">📈 Analytics & Activity</button></div></div></section><section id="students" class="page"><div class="panel">
   <div class="toolbar" style="justify-content:space-between">
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button type="button" class="btn" id="studentsAvailableTab" onclick="setStudentListTab('active')">🟢 Available Students</button>
@@ -1389,7 +1421,68 @@ input, select, textarea { min-width:0; }
   <div id="cwccFinanceStats" class="cwcc-finance-grid"></div>
   <div class="cwcc-finance-grid2"><div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>Today's Collection</b><span id="cwccTodayCount"></span></div><div id="cwccTodayPayments"></div></div><div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>Top Outstanding</b><button class="btn secondary" onclick="show('dues')">View All</button></div><div id="cwccTopDues"></div></div></div>
   <div class="panel cwcc-inner-panel"><div class="cwcc-section-head"><b>Collection by Payment Mode</b></div><div id="cwccModeBreakdown"></div></div>
-</div></section><section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
+</div></section>
+<section id="studyMaterials" class="page">
+  <div class="cwcc-study-admin-grid">
+    <div class="cwcc-study-upload-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <div>
+          <h3>📚 Student Study Materials</h3>
+          <p class="cwcc-study-help">Upload PDFs, notes, assignments, PPTs, Word files, Excel sheets, images or ZIP resources. Uploaded files appear automatically in the Student Portal.</p>
+        </div>
+        <button class="btn secondary" type="button" onclick="cwccRefreshStudyMaterials()">🔄 Refresh</button>
+      </div>
+
+      <div class="cwcc-study-form">
+        <div>
+          <label>Material Title *</label>
+          <input id="cwccStudyTitle" placeholder="e.g. MS Word Complete Notes">
+        </div>
+        <div>
+          <label>Module / Folder *</label>
+          <select id="cwccStudyModule">
+            <option value="M1">M1 - Computer Fundamentals</option>
+            <option value="M2">M2 - Internet & Networking</option>
+            <option value="M3">M3 - MS Office</option>
+            <option value="M4">M4 - DTP</option>
+            <option value="M5">M5 - Tally & GST</option>
+            <option value="M6">M6 - C / C++</option>
+            <option value="M7">M7 - DCTT / Teacher Training</option>
+            <option value="TYPING">Typing Practice</option>
+            <option value="OTHER">Other Study Material</option>
+          </select>
+        </div>
+        <div class="full">
+          <label>Description</label>
+          <textarea id="cwccStudyDescription" placeholder="Short description for students (optional)"></textarea>
+        </div>
+        <div class="full">
+          <label>Choose File *</label>
+          <label class="cwcc-file-drop" for="cwccStudyFile">
+            <span style="font-size:28px">📄</span>
+            <b id="cwccStudyFileLabel">Choose PDF / document / image / ZIP</b>
+            <small>Maximum recommended size: 25 MB per file</small>
+            <input id="cwccStudyFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.jpg,.jpeg,.png,.webp,.zip" style="display:none" onchange="cwccStudyFileSelected(this)">
+          </label>
+        </div>
+      </div>
+
+      <div id="cwccStudyProgress" class="cwcc-study-progress"><i id="cwccStudyProgressBar"></i></div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:15px">
+        <button class="btn green" type="button" onclick="cwccUploadStudyMaterial()">☁️ Upload & Publish to Students</button>
+        <button class="btn secondary" type="button" onclick="cwccClearStudyForm()">Clear</button>
+      </div>
+      <div id="cwccStudyUploadStatus" style="margin-top:10px;font-size:12px;font-weight:700;color:#64748b"></div>
+    </div>
+
+    <div class="cwcc-study-list-card">
+      <h3>📦 Uploaded Materials</h3>
+      <p class="cwcc-study-help">Delete only the file you no longer want students to access. Existing student/payment records are not affected.</p>
+      <div id="cwccAdminStudyMaterialsList"></div>
+    </div>
+  </div>
+</section>
+<section id="receipts" class="page"><div class="panel"><h3>Payment Receipts</h3><div id="receiptTable"></div></div></section><section id="calls" class="page"><div class="call-wrap"><div class="call-panel"><div class="call-head">🖨️ Generate Exam Call Letter</div><div class="call-form"><div class="call-field"><label>Select Student <span style="color:#dc2626">*</span></label><div style="display:flex;gap:10px"><select id="callStudent" onchange="updateCallPreview()" style="flex:1"></select><button class="btn" type="button" onclick="updateCallPreview()">View</button></div></div><div class="call-field"><label>Exam Name <span style="color:#dc2626">*</span></label><select id="callExam" onchange="updateCallPreview()"><option value="M1 - FUNDAMENTAL OF COMPUTER">M1 - FUNDAMENTAL OF COMPUTER</option><option value="M2 - INTERNET">M2 - INTERNET</option><option value="M3 (A) - WORD">M3 (A) - WORD</option><option value="M3 (B) - POWERPOINT">M3 (B) - POWERPOINT</option><option value="M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)">M3 - WORD, POWERPOINT, EXCEL (Complete MS Office)</option><option value="M4 - DTP (Photoshop, CorelDraw, Canva)">M4 - DTP (Photoshop, CorelDraw, Canva)</option><option value="M5 - TALLY (Basic for GST)">M5 - TALLY (Basic for GST)</option><option value="M6 - C, C++">M6 - C, C++</option><option value="M7 - DCTT FINAL TEST">M7 - DCTT FINAL TEST</option></select></div><div class="call-field"><label>Exam Date <span style="color:#dc2626">*</span></label><input id="callDate" type="date" onchange="updateCallPreview()"></div><div class="call-field"><label>Reporting Time <span style="color:#dc2626">*</span></label><input id="callReportTime" type="time" value="09:00" onchange="updateCallPreview()"></div><div class="call-field"><label>Exam Time <span style="color:#dc2626">*</span></label><select id="callExamTime" onchange="updateCallPreview()"><option>09:30 AM - 10:30 AM</option><option>11:00 AM - 12:00 PM</option><option>02:00 PM - 03:00 PM</option><option>03:30 PM - 04:30 PM</option><option>04:00 PM - 04:30 PM</option><option>04:30 PM - 05:00 PM</option></select></div><div class="call-field"><label>Exam Venue <span style="color:#dc2626">*</span></label><textarea id="callVenue" onchange="updateCallPreview()">COMPETITION WALA COMPUTER CLASSES
 Indira Nagar, Patna - 800001</textarea></div><div class="call-field"><label>Purpose</label><input id="callPurpose" value="Module Examination" oninput="updateCallPreview()"></div><div class="call-actions"><button class="btn green" onclick="generateCallLetter()">🖨 Generate Call Letter</button><button class="btn" onclick="printCall()">👁 View / Print</button><button class="btn red" onclick="downloadCallPDF()">📄 Download PDF</button></div></div></div><div class="call-preview-panel"><div class="preview-head">👁️ Call Letter Preview</div><div class="preview-body"><div id="callPreview"></div></div></div></div></section><section id="reports" class="page"><div class="cards"><div class="card blue"><div class="label">TOTAL COURSE FEE</div><div class="num" id="rTotal">₹0</div></div><div class="card green"><div class="label">TOTAL PAID</div><div class="num" id="rPaid">₹0</div></div><div class="card red"><div class="label">TOTAL BALANCE</div><div class="num" id="rBalance">₹0</div></div><div class="card orange"><div class="label">TOTAL PAYMENTS</div><div class="num" id="rPayments">0</div></div></div><div class="panel" style="margin-top:14px"><div class="cwcc-section-head"><b>📊 Reports Studio</b><span style="font-size:11px;color:#64748b">Export live data without changing Firebase records.</span></div><div class="cwcc-report-tools"><button class="btn" onclick="cwccExportCSV('students')">⬇ Students CSV</button><button class="btn green" onclick="cwccExportCSV('payments')">⬇ Payments CSV</button><button class="btn secondary" onclick="cwccExportCSV('dues')">⬇ Due List CSV</button><button class="btn secondary" onclick="cwccPrintExecutiveSummary()">🖨 Executive Summary</button></div><div class="cwcc-report-note">Exports are generated locally from the data already loaded in this browser. No external service is used.</div></div></section><section id="attendance" class="page"><div class="panel"><div class="panel" style="margin-bottom:16px;background:#f8fbff"><h3>🔐 Teacher-only QR Attendance</h3><p style="font-size:13px;color:#64748b">Sign in with an authorized teacher Firebase account. Students scanning their own ID QR will NOT mark attendance.</p><div class="formgrid"><div><label>Teacher Email</label><input id="teacherEmail" type="email" placeholder="teacher email"></div><div><label>Teacher Password</label><input id="teacherPassword" type="password" placeholder="teacher password"></div><div style="display:flex;align-items:end;gap:8px"><button class="btn green" onclick="teacherSignIn()">Teacher Login</button><button class="btn secondary" onclick="teacherSignOut()">Logout</button></div></div><div id="teacherAuthStatus" style="margin-top:10px;font-size:13px;font-weight:700">Not signed in</div><div class="call-actions"><button class="btn" onclick="startTeacherScanner()">📷 Start Teacher Scanner</button><button class="btn secondary" onclick="stopTeacherScanner()">Stop Scanner</button></div><div id="teacherQrScanner" style="max-width:420px;margin-top:12px"></div><div id="teacherScanResult" style="margin-top:10px;font-weight:700"></div></div><div class="toolbar"><input id="attendanceSearch" placeholder="Search name / admission no..." oninput="renderAttendanceStudents()"><button class="btn green" onclick="syncAllStudentsToFirebase()">☁️ Sync Students</button><button class="btn" onclick="loadTodayAttendance()">🔄 Refresh Today</button><button class="btn secondary" onclick="renderAttendanceHistory()">📈 Student Attendance Scores</button></div><div id="attendanceHistory" class="panel" style="margin-bottom:15px;display:none"></div><div id="attendanceStats" class="cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:15px"></div><div id="attendanceStudentTable"></div></div></section>
 
 
@@ -1715,6 +1808,116 @@ const studyMaterialsDB = [
   { module: "TYPING", title: "Hindi & English Speed Typing Paragraphs (Set 1 to 20)", file: "Practice Set", size: "1.5 MB", url: "#" }
 ];
 
+
+let cwccRemoteStudyMaterials = [];
+window.cwccRemoteStudyMaterials = cwccRemoteStudyMaterials;
+
+function getCWCCStudyMaterials() {
+  return [...studyMaterialsDB, ...(Array.isArray(window.cwccRemoteStudyMaterials) ? window.cwccRemoteStudyMaterials : [])];
+}
+
+function cwccFileSize(bytes) {
+  const n = Number(bytes || 0);
+  if (!n) return '—';
+  if (n < 1024) return n + ' B';
+  if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+  return (n / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function cwccStudyFileSelected(input) {
+  const file = input?.files?.[0];
+  const label = document.getElementById('cwccStudyFileLabel');
+  if (label) label.textContent = file ? `${file.name} • ${cwccFileSize(file.size)}` : 'Choose PDF / document / image / ZIP';
+}
+
+function cwccClearStudyForm() {
+  ['cwccStudyTitle','cwccStudyDescription'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  const file = document.getElementById('cwccStudyFile'); if (file) file.value = '';
+  const label = document.getElementById('cwccStudyFileLabel'); if (label) label.textContent = 'Choose PDF / document / image / ZIP';
+  const status = document.getElementById('cwccStudyUploadStatus'); if (status) status.textContent = '';
+  const progress = document.getElementById('cwccStudyProgress'); if (progress) progress.style.display = 'none';
+  const bar = document.getElementById('cwccStudyProgressBar'); if (bar) bar.style.width = '0%';
+}
+
+function cwccRefreshStudyMaterials() {
+  const box = document.getElementById('cwccAdminStudyMaterialsList');
+  if (!box) return;
+  const list = Array.isArray(window.cwccRemoteStudyMaterials) ? window.cwccRemoteStudyMaterials : [];
+  if (!list.length) {
+    box.innerHTML = '<div class="cwcc-study-empty">No uploaded materials yet.<br><small>Upload your first PDF or study file from the left panel.</small></div>';
+    return;
+  }
+  box.innerHTML = list.slice().sort((a,b) => Number(b.createdAt||0)-Number(a.createdAt||0)).map(item => {
+    const icon = String(item.file || '').toLowerCase().includes('pdf') ? '📕' : '📄';
+    const when = item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-IN') : '';
+    return `<div class="cwcc-study-item">
+      <div class="cwcc-study-icon">${icon}</div>
+      <div class="cwcc-study-main">
+        <b>${escapeHTML(item.title || item.file || 'Study Material')}</b>
+        <small>${escapeHTML(item.module || 'OTHER')} • ${escapeHTML(item.file || '')} • ${escapeHTML(item.size || '')}${when ? ' • '+when : ''}</small>
+        ${item.description ? `<small>${escapeHTML(item.description)}</small>` : ''}
+      </div>
+      <div class="cwcc-study-actions">
+        ${item.url ? `<a class="btn secondary" href="${escapeHTML(item.url)}" target="_blank" rel="noopener">Open</a>` : ''}
+        <button class="btn red" type="button" onclick="cwccDeleteStudyMaterial('${String(item.id||'').replace(/'/g,"\\'")}')">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.cwccRefreshStudyMaterials = cwccRefreshStudyMaterials;
+window.cwccSetRemoteStudyMaterials = function(list) {
+  window.cwccRemoteStudyMaterials = Array.isArray(list) ? list : [];
+  cwccRemoteStudyMaterials = window.cwccRemoteStudyMaterials;
+  cwccRefreshStudyMaterials();
+  if (typeof filterStudentMaterials === 'function') filterStudentMaterials();
+  if (typeof sp2RenderLearning === 'function' && loggedInStudent) sp2RenderLearning();
+  if (typeof sp3RenderProgress === 'function' && loggedInStudent) sp3RenderProgress();
+  if (typeof sp7RenderContinue === 'function' && loggedInStudent) sp7RenderContinue();
+};
+
+window.cwccUploadStudyMaterial = async function() {
+  if (!window.cwccFirebaseUploadStudyMaterial) return alert('Firebase Study Materials service is still loading. Please wait a moment and try again.');
+  const title = document.getElementById('cwccStudyTitle')?.value.trim();
+  const module = document.getElementById('cwccStudyModule')?.value || 'OTHER';
+  const description = document.getElementById('cwccStudyDescription')?.value.trim() || '';
+  const file = document.getElementById('cwccStudyFile')?.files?.[0];
+  const status = document.getElementById('cwccStudyUploadStatus');
+  if (!title) return alert('Enter a material title.');
+  if (!file) return alert('Choose a study material file.');
+  if (file.size > 25 * 1024 * 1024) return alert('File is larger than 25 MB. Please compress it or choose a smaller file.');
+  if (status) status.textContent = 'Uploading to Firebase Storage…';
+  const progress = document.getElementById('cwccStudyProgress');
+  const bar = document.getElementById('cwccStudyProgressBar');
+  if (progress) progress.style.display = 'block';
+  if (bar) bar.style.width = '15%';
+  try {
+    const item = await window.cwccFirebaseUploadStudyMaterial({title,module,description,file});
+    if (bar) bar.style.width = '100%';
+    if (status) status.textContent = `✅ Published: ${item.title}`;
+    cwccClearStudyForm();
+    if (status) status.textContent = `✅ Published to Student Portal: ${item.title}`;
+  } catch (e) {
+    console.error(e);
+    if (status) status.textContent = '';
+    alert('Study material upload failed: ' + (e.message || e));
+  }
+};
+
+window.cwccDeleteStudyMaterial = async function(id) {
+  if (!id) return;
+  const item = (window.cwccRemoteStudyMaterials || []).find(x => String(x.id) === String(id));
+  if (!item) return;
+  if (!confirm(`Delete "${item.title || item.file}" from the Student Portal?`)) return;
+  if (!window.cwccFirebaseDeleteStudyMaterial) return alert('Firebase Study Materials service is still loading.');
+  try {
+    await window.cwccFirebaseDeleteStudyMaterial(id, item.storagePath);
+    alert('Study material deleted.');
+  } catch (e) {
+    alert('Delete failed: ' + (e.message || e));
+  }
+};
+
 let loggedInStudent = null;
 
 function toggleRoleTab(role) {
@@ -1788,12 +1991,12 @@ const sp2PracticeTests = [
 ];
 function sp2Open(view,btn){document.querySelectorAll('#studentPortalView .sp2-view').forEach(x=>x.classList.remove('active'));const el=document.getElementById('sp2'+view.charAt(0).toUpperCase()+view.slice(1));if(el)el.classList.add('active');document.querySelectorAll('#studentPortalView .sp2-tab').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(view==='attendance')sp2RenderAttendance();if(view==='learning')sp2RenderLearning();if(view==='tests')sp2RenderTests();if(view==='progress')sp3RenderProgress();if(view==='updates')sp4RenderUpdates();if(view==='results')sp4RenderResults();if(view==='notifications')sp4RenderNotifications();if(view==='certificate')sp4RenderCertificates();if(view==='hub')sp5RenderHub();if(view==='idcard')sp5RenderID();if(view==='support')sp5RenderSupport();if(view==='wallet')sp7RenderWallet();if(view==='fees')sp2RenderFees();}
 function sp2RenderNotices(){const box=document.getElementById('sp2Notices');if(!box)return;box.innerHTML=sp2NoticesDB.map(n=>`<div class="sp2-notice"><b>📌 ${escapeHTML(n.title)}</b><small>${escapeHTML(n.text)}</small></div>`).join('');}
-function sp2RenderLearning(){const s=loggedInStudent;if(!s)return;const course=String(s.course||'').toUpperCase();const modules=[...studyMaterialsDB];const relevant=course.includes('DCA')?modules.filter(m=>['M1','M2','M3','M4','M5'].includes(m.module)):modules;document.getElementById('sp2Modules').innerHTML=relevant.map((m,i)=>{const pct=Math.min(95,25+(i%4)*15);return `<div class="sp2-module"><div class="sp2-module-icon">${m.module==='M3'?'🖥️':m.module==='M4'?'🎨':m.module==='M5'?'🧾':m.module==='M6'?'💻':m.module==='TYPING'?'⌨️':'📘'}</div><div><b>${escapeHTML(m.title)}</b><small>${escapeHTML(m.file)} • ${escapeHTML(m.size)}</small><div class="sp2-progress"><i style="width:${pct}%"></i></div></div><span class="sp2-status">Available</span></div>`}).join('');}
+function sp2RenderLearning(){const s=loggedInStudent;if(!s)return;const course=String(s.course||'').toUpperCase();const modules=[...getCWCCStudyMaterials()];const relevant=course.includes('DCA')?modules.filter(m=>['M1','M2','M3','M4','M5'].includes(m.module)):modules;document.getElementById('sp2Modules').innerHTML=relevant.map((m,i)=>{const pct=Math.min(95,25+(i%4)*15);return `<div class="sp2-module"><div class="sp2-module-icon">${m.module==='M3'?'🖥️':m.module==='M4'?'🎨':m.module==='M5'?'🧾':m.module==='M6'?'💻':m.module==='TYPING'?'⌨️':'📘'}</div><div><b>${escapeHTML(m.title)}</b><small>${escapeHTML(m.file)} • ${escapeHTML(m.size)}</small><div class="sp2-progress"><i style="width:${pct}%"></i></div></div><span class="sp2-status">Available</span></div>`}).join('');}
 function sp2RenderTests(){const box=document.getElementById('sp2TestList');if(!box)return;box.innerHTML=sp2PracticeTests.map(t=>`<div class="sp2-test"><h4>📝 ${escapeHTML(t.title)}</h4><p>${t.questions.length} questions • ${t.minutes} minutes • Practice only</p><button class="btn" onclick="sp2StartQuiz('${t.id}')">Start Practice</button></div>`).join('');document.getElementById('sp2QuizArea').innerHTML='';}
 function sp2StartQuiz(id){const t=sp2PracticeTests.find(x=>x.id===id);if(!t)return;const area=document.getElementById('sp2QuizArea');area.innerHTML=`<div class="sp2-quiz"><h3>${escapeHTML(t.title)}</h3>${t.questions.map((q,i)=>`<div class="sp2-q"><b>${i+1}. ${escapeHTML(q[0])}</b>${q[1].map((o,j)=>`<label><input type="radio" name="sp2q${i}" value="${j}"> ${escapeHTML(o)}</label>`).join('')}</div>`).join('')}<button class="btn green" onclick="sp2SubmitQuiz('${t.id}')">Submit Practice</button><div id="sp2QuizResult" style="margin-top:12px;font-weight:800"></div></div>`;area.scrollIntoView({behavior:'smooth',block:'start'});}
 function sp2SubmitQuiz(id){const t=sp2PracticeTests.find(x=>x.id===id);if(!t)return;let score=0,answered=0;t.questions.forEach((q,i)=>{const v=document.querySelector(`input[name="sp2q${i}"]:checked`);if(v){answered++;if(Number(v.value)===q[2])score++;}});const pct=Math.round(score/t.questions.length*100);const r=document.getElementById('sp2QuizResult');r.innerHTML=`Result: <strong>${score}/${t.questions.length} (${pct}%)</strong> • ${answered} answered`;r.style.color=pct>=60?'#047857':'#b45309';const key='cwccPracticeHistory_'+String(loggedInStudent?.admissionNo||loggedInStudent?.id||'student');const history=JSON.parse(localStorage.getItem(key)||'[]');history.unshift({id:t.id,title:t.title,score,total:t.questions.length,pct,date:new Date().toISOString()});localStorage.setItem(key,JSON.stringify(history.slice(0,20)));}
 function sp3GetHistory(){const key='cwccPracticeHistory_'+String(loggedInStudent?.admissionNo||loggedInStudent?.id||'student');try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []}}
-function sp3RenderProgress(){const s=loggedInStudent;if(!s)return;const history=sp3GetHistory();const avg=history.length?Math.round(history.reduce((a,x)=>a+Number(x.pct||0),0)/history.length):0;const due=Math.max(0,balance(s));let att=0;const data=window.__cwccStudentAttendance;if(data?.dates?.length){const dates=data.dates;att=Math.round(dates.filter(d=>data.all?.[d]?.[s.id]).length/dates.length*100)}else{att=0}const overall=Math.round((att+avg)/2);document.getElementById('sp3OverallScore').textContent=(history.length||data?.dates?.length)?overall+'%':'—%';document.getElementById('sp3OverallLabel').textContent=overall>=85?'Excellent momentum — keep it up!':overall>=70?'Good progress — stay consistent.':overall>0?'Keep practicing and attending regularly.':'Complete your first activity to start tracking.';document.getElementById('sp3Attendance').textContent=data?.dates?.length?att+'%':'—%';document.getElementById('sp3Practice').textContent=history.length?avg+'%':'—%';document.getElementById('sp3TestsTaken').textContent=history.length;document.getElementById('sp3FeeStatus').textContent=due?'Due '+money(due):'Clear';const course=String(s.course||'').toUpperCase();const modules=studyMaterialsDB.filter(m=>course.includes('DCA')?['M1','M2','M3','M4','M5'].includes(m.module):true);document.getElementById('sp3CourseProgress').innerHTML=modules.length?modules.map((m,i)=>{const pct=Math.min(95,25+(i%4)*15);return `<div class="sp3-item"><div class="sp3-icon">${m.module==='M3'?'🖥️':m.module==='M4'?'🎨':m.module==='M5'?'🧾':m.module==='M6'?'💻':m.module==='TYPING'?'⌨️':'📘'}</div><div><b>${escapeHTML(m.title)}</b><small>${escapeHTML(m.module)} • ${escapeHTML(m.file)}</small><div class="sp3-bar"><i style="width:${pct}%"></i></div></div><span class="sp3-chip">${pct}%</span></div>`}).join(''):'<div class="sp3-empty">No course modules are available yet.</div>';document.getElementById('sp3PracticeHistory').innerHTML=history.length?history.slice(0,8).map(x=>`<div class="sp3-item"><div class="sp3-icon">📝</div><div><b>${escapeHTML(x.title)}</b><small>${new Date(x.date).toLocaleDateString()} • ${x.score}/${x.total}</small></div><span class="sp3-chip">${x.pct}%</span></div>`).join(''):'<div class="sp3-empty">No practice attempts yet. Take a test to start your performance history.</div>';const next=[];if(data?.dates?.length&&att<75)next.push('⚠️ Improve attendance — your current attendance is below 75%.');if(history.length&&avg<60)next.push('📝 Revisit your practice topics and retake a test.');if(due)next.push('💰 Your fee balance is '+money(due)+'. Check the Fees section for details.');if(!history.length)next.push('🚀 Take your first practice test to start your performance history.');if(!data?.dates?.length)next.push('📊 Attendance data will appear here when your institute records attendance.');document.getElementById('sp3NextSteps').innerHTML=next.length?next.map(x=>`<div class="sp2-notice"><b>${escapeHTML(x)}</b></div>`).join(''):'<div class="sp3-empty">You are on track. Keep learning consistently! 🎯</div>';}
+function sp3RenderProgress(){const s=loggedInStudent;if(!s)return;const history=sp3GetHistory();const avg=history.length?Math.round(history.reduce((a,x)=>a+Number(x.pct||0),0)/history.length):0;const due=Math.max(0,balance(s));let att=0;const data=window.__cwccStudentAttendance;if(data?.dates?.length){const dates=data.dates;att=Math.round(dates.filter(d=>data.all?.[d]?.[s.id]).length/dates.length*100)}else{att=0}const overall=Math.round((att+avg)/2);document.getElementById('sp3OverallScore').textContent=(history.length||data?.dates?.length)?overall+'%':'—%';document.getElementById('sp3OverallLabel').textContent=overall>=85?'Excellent momentum — keep it up!':overall>=70?'Good progress — stay consistent.':overall>0?'Keep practicing and attending regularly.':'Complete your first activity to start tracking.';document.getElementById('sp3Attendance').textContent=data?.dates?.length?att+'%':'—%';document.getElementById('sp3Practice').textContent=history.length?avg+'%':'—%';document.getElementById('sp3TestsTaken').textContent=history.length;document.getElementById('sp3FeeStatus').textContent=due?'Due '+money(due):'Clear';const course=String(s.course||'').toUpperCase();const modules=getCWCCStudyMaterials().filter(m=>course.includes('DCA')?['M1','M2','M3','M4','M5'].includes(m.module):true);document.getElementById('sp3CourseProgress').innerHTML=modules.length?modules.map((m,i)=>{const pct=Math.min(95,25+(i%4)*15);return `<div class="sp3-item"><div class="sp3-icon">${m.module==='M3'?'🖥️':m.module==='M4'?'🎨':m.module==='M5'?'🧾':m.module==='M6'?'💻':m.module==='TYPING'?'⌨️':'📘'}</div><div><b>${escapeHTML(m.title)}</b><small>${escapeHTML(m.module)} • ${escapeHTML(m.file)}</small><div class="sp3-bar"><i style="width:${pct}%"></i></div></div><span class="sp3-chip">${pct}%</span></div>`}).join(''):'<div class="sp3-empty">No course modules are available yet.</div>';document.getElementById('sp3PracticeHistory').innerHTML=history.length?history.slice(0,8).map(x=>`<div class="sp3-item"><div class="sp3-icon">📝</div><div><b>${escapeHTML(x.title)}</b><small>${new Date(x.date).toLocaleDateString()} • ${x.score}/${x.total}</small></div><span class="sp3-chip">${x.pct}%</span></div>`).join(''):'<div class="sp3-empty">No practice attempts yet. Take a test to start your performance history.</div>';const next=[];if(data?.dates?.length&&att<75)next.push('⚠️ Improve attendance — your current attendance is below 75%.');if(history.length&&avg<60)next.push('📝 Revisit your practice topics and retake a test.');if(due)next.push('💰 Your fee balance is '+money(due)+'. Check the Fees section for details.');if(!history.length)next.push('🚀 Take your first practice test to start your performance history.');if(!data?.dates?.length)next.push('📊 Attendance data will appear here when your institute records attendance.');document.getElementById('sp3NextSteps').innerHTML=next.length?next.map(x=>`<div class="sp2-notice"><b>${escapeHTML(x)}</b></div>`).join(''):'<div class="sp3-empty">You are on track. Keep learning consistently! 🎯</div>';}
 function sp4SafeArray(value){if(Array.isArray(value))return value;if(value&&typeof value==='object')return Object.values(value);return []}
 function sp4Date(value){if(!value)return '—';try{return new Date(value).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}catch{return String(value)}}
 function sp4StudentMatch(item){const s=loggedInStudent;if(!s)return false;const sid=String(s.id||'').toLowerCase(),adm=String(s.admissionNo||'').toLowerCase();const ids=[item?.studentId,item?.studentID,item?.student_id,item?.admissionNo,item?.admissionNumber,item?.rollNo,item?.roll].map(x=>String(x||'').toLowerCase());return ids.includes(sid)||ids.includes(adm)||!ids.some(Boolean)}
@@ -1906,22 +2109,33 @@ function renderStudentWorkspace() {
 function filterStudentMaterials() {
   const mod = document.getElementById('stFolderModule')?.value || 'ALL';
   const q = (document.getElementById('stMaterialSearch')?.value || '').toLowerCase().trim();
-  const list = studyMaterialsDB.filter(m => (mod === 'ALL' || m.module === mod) && (!q || m.title.toLowerCase().includes(q)));
+  const allMaterials = getCWCCStudyMaterials();
+  const list = allMaterials.filter(m => (mod === 'ALL' || m.module === mod) && (!q || String(m.title || '').toLowerCase().includes(q)));
   const box = document.getElementById('studentMaterialsList');
   if (!box) return;
   if (!list.length) {
     box.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b">No materials found in this folder.</div>';
     return;
   }
-  box.innerHTML = list.map(item => `
-    <div class="material-folder">
-      <div>
-        <div style="font-weight:800;font-size:14px;color:#1e293b">📄 ${escapeHTML(item.title)}</div>
-        <div style="font-size:12px;color:#64748b;margin-top:3px">[${escapeHTML(item.module)}] • ${escapeHTML(item.file)} • ${escapeHTML(item.size)}</div>
-      </div>
-      <a href="${item.url}" onclick="if(this.getAttribute('href')==='#'){alert('Notice: Contact lab assistant or teacher to download offline notes for '+${JSON.stringify(item.title)});return false;}" class="btn" style="text-decoration:none;font-size:12px">⬇️ Download</a>
-    </div>
-  `).join('');
+  box.innerHTML = list.map(item => {
+    const real = item.source === 'firebase';
+    const icon = String(item.file || '').toLowerCase().includes('pdf') ? '📕' :
+      String(item.file || '').toLowerCase().match(/ppt|powerpoint/) ? '📊' :
+      String(item.file || '').toLowerCase().match(/doc|word/) ? '📝' :
+      String(item.file || '').toLowerCase().match(/xls|excel|spreadsheet/) ? '📗' : '📄';
+    const action = real && item.url
+      ? `<a href="${escapeHTML(item.url)}" target="_blank" rel="noopener" class="btn" style="text-decoration:none;font-size:12px">📖 Open / Download</a>`
+      : `<span class="btn secondary" style="font-size:12px;cursor:default">📚 Course Guide</span>`;
+    return `
+      <div class="material-folder">
+        <div>
+          <div style="font-weight:800;font-size:14px;color:#1e293b">${icon} ${escapeHTML(item.title)}</div>
+          <div style="font-size:12px;color:#64748b;margin-top:3px">[${escapeHTML(item.module)}] • ${escapeHTML(item.file || 'Study Material')} • ${escapeHTML(item.size || '')}</div>
+          ${item.description ? `<div style="font-size:11px;color:#64748b;margin-top:5px">${escapeHTML(item.description)}</div>` : ''}
+        </div>
+        ${action}
+      </div>`;
+  }).join('');
 }
 
 function viewMyIDCard() {
@@ -2002,6 +2216,7 @@ function show(id, btn) {
     operations: 'Operations Center',
     security: 'Security Center',
     automation: 'Automation Center',
+    studyMaterials: 'Study Materials',
     others: 'Admission Receipt'
   }[id] || 'Dashboard';
   if (btn) {
@@ -2022,6 +2237,9 @@ function show(id, btn) {
   }
   if (id === 'automation') {
     renderPhase5Automation();
+  }
+  if (id === 'studyMaterials') {
+    cwccRefreshStudyMaterials();
   }
   renderAll();
 }
@@ -3564,6 +3782,7 @@ function renderAll() {
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getDatabase,ref,get,set,update,remove,runTransaction,onValue} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+import {getStorage,ref as storageRef,uploadBytes,getDownloadURL,deleteObject} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
 import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,updatePassword,setPersistence,browserLocalPersistence} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 const firebaseConfig = {
   apiKey: "AIzaSyAz3NvFEDd-AyqXJoU2HLhTLerf3XdY1F8",
@@ -3575,6 +3794,7 @@ const firebaseConfig = {
   appId: "1:178104848004:web:ee1e4c9d395c4d7773bcd1"
 };
 const app=initializeApp(firebaseConfig), fdb=getDatabase(app), auth=getAuth(app);
+const storage=getStorage(app);
 // Persist Firebase authentication across browser/app restarts on this device.
 const authPersistenceReady = setPersistence(auth, browserLocalPersistence);
 
@@ -3623,7 +3843,7 @@ window.cwccReserveAdmissionNo = async function(localMax = 10000) {
 };
 resolveAdmissionAllocatorReady();
 let teacherUser=null, teacherScanner=null;
-onAuthStateChanged(auth,user=>{teacherUser=user;const el=document.getElementById('teacherAuthStatus');if(el)el.textContent=user?'✅ Teacher authenticated: '+user.email:'🔒 Teacher login required';});
+onAuthStateChanged(auth,user=>{teacherUser=user;const el=document.getElementById('teacherAuthStatus');if(el)el.textContent=user?'✅ Teacher authenticated: '+user.email:'🔒 Teacher login required';cwccWatchStudyMaterials();});
 window.teacherSignIn=async function(){const email=document.getElementById('teacherEmail').value.trim(),password=document.getElementById('teacherPassword').value;if(!email||!password)return alert('Enter teacher email and password.');try{await signInWithEmailAndPassword(auth,email,password);alert('Teacher login successful.');}catch(e){alert('Teacher login failed: '+e.message)}};
 window.teacherSignOut=async function(){await stopTeacherScanner();try{await signOut(auth)}catch(e){};document.getElementById('teacherScanResult').textContent='Signed out.'};
 window.stopTeacherScanner=async function(){if(teacherScanner){try{await teacherScanner.stop();await teacherScanner.clear()}catch(e){}teacherScanner=null}};
@@ -3631,6 +3851,67 @@ window.startTeacherScanner=async function(){if(!teacherUser){alert('Teacher logi
 async function teacherMarkAttendance(id){if(!teacherUser){alert('Teacher login required.');return}id=String(id||'').trim();if(!id)return;try{const ss=await get(ref(fdb,'students/'+id));if(!ss.exists()){document.getElementById('teacherScanResult').textContent='❌ Student QR not recognized. Sync students first.';return}const s=ss.val(),ar=ref(fdb,'attendance/'+indiaDate()+'/'+id),as=await get(ar);let a=as.exists()?as.val():null;if(!a){a={studentId:id,name:s.name,admissionNo:s.admissionNo||'',course:s.course||'',batch:s.batch||'',date:indiaDate(),inTimestamp:Date.now(),inTime:indiaTime(),outTimestamp:null,outTime:null,workingMinutes:0,markedBy:teacherUser.email};await set(ar,a);document.getElementById('teacherScanResult').textContent='✅ IN marked: '+s.name+' ('+s.admissionNo+')'}else if(a.inTimestamp&&!a.outTimestamp){const out=Date.now(),mins=Math.max(0,Math.floor((out-a.inTimestamp)/60000));await update(ar,{outTimestamp:out,outTime:indiaTime(),workingMinutes:mins,markedOutBy:teacherUser.email});document.getElementById('teacherScanResult').textContent='✅ OUT marked: '+s.name+' • Duration '+mins+' minutes'}else{document.getElementById('teacherScanResult').textContent='⚠️ IN and OUT already complete for '+s.name}await loadTodayAttendance();await renderAttendanceHistory()}catch(e){document.getElementById('teacherScanResult').textContent='❌ Attendance error: '+e.message}}
 window.teacherMarkAttendance=teacherMarkAttendance;
 window.cwccFirebaseDB=fdb;
+// ===== STUDY MATERIALS: Firebase Storage + Realtime Database =====
+function cwccStudyMaterialList(snapshot) {
+  if (!snapshot.exists()) return [];
+  const value = snapshot.val() || {};
+  return Object.entries(value).map(([id,item]) => ({id, ...(item || {})})).filter(x => x.url);
+}
+
+let cwccStudyMaterialsUnsubscribe = null;
+function cwccWatchStudyMaterials() {
+  if (cwccStudyMaterialsUnsubscribe) {
+    try { cwccStudyMaterialsUnsubscribe(); } catch (_) {}
+    cwccStudyMaterialsUnsubscribe = null;
+  }
+  if (!auth.currentUser) {
+    window.cwccSetRemoteStudyMaterials?.([]);
+    return;
+  }
+  cwccStudyMaterialsUnsubscribe = onValue(ref(fdb,'studyMaterials'), snapshot => {
+    const list = cwccStudyMaterialList(snapshot);
+    window.cwccSetRemoteStudyMaterials?.(list);
+  }, error => {
+    console.warn('Study materials read failed:', error);
+    window.cwccSetRemoteStudyMaterials?.([]);
+  });
+}
+
+window.cwccFirebaseUploadStudyMaterial = async function({title,module,description,file}) {
+  const user = auth.currentUser;
+  if (!user) throw new Error('Admin authentication is required.');
+  const cleanName = String(file.name || 'study-material').replace(/[^a-zA-Z0-9._-]+/g,'_').slice(-150);
+  const id = (crypto.randomUUID ? crypto.randomUUID() : 'material-' + Date.now());
+  const path = `study-materials/${id}_${cleanName}`;
+  const sref = storageRef(storage,path);
+  const metadata = {contentType:file.type || 'application/octet-stream',customMetadata:{uploadedBy:user.uid,uploadedByEmail:user.email||''}};
+  const uploaded = await uploadBytes(sref,file,metadata);
+  const url = await getDownloadURL(uploaded.ref);
+  const item = {
+    title:String(title||cleanName).trim(),
+    module:String(module||'OTHER').trim(),
+    description:String(description||'').trim(),
+    file:file.name,
+    size:typeof cwccFileSize==='function'?cwccFileSize(file.size):String(file.size||''),
+    url,
+    storagePath:path,
+    createdAt:Date.now(),
+    uploadedBy:user.uid,
+    uploadedByEmail:user.email||''
+  };
+  await set(ref(fdb,'studyMaterials/'+id),item);
+  return {id,...item};
+};
+
+window.cwccFirebaseDeleteStudyMaterial = async function(id,storagePath) {
+  const user = auth.currentUser;
+  if (!user) throw new Error('Admin authentication is required.');
+  if (storagePath) {
+    try { await deleteObject(storageRef(storage,storagePath)); } catch(e) { console.warn('Storage delete:',e); }
+  }
+  await remove(ref(fdb,'studyMaterials/'+id));
+};
+
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}));
 const indiaDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const indiaTime=()=>new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}).format(new Date());
@@ -4128,13 +4409,13 @@ color:#fff;font:700 14px Arial,sans-serif;box-shadow:0 8px 24px #10244b44;cursor
 function sp7Today(){return new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'});}
 function sp7LastMaterial(){try{return JSON.parse(localStorage.getItem('cwccLastMaterial_'+String(loggedInStudent?.admissionNo||loggedInStudent?.id||'student'))||'null')}catch{return null}}
 function sp7SetLastMaterial(m){try{localStorage.setItem('cwccLastMaterial_'+String(loggedInStudent?.admissionNo||loggedInStudent?.id||'student'),JSON.stringify(m))}catch{}}
-function sp7RenderContinue(){const box=document.getElementById('sp7ContinueLearning');if(!box)return;const last=sp7LastMaterial();if(last){const pct=Math.min(90,35+(Number(last.index||0)%5)*10);box.innerHTML=`<button class="sp7-continue" onclick="sp6Open('learning')"><div class="sp7-continue-icon">${last.icon||'📚'}</div><div><b>${escapeHTML(last.title||'Continue learning')}</b><small>${escapeHTML(last.module||'Course material')} • Last opened ${escapeHTML(last.when||'recently')}</small><div class="sp7-progress-mini"><i style="width:${pct}%"></i></div></div><span>›</span></button>`;return}const m=(studyMaterialsDB||[])[0];if(m){box.innerHTML=`<button class="sp7-continue" onclick="sp7OpenMaterial('${escapeHTML(m.title)}','${escapeHTML(m.module)}')"><div class="sp7-continue-icon">📚</div><div><b>${escapeHTML(m.title)}</b><small>${escapeHTML(m.module)} • Start your first lesson</small></div><span>›</span></button>`;}}
-function sp7OpenMaterial(title,module){const found=(studyMaterialsDB||[]).find(x=>String(x.title)===String(title)&&String(x.module)===String(module));if(found){sp7SetLastMaterial({title:found.title,module:found.module,icon:found.module==='M3'?'🖥️':found.module==='M4'?'🎨':found.module==='M5'?'🧾':found.module==='M6'?'💻':'📘',when:'now',index:studyMaterialsDB.indexOf(found)});}sp6Open('learning');setTimeout(()=>{const q=document.getElementById('stMaterialSearch');if(q){q.value=title;filterStudentMaterials();}},80);}
+function sp7RenderContinue(){const box=document.getElementById('sp7ContinueLearning');if(!box)return;const last=sp7LastMaterial();if(last){const pct=Math.min(90,35+(Number(last.index||0)%5)*10);box.innerHTML=`<button class="sp7-continue" onclick="sp6Open('learning')"><div class="sp7-continue-icon">${last.icon||'📚'}</div><div><b>${escapeHTML(last.title||'Continue learning')}</b><small>${escapeHTML(last.module||'Course material')} • Last opened ${escapeHTML(last.when||'recently')}</small><div class="sp7-progress-mini"><i style="width:${pct}%"></i></div></div><span>›</span></button>`;return}const m=(getCWCCStudyMaterials()||[])[0];if(m){box.innerHTML=`<button class="sp7-continue" onclick="sp7OpenMaterial('${escapeHTML(m.title)}','${escapeHTML(m.module)}')"><div class="sp7-continue-icon">📚</div><div><b>${escapeHTML(m.title)}</b><small>${escapeHTML(m.module)} • Start your first lesson</small></div><span>›</span></button>`;}}
+function sp7OpenMaterial(title,module){const found=(getCWCCStudyMaterials()||[]).find(x=>String(x.title)===String(title)&&String(x.module)===String(module));if(found){sp7SetLastMaterial({title:found.title,module:found.module,icon:found.module==='M3'?'🖥️':found.module==='M4'?'🎨':found.module==='M5'?'🧾':found.module==='M6'?'💻':'📘',when:'now',index:getCWCCStudyMaterials().indexOf(found)});}sp6Open('learning');setTimeout(()=>{const q=document.getElementById('stMaterialSearch');if(q){q.value=title;filterStudentMaterials();}},80);}
 async function sp7RenderToday(){const box=document.getElementById('sp7TodayList');if(!box)return;document.getElementById('sp7TodayLabel')?.replaceChildren(document.createTextNode(sp7Today().toUpperCase()));let data={};try{data=await sp4Load(['schedule','studentSchedule','timetable','studentPortal/schedule','tasks','assignments','studentTasks','studentPortal/tasks','notifications','studentNotifications','studentPortal/notifications']);}catch(e){}const schedules=sp4SafeArray(data.schedule).concat(sp4SafeArray(data.timetable)).filter(sp4StudentMatch);const tasks=sp4SafeArray(data.tasks).concat(sp4SafeArray(data.assignments)).filter(sp4StudentMatch);const alerts=sp4SafeArray(data.notifications).concat(sp4SafeArray(data.studentNotifications)).filter(sp4StudentMatch);const items=[];const today=new Date();const day=today.toLocaleDateString('en-US',{weekday:'long'});const ds=today.toISOString().slice(0,10);const todayClasses=schedules.filter(x=>String(x.date||'').slice(0,10)===ds||String(x.day||'').toLowerCase()===day.toLowerCase()).slice(0,2);todayClasses.forEach(x=>items.push({icon:'📅',title:x.title||x.subject||x.name||'Class',text:[x.time||x.startTime,x.teacher||x.faculty,x.room||x.mode].filter(Boolean).join(' • ')}));const pending=tasks.filter(x=>String(x.status||'pending').toLowerCase()!=='completed').slice(0,1);pending.forEach(x=>items.push({icon:'✅',title:x.title||x.name||'Assignment',text:'Due '+(x.dueDate||x.deadline||'date not set')}));if(alerts.length)items.push({icon:'🔔',title:alerts[0].title||alerts[0].subject||'New campus alert',text:alerts[0].message||alerts[0].text||'Check your notifications'});if(!items.length)items.push({icon:'✨',title:'You are all set',text:'No class, assignment or urgent alert is scheduled for today.'});box.innerHTML=items.slice(0,4).map(x=>`<div class="sp7-today"><div class="sp7-today-icon">${x.icon}</div><div><b>${escapeHTML(x.title)}</b><small>${escapeHTML(x.text)}</small></div></div>`).join('');}
 async function sp7RenderWallet(){const s=loggedInStudent;if(!s)return;const stats=document.getElementById('sp7WalletStats'),identity=document.getElementById('sp7WalletIdentity'),achBox=document.getElementById('sp7WalletAchievements'),records=document.getElementById('sp7WalletRecords');if(!stats||!identity)return;let data={};try{data=await sp4Load(['results','studentResults','examResults','studentPortal/results','certificates','studentCertificates','studentPortal/certificates','achievements','studentAchievements','studentPortal/achievements']);}catch(e){}const results=sp4SafeArray(data.results).filter(sp4StudentMatch);const certs=sp4SafeArray(data.certificates).filter(sp4StudentMatch);const ach=sp4SafeArray(data.achievements).filter(sp4StudentMatch);stats.innerHTML=`<div class="sp7-wallet-stat"><small>Identity</small><b>Verified</b></div><div class="sp7-wallet-stat"><small>Results</small><b>${results.length}</b></div><div class="sp7-wallet-stat"><small>Certificates</small><b>${certs.length}</b></div>`;identity.innerHTML=`<div class="sp7-record"><div><b>${escapeHTML(s.name||'Student')}</b><small>Admission No. ${escapeHTML(s.admissionNo||'—')} • ${escapeHTML(s.course||'Course')}</small></div><button class="btn" onclick="sp6Open('idcard')">🪪 Open ID</button></div><div class="sp7-record"><div><b>🎓 ${escapeHTML(s.batch||'Regular Batch')}</b><small>${escapeHTML(s.mobile||s.phone||'Mobile not available')}</small></div><span class="badge paid">ACTIVE</span></div>`;achBox.innerHTML=ach.length?ach.slice(0,8).map(x=>`<div class="sp7-record"><div><b>🏆 ${escapeHTML(x.title||x.name||'Achievement')}</b><small>${escapeHTML(x.description||x.text||'Achievement published by institute')} • ${sp4Date(x.date||x.createdAt)}</small></div></div>`).join(''):'<div class="sp4-empty">Achievements will appear here as your institute publishes them.</div>';records.innerHTML=results.length?results.slice(0,10).map(x=>`<div class="sp7-record"><div><b>${escapeHTML(x.examName||x.title||x.name||'Institute Examination')}</b><small>${escapeHTML(x.subject||x.course||'')} • ${sp4Date(x.examDate||x.date||x.createdAt)}</small></div><span class="sp4-pill">${escapeHTML(x.grade||x.result||((x.percentage??x.percent??x.pct)!=null?Math.round(Number(x.percentage??x.percent??x.pct))+'%':'Published'))}</span></div>`).join(''):'<div class="sp4-empty">Official academic records will appear here when published.</div>';}
 function sp7Refresh(){sp7RenderContinue();sp7RenderToday();sp7RenderWallet();const count=document.getElementById('sp7WalletCount');if(count)count.textContent='Open ›';}
 const __sp7OldFilter=window.filterStudentMaterials||filterStudentMaterials;
-filterStudentMaterials=function(){__sp7OldFilter();const q=document.getElementById('stMaterialSearch')?.value||'';if(q&&loggedInStudent){const m=(studyMaterialsDB||[]).find(x=>String(x.title).toLowerCase().includes(q.toLowerCase()));if(m)sp7SetLastMaterial({title:m.title,module:m.module,icon:m.module==='M3'?'🖥️':m.module==='M4'?'🎨':m.module==='M5'?'🧾':m.module==='M6'?'💻':'📘',when:'just now',index:studyMaterialsDB.indexOf(m)});}};
+filterStudentMaterials=function(){__sp7OldFilter();const q=document.getElementById('stMaterialSearch')?.value||'';if(q&&loggedInStudent){const m=(getCWCCStudyMaterials()||[]).find(x=>String(x.title).toLowerCase().includes(q.toLowerCase()));if(m)sp7SetLastMaterial({title:m.title,module:m.module,icon:m.module==='M3'?'🖥️':m.module==='M4'?'🎨':m.module==='M5'?'🧾':m.module==='M6'?'💻':'📘',when:'just now',index:getCWCCStudyMaterials().indexOf(m)});}};
 const __sp7OldOpen=sp6Open;
 sp6Open=function(view){if(view==='wallet'){document.querySelector('#studentPortalView .sp6-home-shell')?.style.setProperty('display','none');document.querySelectorAll('#studentPortalView .sp2-view').forEach(x=>x.classList.remove('active'));document.getElementById('sp2Wallet')?.classList.add('active');document.querySelectorAll('#studentPortalView .sp6-nav-btn').forEach(x=>x.classList.remove('active'));document.querySelector('.sp6-nav-btn:last-child')?.classList.add('active');sp7RenderWallet();return;}__sp7OldOpen(view);if(view==='overview')setTimeout(sp7Refresh,40);if(view==='hub')setTimeout(sp7RenderToday,60);if(view==='learning')setTimeout(sp7RenderContinue,60);};
 window.sp7RenderWallet=sp7RenderWallet;window.sp7OpenMaterial=sp7OpenMaterial;
